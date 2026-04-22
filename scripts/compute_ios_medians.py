@@ -82,3 +82,45 @@ def median_hex_lab(hexes: Iterable[str | None]) -> str | None:
             (sorted_b[mid - 1] + sorted_b[mid]) / 2,
         )
     return _rgb_to_hex(_xyz_to_rgb(_lab_to_xyz(med_lab)))
+
+
+PALETTE_ROLES = (
+    "background", "background_elevated", "surface_card",
+    "text_primary", "text_secondary", "separator", "accent_primary",
+    "semantic_destructive", "semantic_success", "semantic_warning",
+)
+
+
+def _palette_key(mode: str) -> str:
+    return "palette_light" if mode == "light" else "palette_dark"
+
+
+def _coverage_for_mode(apps: list[dict], mode: str) -> list[dict]:
+    key = _palette_key(mode)
+    return [a for a in apps if a.get(key)]
+
+
+def aggregate_palette(apps: list[dict], mode: str) -> dict | None:
+    """Aggregate per-role hex medians for a family in light or dark mode.
+
+    Returns None when fewer than 3 apps have the requested mode (per spec rule).
+    Drops a single app's `background` value when its palette has
+    `background_conflicting=true`.
+    """
+    relevant = _coverage_for_mode(apps, mode)
+    if mode == "dark" and len(relevant) < 3:
+        return None
+    if not relevant:
+        return None
+
+    key = _palette_key(mode)
+    out: dict[str, str | None] = {}
+    for role in PALETTE_ROLES:
+        values: list[str | None] = []
+        for app in relevant:
+            pal = app.get(key) or {}
+            if role == "background" and pal.get("background_conflicting"):
+                continue
+            values.append(pal.get(role))
+        out[role] = median_hex_lab(values)
+    return out
