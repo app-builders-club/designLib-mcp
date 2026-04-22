@@ -44,3 +44,6 @@ select = ["E", "F", "I", "N", "UP", "B", "SIM"]
 testpaths = ["tests"]
 asyncio_mode = "auto"
 pythonpath = ["src", "."]
+markers = [
+  "integration: tests that require a live Supabase",
+]
