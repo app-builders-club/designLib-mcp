@@ -59,11 +59,24 @@ def _annotate_platform(table: str, rows: list[dict]) -> list[dict]:
     return [{**r, "platform": "web"} for r in rows]
 
 
+# Tables whose primary key is GENERATED ALWAYS AS IDENTITY — strip 'id' on insert
+# and use a different column-set as the upsert conflict target.
+IDENTITY_PK_TABLES = {
+    "recommendation_scores": "matrix_type,key_a,key_b",
+}
+
+
 def _upsert(client, table: str, rows: list[dict], batch: int) -> int:
+    on_conflict = IDENTITY_PK_TABLES.get(table)
+    if on_conflict:
+        rows = [{k: v for k, v in r.items() if k != "id"} for r in rows]
     inserted = 0
     for i in range(0, len(rows), batch):
         chunk = rows[i:i + batch]
-        client.table(table).upsert(chunk).execute()
+        if on_conflict:
+            client.table(table).upsert(chunk, on_conflict=on_conflict).execute()
+        else:
+            client.table(table).upsert(chunk).execute()
         inserted += len(chunk)
     return inserted
 

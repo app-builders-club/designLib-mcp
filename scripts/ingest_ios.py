@@ -263,6 +263,25 @@ def main() -> int:
     client.table("color_palettes").upsert(palette_rows).execute()
     print(f"[ok] color_palettes: {len(palette_rows)}")
 
+    # 4a. font_pair_categories — ensure iOS categories exist (FK target).
+    ios_font_pair_categories = [
+        {"id": "system_sans",         "name_en": "System Sans (iOS)",
+         "description": "SF Pro Text/Display combinations.",       "sort_order": 100},
+        {"id": "system_serif_mix",    "name_en": "System Serif Mix (iOS)",
+         "description": "SF Pro paired with New York serif.",      "sort_order": 101},
+        {"id": "system_rounded",      "name_en": "System Rounded (iOS)",
+         "description": "SF Pro Rounded for friendly UI.",         "sort_order": 102},
+        {"id": "system_custom_serif", "name_en": "System + Custom Serif (iOS)",
+         "description": "SF Pro body with branded serif heading.", "sort_order": 103},
+        {"id": "system_custom_sans",  "name_en": "System + Custom Sans (iOS)",
+         "description": "SF Pro body with branded sans heading.",  "sort_order": 104},
+        {"id": "system_mono_mix",     "name_en": "System Mono Mix (iOS)",
+         "description": "SF Mono paired with SF Pro Display.",     "sort_order": 105},
+    ]
+    client.table("font_pair_categories").upsert(ios_font_pair_categories).execute()
+    print(f"[ok] font_pair_categories (ios): {len(ios_font_pair_categories)}")
+
+    # 4b. font_pairs (canonical iOS combinations)
     client.table("font_pairs").upsert(IOS_FONT_PAIRS).execute()
     print(f"[ok] font_pairs: {len(IOS_FONT_PAIRS)}")
 
