@@ -189,3 +189,98 @@ def top_reference_apps(apps: list[dict], top_n: int) -> list[str]:
         return float(app.get("screenshot_count", 0)) * weight
     ranked = sorted(apps, key=score, reverse=True)
     return [a["slug"] for a in ranked[:top_n]]
+
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+EXTRACTION_DIR = REPO_ROOT / "extraction"
+DATA_DIR = REPO_ROOT / "data"
+
+
+def _confidence_for_family_aggregation(c: str) -> bool:
+    # Include all confidence levels so every family produces output.
+    # Low-confidence usage is recorded via review_flags (see compute_family_medians).
+    return c in {"high", "medium", "low"}
+
+
+def compute_family_medians(
+    apps_by_slug: dict[str, dict],
+    family_assignments: list[dict],
+) -> dict[str, dict]:
+    families: dict[str, list[dict]] = {}
+    for row in family_assignments:
+        if not _confidence_for_family_aggregation(row.get("confidence", "low")):
+            continue
+        slug = row["slug"]
+        family = row["family_assigned"]
+        app = apps_by_slug.get(slug)
+        if not app:
+            continue
+        app = {**app, "_confidence": row["confidence"]}
+        families.setdefault(family, []).append(app)
+
+    out: dict[str, dict] = {}
+    for family, apps in families.items():
+        n = len(apps)
+        low_count = sum(1 for a in apps if a.get("_confidence") == "low")
+        flags: list[str] = []
+        if n < 3:
+            flags.append(f"app_count_below_3 ({n})")
+        if low_count > 0:
+            flags.append(f"uses_low_confidence_apps ({low_count}/{n})")
+        out[family] = {
+            "app_count": n,
+            "palette_light": aggregate_palette(apps, mode="light"),
+            "palette_dark": aggregate_palette(apps, mode="dark"),
+            "typography": aggregate_typography(apps),
+            "layout": aggregate_layout(apps),
+            "liquid_glass": aggregate_liquid_glass(apps),
+            "iconography": aggregate_iconography(apps),
+            "reference_apps": top_reference_apps(apps, top_n=5),
+            "review_flags": flags,
+        }
+    return out
+
+
+def _load_apps_by_slug(extraction_dir: Path) -> dict[str, dict]:
+    aggregated_dir = extraction_dir / "aggregated"
+    out: dict[str, dict] = {}
+    for f in aggregated_dir.glob("*.json"):
+        data = json.loads(f.read_text(encoding="utf-8"))
+        out[data["slug"]] = data
+    return out
+
+
+def _load_family_assignments(extraction_dir: Path) -> list[dict]:
+    raw = json.loads((extraction_dir / "family_assignments.json").read_text(encoding="utf-8"))
+    return raw["assignments"]
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--extraction-dir", default=str(EXTRACTION_DIR))
+    parser.add_argument("--out", default=str(DATA_DIR / "ios_family_medians.json"))
+    args = parser.parse_args()
+
+    extraction_dir = Path(args.extraction_dir)
+    out_path = Path(args.out)
+    if not extraction_dir.exists():
+        print(f"extraction dir not found: {extraction_dir}", file=sys.stderr)
+        return 1
+
+    apps_by_slug = _load_apps_by_slug(extraction_dir)
+    family_assignments = _load_family_assignments(extraction_dir)
+    medians = compute_family_medians(apps_by_slug, family_assignments)
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(medians, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"[ok] wrote {len(medians)} families -> {out_path}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

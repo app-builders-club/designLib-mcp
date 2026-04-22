@@ -1,0 +1,448 @@
+{
+  "enterprise_muted": {
+    "app_count": 12,
+    "palette_light": {
+      "background": "#FFFFFF",
+      "background_elevated": "#FFFFFF",
+      "surface_card": "#FFFFFF",
+      "text_primary": "#171717",
+      "text_secondary": "#6C6F73",
+      "separator": "#E5E6E7",
+      "accent_primary": "#935D80",
+      "semantic_destructive": "#D73A37",
+      "semantic_success": "#25863E",
+      "semantic_warning": "#F5AD3C"
+    },
+    "palette_dark": {
+      "background": "#070707",
+      "background_elevated": "#979798",
+      "surface_card": "#1E1E1F",
+      "text_primary": "#FFFFFF",
+      "text_secondary": "#CDCDCD",
+      "separator": "#2A2A2A",
+      "accent_primary": "#FFFFFF",
+      "semantic_destructive": null,
+      "semantic_success": "#9FE870",
+      "semantic_warning": null
+    },
+    "typography": {
+      "body_classification": "custom_sans",
+      "heading_classification": "custom_sans",
+      "mono_present": true,
+      "tabular_numerics_present": true
+    },
+    "layout": {
+      "density_typical": "comfortable",
+      "list_style_dominant": "card_grid",
+      "corner_radius_cards_pt_median": 12.0
+    },
+    "liquid_glass": {
+      "posture": "opaque",
+      "surfaces_affected": []
+    },
+    "iconography": "custom_glyph_set",
+    "reference_apps": [
+      "slack",
+      "taobao",
+      "nike_run_club",
+      "one_password",
+      "universe"
+    ],
+    "review_flags": [
+      "uses_low_confidence_apps (1/12)"
+    ]
+  },
+  "fitness_vitality": {
+    "app_count": 2,
+    "palette_light": null,
+    "palette_dark": null,
+    "typography": {
+      "body_classification": "sf_pro_text",
+      "heading_classification": "custom_display",
+      "mono_present": true,
+      "tabular_numerics_present": true
+    },
+    "layout": {
+      "density_typical": "comfortable",
+      "list_style_dominant": "card_grid",
+      "corner_radius_cards_pt_median": 18.0
+    },
+    "liquid_glass": {
+      "posture": "partial",
+      "surfaces_affected": []
+    },
+    "iconography": "custom_glyph_set",
+    "reference_apps": [
+      "any_distance",
+      "ultrahuman"
+    ],
+    "review_flags": [
+      "app_count_below_3 (2)",
+      "uses_low_confidence_apps (2/2)"
+    ]
+  },
+  "editorial_photography": {
+    "app_count": 3,
+    "palette_light": {
+      "background": null,
+      "background_elevated": null,
+      "surface_card": null,
+      "text_primary": "#FFFFFF",
+      "text_secondary": null,
+      "separator": null,
+      "accent_primary": null,
+      "semantic_destructive": null,
+      "semantic_success": null,
+      "semantic_warning": null
+    },
+    "palette_dark": {
+      "background": "#000000",
+      "background_elevated": "#1C1C1E",
+      "surface_card": "#1C1C1E",
+      "text_primary": "#FFFFFF",
+      "text_secondary": "#A1A1A6",
+      "separator": "#2C2C2E",
+      "accent_primary": "#A27C86",
+      "semantic_destructive": "#FA114F",
+      "semantic_success": "#B6F000",
+      "semantic_warning": null
+    },
+    "typography": {
+      "body_classification": "sf_pro_text",
+      "heading_classification": "sf_pro_display",
+      "mono_present": false,
+      "tabular_numerics_present": true
+    },
+    "layout": {
+      "density_typical": "comfortable",
+      "list_style_dominant": "card_grid",
+      "corner_radius_cards_pt_median": 14
+    },
+    "liquid_glass": {
+      "posture": "native_fit",
+      "surfaces_affected": [
+        "tab_bar"
+      ]
+    },
+    "iconography": "sf_symbols_only",
+    "reference_apps": [
+      "calm",
+      "apple_tv",
+      "apple_fitness"
+    ],
+    "review_flags": [
+      "uses_low_confidence_apps (1/3)"
+    ]
+  },
+  "system_default_plus": {
+    "app_count": 6,
+    "palette_light": {
+      "background": "#FFFFFF",
+      "background_elevated": "#FDFDFE",
+      "surface_card": "#FFFFFF",
+      "text_primary": "#18181A",
+      "text_secondary": "#8C8C91",
+      "separator": "#E5E5E9",
+      "accent_primary": "#797493",
+      "semantic_destructive": "#EC4357",
+      "semantic_success": "#79BA56",
+      "semantic_warning": "#FACD59"
+    },
+    "palette_dark": null,
+    "typography": {
+      "body_classification": "sf_pro_text",
+      "heading_classification": "sf_pro_display",
+      "mono_present": false,
+      "tabular_numerics_present": true
+    },
+    "layout": {
+      "density_typical": "comfortable",
+      "list_style_dominant": "plain",
+      "corner_radius_cards_pt_median": 12.5
+    },
+    "liquid_glass": {
+      "posture": "native_fit",
+      "surfaces_affected": []
+    },
+    "iconography": "sf_symbols_only",
+    "reference_apps": [
+      "things_3",
+      "speechify",
+      "apple_notes",
+      "luma",
+      "slopes"
+    ],
+    "review_flags": [
+      "uses_low_confidence_apps (1/6)"
+    ]
+  },
+  "warm_handcrafted": {
+    "app_count": 4,
+    "palette_light": {
+      "background": "#FAF6F2",
+      "background_elevated": "#F2EBDE",
+      "surface_card": "#FFFFFF",
+      "text_primary": "#2A2A2A",
+      "text_secondary": "#7A7A7A",
+      "separator": "#ECE9E6",
+      "accent_primary": "#909090",
+      "semantic_destructive": "#F48180",
+      "semantic_success": "#6FB743",
+      "semantic_warning": "#F9B749"
+    },
+    "palette_dark": null,
+    "typography": {
+      "body_classification": "custom_rounded",
+      "heading_classification": "custom_rounded",
+      "mono_present": false,
+      "tabular_numerics_present": true
+    },
+    "layout": {
+      "density_typical": "comfortable",
+      "list_style_dominant": "card_grid",
+      "corner_radius_cards_pt_median": 15.0
+    },
+    "liquid_glass": {
+      "posture": "weak",
+      "surfaces_affected": []
+    },
+    "iconography": "custom_glyph_set",
+    "reference_apps": [
+      "bears_gratitude",
+      "tiimo",
+      "hopper",
+      "procreate_pocket"
+    ],
+    "review_flags": [
+      "uses_low_confidence_apps (1/4)"
+    ]
+  },
+  "tactile_depth_playful": {
+    "app_count": 5,
+    "palette_light": {
+      "background": "#ECECEC",
+      "background_elevated": "#FFFFFF",
+      "surface_card": "#F1F0F0",
+      "text_primary": "#181818",
+      "text_secondary": "#727272",
+      "separator": "#BEBEBE",
+      "accent_primary": "#716DFE",
+      "semantic_destructive": "#F24249",
+      "semantic_success": "#50CF48",
+      "semantic_warning": "#FFC800"
+    },
+    "palette_dark": {
+      "background": "#111111",
+      "background_elevated": "#171718",
+      "surface_card": "#191A1B",
+      "text_primary": "#FFFFFF",
+      "text_secondary": "#8A8A8A",
+      "separator": "#272B2D",
+      "accent_primary": "#FFD79A",
+      "semantic_destructive": "#F94342",
+      "semantic_success": "#2AB87E",
+      "semantic_warning": "#E8D36A"
+    },
+    "typography": {
+      "body_classification": "custom_sans",
+      "heading_classification": "custom_sans",
+      "mono_present": true,
+      "tabular_numerics_present": true
+    },
+    "layout": {
+      "density_typical": "spacious",
+      "list_style_dominant": "card_grid",
+      "corner_radius_cards_pt_median": 21
+    },
+    "liquid_glass": {
+      "posture": "native_fit",
+      "surfaces_affected": []
+    },
+    "iconography": "custom_glyph_set",
+    "reference_apps": [
+      "not_boring_habits",
+      "bump",
+      "duolingo",
+      "not_boring_weather",
+      "opal"
+    ],
+    "review_flags": [
+      "uses_low_confidence_apps (4/5)"
+    ]
+  },
+  "editorial_canvas": {
+    "app_count": 8,
+    "palette_light": {
+      "background": "#F6F6F3",
+      "background_elevated": "#FFFFFF",
+      "surface_card": "#F9F9F9",
+      "text_primary": "#141414",
+      "text_secondary": "#6E6E6E",
+      "separator": "#E5E5E5",
+      "accent_primary": "#343434",
+      "semantic_destructive": "#C33533",
+      "semantic_success": "#80D78D",
+      "semantic_warning": "#E9B800"
+    },
+    "palette_dark": {
+      "background": "#000000",
+      "background_elevated": "#1C1C1E",
+      "surface_card": "#888787",
+      "text_primary": "#FFFFFF",
+      "text_secondary": "#A8A8A8",
+      "separator": "#2C2C2E",
+      "accent_primary": "#FFFFFF",
+      "semantic_destructive": null,
+      "semantic_success": null,
+      "semantic_warning": null
+    },
+    "typography": {
+      "body_classification": "sf_pro_text",
+      "heading_classification": "custom_serif",
+      "mono_present": false,
+      "tabular_numerics_present": true
+    },
+    "layout": {
+      "density_typical": "comfortable",
+      "list_style_dominant": "card_grid",
+      "corner_radius_cards_pt_median": 9.5
+    },
+    "liquid_glass": {
+      "posture": "partial",
+      "surfaces_affected": []
+    },
+    "iconography": "custom_glyph_set",
+    "reference_apps": [
+      "the_new_yorker",
+      "retro",
+      "capwords",
+      "cosmos",
+      "nyt_cooking"
+    ],
+    "review_flags": [
+      "uses_low_confidence_apps (2/8)"
+    ]
+  },
+  "data_dense_terminal": {
+    "app_count": 7,
+    "palette_light": {
+      "background": "#FFFFFF",
+      "background_elevated": "#FFFFFF",
+      "surface_card": "#F2F2F2",
+      "text_primary": "#111111",
+      "text_secondary": "#737373",
+      "separator": "#EAEAEA",
+      "accent_primary": "#8B8B8B",
+      "semantic_destructive": "#DF3D41",
+      "semantic_success": "#1D8E3F",
+      "semantic_warning": "#FCC74E"
+    },
+    "palette_dark": {
+      "background": "#0C0E11",
+      "background_elevated": "#1E1E1E",
+      "surface_card": "#333333",
+      "text_primary": "#FFFFFF",
+      "text_secondary": "#999A9E",
+      "separator": "#7A74A1",
+      "accent_primary": "#FFFFFF",
+      "semantic_destructive": "#EC9F96",
+      "semantic_success": "#42DD63",
+      "semantic_warning": "#FFD466"
+    },
+    "typography": {
+      "body_classification": "sf_pro_text",
+      "heading_classification": "custom_sans",
+      "mono_present": true,
+      "tabular_numerics_present": true
+    },
+    "layout": {
+      "density_typical": "comfortable",
+      "list_style_dominant": "plain",
+      "corner_radius_cards_pt_median": 19
+    },
+    "liquid_glass": {
+      "posture": "partial",
+      "surfaces_affected": []
+    },
+    "iconography": "custom_glyph_set",
+    "reference_apps": [
+      "flighty",
+      "instagram",
+      "family",
+      "go_club",
+      "letterboxd"
+    ],
+    "review_flags": [
+      "uses_low_confidence_apps (4/7)"
+    ]
+  },
+  "youth_social_widget": {
+    "app_count": 2,
+    "palette_light": null,
+    "palette_dark": null,
+    "typography": {
+      "body_classification": "sf_pro_rounded",
+      "heading_classification": "sf_pro_rounded",
+      "mono_present": false,
+      "tabular_numerics_present": true
+    },
+    "layout": {
+      "density_typical": "spacious",
+      "list_style_dominant": "card_grid",
+      "corner_radius_cards_pt_median": 12.5
+    },
+    "liquid_glass": {
+      "posture": "weak",
+      "surfaces_affected": []
+    },
+    "iconography": "custom_glyph_set",
+    "reference_apps": [
+      "locket",
+      "spotify"
+    ],
+    "review_flags": [
+      "app_count_below_3 (2)",
+      "uses_low_confidence_apps (1/2)"
+    ]
+  },
+  "minimalist_monochrome": {
+    "app_count": 3,
+    "palette_light": {
+      "background": "#F5F4F0",
+      "background_elevated": "#F0EEEA",
+      "surface_card": "#EDECE8",
+      "text_primary": "#1A1B1D",
+      "text_secondary": "#82807D",
+      "separator": "#DCDAD6",
+      "accent_primary": "#3C5683",
+      "semantic_destructive": "#E03E3E",
+      "semantic_success": "#4A8F4A",
+      "semantic_warning": "#F5B873"
+    },
+    "palette_dark": null,
+    "typography": {
+      "body_classification": "sf_pro_text",
+      "heading_classification": "sf_pro_display",
+      "mono_present": true,
+      "tabular_numerics_present": true
+    },
+    "layout": {
+      "density_typical": "spacious",
+      "list_style_dominant": "plain",
+      "corner_radius_cards_pt_median": 10
+    },
+    "liquid_glass": {
+      "posture": "partial",
+      "surfaces_affected": []
+    },
+    "iconography": "mixed",
+    "reference_apps": [
+      "reeder_5",
+      "notion",
+      "open"
+    ],
+    "review_flags": [
+      "uses_low_confidence_apps (1/3)"
+    ]
+  }
+}

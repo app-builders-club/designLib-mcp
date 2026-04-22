@@ -92,3 +92,27 @@ def test_top_reference_apps_weights_confidence():
     apps = _load_apps()
     refs = top_reference_apps(apps, top_n=3)
     assert refs == ["gamma", "alpha", "beta"]
+
+
+from scripts.compute_ios_medians import compute_family_medians
+
+
+def test_compute_family_medians_smoke(tmp_path):
+    apps = _load_apps()
+    family_assignments = [
+        {"slug": "alpha", "family_assigned": "demo_family", "confidence": "high"},
+        {"slug": "beta",  "family_assigned": "demo_family", "confidence": "medium"},
+        {"slug": "gamma", "family_assigned": "demo_family", "confidence": "high"},
+    ]
+    out = compute_family_medians(apps_by_slug={a["slug"]: a for a in apps},
+                                 family_assignments=family_assignments)
+    assert "demo_family" in out
+    fam = out["demo_family"]
+    assert fam["app_count"] == 3
+    assert fam["palette_light"]["background"].startswith("#")
+    assert fam["palette_dark"] is None
+    assert fam["typography"]["heading_classification"] == "sf_pro_display"
+    assert fam["layout"]["density_typical"] == "comfortable"
+    assert fam["liquid_glass"]["posture"] == "native_fit"
+    assert fam["reference_apps"] == ["gamma", "alpha", "beta"]
+    assert fam["review_flags"] == []
