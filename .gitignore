@@ -1,0 +1,30 @@
+# Source-only working directories used by ingest scripts.
+# Not part of the shipped MCP library. See docs/superpowers/specs/2026-04-22-designlib-mcp-v1-design.md §2.
+dump/
+extraction/
+researches/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
