@@ -141,6 +141,81 @@ def _to_domain_summary(row: dict) -> dict[str, Any]:
     }
 
 
+def _to_chart_type_summary(row: dict) -> dict[str, Any]:
+    return {
+        "id": row["id"],
+        "data_type": row.get("data_type") or "",
+        "best_chart_type": row.get("best_chart_type") or "",
+        "a11y_grade": row.get("a11y_grade") or "AA",
+        "library_recommendation": row.get("library_recommendation") or [],
+    }
+
+
+def _to_chart_type_full(row: dict) -> dict[str, Any]:
+    return {
+        "id": row["id"],
+        "data_type": row.get("data_type") or "",
+        "keywords": row.get("keywords") or [],
+        "best_chart_type": row.get("best_chart_type") or "",
+        "secondary_options": row.get("secondary_options") or [],
+        "when_to_use": row.get("when_to_use") or "",
+        "when_not_to_use": row.get("when_not_to_use") or "",
+        "data_volume_threshold": row.get("data_volume_threshold"),
+        "color_guidance": row.get("color_guidance"),
+        "a11y_grade": row.get("a11y_grade") or "AA",
+        "a11y_notes": row.get("a11y_notes"),
+        "a11y_fallback": row.get("a11y_fallback"),
+        "library_recommendation": row.get("library_recommendation") or [],
+        "interactive_level": row.get("interactive_level"),
+    }
+
+
+def _to_landing_pattern_summary(row: dict) -> dict[str, Any]:
+    return {
+        "id": row["id"],
+        "name": row.get("name") or row["id"],
+        "primary_cta_placement": row.get("primary_cta_placement") or "",
+    }
+
+
+def _to_landing_pattern_full(row: dict) -> dict[str, Any]:
+    return {
+        "id": row["id"],
+        "name": row.get("name") or row["id"],
+        "keywords": row.get("keywords") or [],
+        "section_order": row.get("section_order") or "",
+        "primary_cta_placement": row.get("primary_cta_placement") or "",
+        "color_strategy": row.get("color_strategy"),
+        "recommended_effects": row.get("recommended_effects"),
+        "conversion_optimization": row.get("conversion_optimization"),
+    }
+
+
+def _to_icon_summary(row: dict) -> dict[str, Any]:
+    return {
+        "id": row["id"],
+        "icon_name": row.get("icon_name") or "",
+        "category": row.get("category") or "",
+        "library_name": row.get("library_name") or "",
+        "style": row.get("style"),
+    }
+
+
+def _to_icon_full(row: dict) -> dict[str, Any]:
+    return {
+        "id": row["id"],
+        "category": row.get("category") or "",
+        "icon_name": row.get("icon_name") or "",
+        "keywords": row.get("keywords") or [],
+        "library_id": row.get("library_id"),
+        "library_name": row.get("library_name") or "",
+        "import_code": row.get("import_code") or "",
+        "usage": row.get("usage") or "",
+        "best_for": row.get("best_for"),
+        "style": row.get("style"),
+    }
+
+
 def _to_domain_full(row: dict) -> dict[str, Any]:
     cat_name = ""
     cat = row.get("domain_categories")

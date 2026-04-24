@@ -10,6 +10,9 @@ from designlib_mcp.repository.normalizer import (
     _to_palette_summary, _to_palette_full,
     _to_font_pair_summary, _to_font_pair_full,
     _to_domain_summary, _to_domain_full,
+    _to_chart_type_summary, _to_chart_type_full,
+    _to_landing_pattern_summary, _to_landing_pattern_full,
+    _to_icon_summary, _to_icon_full,
 )
 
 
@@ -343,3 +346,148 @@ class SupabaseRepository:
             if len(out) >= limit:
                 break
         return out
+
+    # -------------------------------------------------------------------------
+    # Chart types
+    # -------------------------------------------------------------------------
+
+    def list_chart_types(
+        self, *, data_type: str | None = None, a11y_grade: str | None = None,
+        library: str | None = None, keyword: str | None = None,
+        limit: int = 50, offset: int = 0,
+    ) -> dict[str, Any]:
+        q = self._client.table("chart_types").select("*", count="exact")
+        if data_type:
+            q = q.eq("data_type", data_type)
+        if a11y_grade:
+            q = q.eq("a11y_grade", a11y_grade)
+        if library:
+            q = q.contains("library_recommendation", [library])
+        if keyword:
+            q = q.contains("keywords", [keyword.strip().lower()])
+        q = q.order("sort_order").range(offset, offset + limit - 1)
+        resp = q.execute()
+        rows = resp.data or []
+        return {
+            "items": [_to_chart_type_summary(r) for r in rows],
+            "total_count": resp.count or len(rows),
+            "limit": limit,
+            "offset": offset,
+        }
+
+    def get_chart_type(self, chart_id: str) -> dict[str, Any] | None:
+        resp = self._client.table("chart_types").select("*").eq("id", chart_id).limit(1).execute()
+        rows = resp.data or []
+        if not rows:
+            return None
+        return _to_chart_type_full(rows[0])
+
+    def list_chart_type_facets(self) -> dict[str, Any]:
+        resp = self._client.table("chart_types").select(
+            "data_type, a11y_grade, library_recommendation, interactive_level"
+        ).execute()
+        rows = resp.data or []
+        data_types: Counter[str] = Counter()
+        grades: Counter[str] = Counter()
+        libs: Counter[str] = Counter()
+        levels: Counter[str] = Counter()
+        for r in rows:
+            if r.get("data_type"):
+                data_types[r["data_type"]] += 1
+            if r.get("a11y_grade"):
+                grades[r["a11y_grade"]] += 1
+            for lib in r.get("library_recommendation") or []:
+                libs[lib] += 1
+            if r.get("interactive_level"):
+                levels[r["interactive_level"]] += 1
+        return {
+            "data_types": [{"value": v, "count": c} for v, c in data_types.most_common()],
+            "a11y_grades": [{"value": v, "count": c} for v, c in grades.most_common()],
+            "libraries": [{"value": v, "count": c} for v, c in libs.most_common()],
+            "interactive_levels": [{"value": v, "count": c} for v, c in levels.most_common()],
+        }
+
+    # -------------------------------------------------------------------------
+    # Landing patterns
+    # -------------------------------------------------------------------------
+
+    def list_landing_patterns(
+        self, *, keyword: str | None = None, cta_placement: str | None = None,
+        limit: int = 50, offset: int = 0,
+    ) -> dict[str, Any]:
+        q = self._client.table("landing_patterns").select("*", count="exact")
+        if cta_placement:
+            q = q.eq("primary_cta_placement", cta_placement)
+        if keyword:
+            q = q.contains("keywords", [keyword.strip().lower()])
+        q = q.order("sort_order").range(offset, offset + limit - 1)
+        resp = q.execute()
+        rows = resp.data or []
+        return {
+            "items": [_to_landing_pattern_summary(r) for r in rows],
+            "total_count": resp.count or len(rows),
+            "limit": limit,
+            "offset": offset,
+        }
+
+    def get_landing_pattern(self, pattern_id: str) -> dict[str, Any] | None:
+        resp = self._client.table("landing_patterns").select("*").eq("id", pattern_id).limit(1).execute()
+        rows = resp.data or []
+        if not rows:
+            return None
+        return _to_landing_pattern_full(rows[0])
+
+    def list_landing_pattern_facets(self) -> dict[str, Any]:
+        resp = self._client.table("landing_patterns").select("primary_cta_placement").execute()
+        rows = resp.data or []
+        ctas: Counter[str] = Counter(r["primary_cta_placement"] for r in rows if r.get("primary_cta_placement"))
+        return {
+            "cta_placements": [{"value": v, "count": c} for v, c in ctas.most_common()],
+        }
+
+    # -------------------------------------------------------------------------
+    # Icons
+    # -------------------------------------------------------------------------
+
+    def list_icons(
+        self, *, category: str | None = None, library: str | None = None,
+        style: str | None = None, keyword: str | None = None,
+        limit: int = 50, offset: int = 0,
+    ) -> dict[str, Any]:
+        q = self._client.table("icons").select("*", count="exact")
+        if category:
+            q = q.eq("category", category)
+        if library:
+            q = q.eq("library_name", library)
+        if style:
+            q = q.eq("style", style)
+        if keyword:
+            q = q.contains("keywords", [keyword.strip().lower()])
+        q = q.order("sort_order").range(offset, offset + limit - 1)
+        resp = q.execute()
+        rows = resp.data or []
+        return {
+            "items": [_to_icon_summary(r) for r in rows],
+            "total_count": resp.count or len(rows),
+            "limit": limit,
+            "offset": offset,
+        }
+
+    def get_icon(self, icon_id: str) -> dict[str, Any] | None:
+        resp = self._client.table("icons").select("*").eq("id", icon_id).limit(1).execute()
+        rows = resp.data or []
+        if not rows:
+            return None
+        return _to_icon_full(rows[0])
+
+    def list_icon_facets(self) -> dict[str, Any]:
+        resp = self._client.table("icons").select("category, library_name, style").execute()
+        rows = resp.data or []
+        cats: Counter[str] = Counter(r["category"] for r in rows if r.get("category"))
+        libs: Counter[str] = Counter(r["library_name"] for r in rows if r.get("library_name"))
+        styles: Counter[str] = Counter(r["style"] for r in rows if r.get("style"))
+        return {
+            "categories": [{"value": v, "count": c} for v, c in cats.most_common()],
+            "libraries": [{"value": v, "count": c} for v, c in libs.most_common()],
+            "styles": [{"value": v, "count": c} for v, c in styles.most_common()],
+        }
