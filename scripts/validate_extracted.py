@@ -100,13 +100,24 @@ for fp in files:
     kws = d.get("keywords") or []
     if not (8 <= len(kws) <= 20): issues.append("keywords count " + str(len(kws)) + " not in 8..20")
 
+    # generation_constraints stays tightly tied to landing/signup (it encodes
+    # full-page hard_rules/soft_guidance; only meaningful where there is a
+    # landing_pattern_id to anchor on).
+    # generation_prompt is required for landing/signup but allowed for any
+    # page_type since migration 007 — non-landing pages may carry a 2-4
+    # sentence "spirit-of-the-page" seed.
     gp = d.get("generation_prompt"); gc = d.get("generation_constraints")
     if pt in ("marketing_landing","signup"):
         if not gp: issues.append("generation_prompt null on landing/signup")
         if not gc: issues.append("generation_constraints null on landing/signup")
     else:
-        if gp is not None: issues.append("generation_prompt non-null on non-landing/signup")
         if gc is not None: issues.append("generation_constraints non-null on non-landing/signup")
+    if gp is not None and not isinstance(gp, str):
+        issues.append("generation_prompt is not a string")
+
+    uw = d.get("use_when")
+    if uw is not None and not isinstance(uw, str):
+        issues.append("use_when is not a string")
 
     role_intent = d.get("palette",{}).get("role_intent",{}) or {}
     if not isinstance(role_intent, dict):

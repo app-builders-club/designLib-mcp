@@ -218,6 +218,7 @@ def _to_icon_full(row: dict) -> dict[str, Any]:
 
 def _to_inspiration_page_summary(row: dict) -> dict[str, Any]:
     description = (row.get("description") or "")
+    use_when = row.get("use_when")
     return {
         "id": row["id"],
         "page_type": row.get("page_type") or "",
@@ -228,6 +229,7 @@ def _to_inspiration_page_summary(row: dict) -> dict[str, Any]:
         "keywords": (row.get("keywords") or [])[:8],
         "screenshot_path": row.get("screenshot_path") or "",
         "description": description[:240],
+        "use_when": (use_when[:120] if isinstance(use_when, str) else None),
     }
 
 
@@ -272,6 +274,7 @@ def _to_inspiration_page_full(row: dict) -> dict[str, Any]:
         "description": row.get("description") or "",
         "why_it_works": row.get("why_it_works") or "",
         "generation_prompt": row.get("generation_prompt"),
+        "use_when": row.get("use_when"),
         "notes": row.get("notes"),
     }
 

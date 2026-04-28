@@ -64,7 +64,8 @@ generation_constraints JSONB        {hard_rules, soft_guidance} | null
 -- proza (для людей)
 description            TEXT         2-4 предложения, нейтральное описание
 why_it_works           TEXT         2-4 предложения, UX-инсайт
-generation_prompt      TEXT         не-null IFF page_type ∈ (marketing_landing, signup)
+generation_prompt      TEXT         обязательно для page_type ∈ (marketing_landing, signup); опционально для остальных
+use_when               TEXT         1-3 предложения "ситуационного выбора" — когда брать именно эту референс-страницу (мигр. 007)
 notes                  TEXT
 created_at             TIMESTAMPTZ
 ```
@@ -75,7 +76,8 @@ created_at             TIMESTAMPTZ
 - `appearance` — CHECK light/dark/mixed
 - `density` — CHECK compact/comfortable/spacious (или null)
 - **landing_pattern_consistency:** `landing_pattern_id` non-null IFF `page_type='marketing_landing'`
-- **generation_consistency:** `generation_prompt` + `generation_constraints` non-null IFF `page_type ∈ (marketing_landing, signup)`
+- **generation_constraints_consistency:** `generation_constraints` non-null IFF `page_type ∈ (marketing_landing, signup)` (мигр. 007 — заменила generation_consistency)
+- **generation_prompt_required_for_landing_signup:** `generation_prompt` non-null для `page_type ∈ (marketing_landing, signup)`. Для остальных — допустимо, но не обязательно (мигр. 007).
 - `mood` 2-6, `keywords` 8-20, `good_for_moods` 2-6, `good_for_product_types` 2-6, `good_for_stages` 1-5
 
 ## Индексы

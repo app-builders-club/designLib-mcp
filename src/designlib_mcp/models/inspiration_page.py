@@ -16,6 +16,7 @@ class InspirationPageSummary(BaseModel):
     keywords: list[str] = Field(default_factory=list)
     screenshot_path: str
     description: str
+    use_when: str | None = None
 
 
 class InspirationPage(BaseModel):
@@ -56,6 +57,7 @@ class InspirationPage(BaseModel):
     description: str
     why_it_works: str
     generation_prompt: str | None = None
+    use_when: str | None = None
     notes: str | None = None
     meta: ResponseMeta
 

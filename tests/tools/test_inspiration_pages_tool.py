@@ -26,6 +26,7 @@ class _FakeRepo:
                 "keywords": ["a", "b"],
                 "screenshot_path": "images/x.jpg",
                 "description": "desc",
+                "use_when": "Use when designing for fintech.",
             }],
             "total_count": 1,
             "limit": kwargs["limit"],
@@ -64,6 +65,7 @@ def test_list_handler_default_limit_and_meta():
     assert out["limit"] == 25
     assert out["offset"] == 0
     assert out["items"][0]["id"] == "page_x"
+    assert out["items"][0]["use_when"].startswith("Use when")
 
 
 def test_list_handler_passes_filters():

@@ -104,10 +104,16 @@ def _validate_one(mod, fp: Path) -> list[str]:
         if not gc:
             issues.append("generation_constraints null on landing/signup")
     else:
-        if gp is not None:
-            issues.append("generation_prompt non-null on non-landing/signup")
+        # Since migration 007 generation_prompt is allowed for any page_type;
+        # only generation_constraints stays gated to landing/signup.
         if gc is not None:
             issues.append("generation_constraints non-null on non-landing/signup")
+    if gp is not None and not isinstance(gp, str):
+        issues.append("generation_prompt is not a string")
+
+    uw = d.get("use_when")
+    if uw is not None and not isinstance(uw, str):
+        issues.append("use_when is not a string")
 
     role_intent = d.get("palette", {}).get("role_intent", {}) or {}
     for k, v in role_intent.items():
@@ -163,6 +169,7 @@ def _to_row(d: dict) -> dict:
         "description":              d["description"],
         "why_it_works":             d["why_it_works"],
         "generation_prompt":        d.get("generation_prompt"),
+        "use_when":                 d.get("use_when"),
         "notes":                    d.get("notes"),
     }
 

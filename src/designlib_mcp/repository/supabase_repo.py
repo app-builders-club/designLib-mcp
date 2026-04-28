@@ -507,7 +507,7 @@ class SupabaseRepository:
     ) -> dict[str, Any]:
         cols = (
             "id, page_type, appearance, style_family, industry, mood, keywords, "
-            "screenshot_path, description"
+            "screenshot_path, description, use_when"
         )
         q = self._client.table("inspiration_pages").select(cols, count="exact")
         if page_type:

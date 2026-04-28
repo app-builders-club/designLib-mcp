@@ -31,9 +31,28 @@ def test_summary_with_optional_fields():
         keywords=["k1", "k2"],
         screenshot_path="images/about/x.jpg",
         description="Desc.",
+        use_when="Use when designing for editorial publications.",
     )
     assert s.style_family == "editorial"
     assert s.mood == ["editorial", "calm"]
+    assert s.use_when.startswith("Use when")
+
+
+def test_full_use_when_round_trips():
+    p = InspirationPage(
+        id="page_x",
+        source="land-book",
+        captured_at="2026-04-24",
+        screenshot_path="images/x.jpg",
+        page_type="about",
+        appearance="light",
+        description="d",
+        why_it_works="w",
+        use_when="Use when the team's identity is the product.",
+        meta=ResponseMeta(entity_type="inspiration_page"),
+    )
+    assert p.use_when.startswith("Use when")
+    assert p.generation_prompt is None
 
 
 def test_full_minimum_fields():
