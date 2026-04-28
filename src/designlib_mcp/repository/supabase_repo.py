@@ -14,6 +14,7 @@ from designlib_mcp.repository.normalizer import (
     _to_landing_pattern_summary, _to_landing_pattern_full,
     _to_icon_summary, _to_icon_full,
     _to_inspiration_page_summary, _to_inspiration_page_full,
+    _to_animation_summary, _to_animation_full,
 )
 
 
@@ -591,4 +592,105 @@ class SupabaseRepository:
             "visual_signatures": [{"value": v, "count": c} for v, c in sigs.most_common()],
             "good_for_product_types": [{"value": v, "count": c} for v, c in gfpt.most_common()],
             "good_for_stages": [{"value": v, "count": c} for v, c in gfs.most_common()],
+        }
+
+    # -------------------------------------------------------------------------
+    # Animations
+    # -------------------------------------------------------------------------
+
+    def list_animations(
+        self, *,
+        category: str | None = None,
+        framework: str | None = None,
+        interactivity: str | None = None,
+        complexity: str | None = None,
+        style_tag: str | None = None,
+        placement: str | None = None,
+        use_when: str | None = None,
+        library: str | None = None,
+        keyword: str | None = None,
+        limit: int = 50,
+        offset: int = 0,
+    ) -> dict[str, Any]:
+        q = self._client.table("animations").select("*", count="exact")
+        if category:
+            q = q.eq("category", category)
+        if framework:
+            q = q.eq("framework", framework)
+        if interactivity:
+            q = q.eq("interactivity", interactivity)
+        if complexity:
+            q = q.eq("complexity", complexity)
+        if style_tag:
+            q = q.contains("style_tags", [style_tag.strip().lower()])
+        if placement:
+            q = q.contains("placement", [placement.strip().lower()])
+        if use_when:
+            q = q.contains("use_when", [use_when.strip().lower()])
+        if library:
+            q = q.contains("libraries", [library.strip().lower()])
+        if keyword:
+            q = q.contains("keyword", [keyword.strip().lower()])
+        q = q.order("sort_order").range(offset, offset + limit - 1)
+        resp = q.execute()
+        rows = resp.data or []
+        return {
+            "items": [_to_animation_summary(r) for r in rows],
+            "total_count": resp.count or len(rows),
+            "limit": limit,
+            "offset": offset,
+        }
+
+    def get_animation(self, animation_id: str) -> dict[str, Any] | None:
+        resp = self._client.table("animations").select("*") \
+            .eq("id", animation_id).limit(1).execute()
+        rows = resp.data or []
+        if not rows:
+            return None
+        return _to_animation_full(rows[0])
+
+    def list_animation_facets(self) -> dict[str, Any]:
+        resp = self._client.table("animations").select(
+            "category, framework, interactivity, complexity, "
+            "libraries, style_tags, placement, use_when"
+        ).execute()
+        rows = resp.data or []
+        cats: Counter[str] = Counter()
+        fws: Counter[str] = Counter()
+        libs: Counter[str] = Counter()
+        inters: Counter[str] = Counter()
+        comps: Counter[str] = Counter()
+        styles: Counter[str] = Counter()
+        places: Counter[str] = Counter()
+        whens: Counter[str] = Counter()
+        for r in rows:
+            if r.get("category"):
+                cats[r["category"]] += 1
+            if r.get("framework"):
+                fws[r["framework"]] += 1
+            if r.get("interactivity"):
+                inters[r["interactivity"]] += 1
+            if r.get("complexity"):
+                comps[r["complexity"]] += 1
+            for v in r.get("libraries") or []:
+                libs[v] += 1
+            for v in r.get("style_tags") or []:
+                styles[v] += 1
+            for v in r.get("placement") or []:
+                places[v] += 1
+            for v in r.get("use_when") or []:
+                whens[v] += 1
+
+        def _agg(c: Counter[str]) -> list[dict]:
+            return [{"value": v, "count": n} for v, n in c.most_common()]
+
+        return {
+            "categories": _agg(cats),
+            "frameworks": _agg(fws),
+            "libraries": _agg(libs),
+            "interactivity": _agg(inters),
+            "complexity": _agg(comps),
+            "style_tags": _agg(styles),
+            "placement": _agg(places),
+            "use_when": _agg(whens),
         }
