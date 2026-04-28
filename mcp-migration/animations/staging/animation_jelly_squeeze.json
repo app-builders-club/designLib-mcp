@@ -1,0 +1,23 @@
+{
+  "id": "animation_jelly_squeeze",
+  "title": "Jelly Squeeze",
+  "description": "GSAP Draggable element that plays a 215-frame image sequence as the user drags, creating a tactile jelly squish animation with elastic spring-back on release.",
+  "use_when": [
+    "brand_personality_playful",
+    "interactive_demo",
+    "product_showcase",
+    "cta_attention"
+  ],
+  "category": "element",
+  "framework": "react",
+  "libraries": ["gsap"],
+  "interactivity": "click",
+  "complexity": "heavy",
+  "style_tags": ["organic", "colorful", "3d"],
+  "placement": ["hero", "section", "inline"],
+  "keyword": ["jelly", "squeeze", "drag", "gsap", "image_sequence", "elastic", "tactile", "playful", "spring"],
+  "component_filename": "jelly-squeeze.tsx",
+  "prompt_text": "# Jelly Squeeze\n\nGSAP Draggable element that plays a 215-frame image sequence as the user drags, creating a tactile jelly squish animation with elastic spring-back on release.\n\n## Use when\n- Injecting playful brand personality into a landing page or product hero.\n- Creating interactive demos that reward cursor engagement with delightful feedback.\n- Drawing attention to a CTA through unexpected micro-interaction.\n\n## Stack\n- Framework: react\n- Libraries: gsap (with Draggable plugin)\n\n## Install\n```bash\nnpm install gsap\n```\n\n## Component — jelly-squeeze.tsx\n```tsx\nimport React, { useEffect, useRef, useState } from 'react';\nimport { gsap } from 'gsap';\nimport { Draggable } from 'gsap/Draggable';\n\ngsap.registerPlugin(Draggable);\n\nconst FRAME_COUNT = 215;\nconst BASE_URL = 'https://cerpow.github.io/cerpow-img/jelly/';\n\nexport interface JellySqueezeProps {\n  className?: string;\n  size?: number;\n}\n\nexport const JellySqueeze: React.FC<JellySqueezeProps> = ({\n  className = '',\n  size = 200\n}) => {\n  const containerRef = useRef<HTMLDivElement>(null);\n  const imgRef = useRef<HTMLImageElement>(null);\n  const frameRef = useRef(0);\n\n  useEffect(() => {\n    if (!containerRef.current || !imgRef.current) return;\n\n    // Preload frames\n    for (let i = 1; i <= FRAME_COUNT; i++) {\n      const img = new Image();\n      img.src = `${BASE_URL}${String(i).padStart(4, '0')}.webp`;\n    }\n\n    let dragging = false;\n    let lastX = 0;\n\n    const draggable = Draggable.create(containerRef.current, {\n      type: 'x,y',\n      onDragStart() {\n        dragging = true;\n        lastX = this.x;\n      },\n      onDrag() {\n        const delta = Math.abs(this.x - lastX);\n        frameRef.current = Math.min(\n          FRAME_COUNT - 1,\n          frameRef.current + Math.round(delta * 0.5)\n        );\n        if (imgRef.current) {\n          imgRef.current.src = `${BASE_URL}${String(frameRef.current + 1).padStart(4, '0')}.webp`;\n        }\n        lastX = this.x;\n      },\n      onDragEnd() {\n        dragging = false;\n        gsap.to(containerRef.current, {\n          x: 0,\n          y: 0,\n          duration: 1.5,\n          ease: 'elastic.out(1, 0.3)'\n        });\n        gsap.to(frameRef, {\n          current: 0,\n          duration: 0.5,\n          ease: 'power2.in',\n          onUpdate() {\n            if (imgRef.current) {\n              const f = Math.max(0, Math.round(frameRef.current));\n              imgRef.current.src = `${BASE_URL}${String(f + 1).padStart(4, '0')}.webp`;\n            }\n          }\n        });\n      }\n    })[0];\n\n    return () => {\n      draggable.kill();\n    };\n  }, []);\n\n  return (\n    <div\n      ref={containerRef}\n      className={`cursor-grab active:cursor-grabbing select-none ${className}`}\n      style={{ width: size, height: size }}\n    >\n      <img\n        ref={imgRef}\n        src={`${BASE_URL}0001.webp`}\n        alt=\"Jelly squeeze animation\"\n        style={{ width: size, height: size, objectFit: 'contain' }}\n        draggable={false}\n      />\n    </div>\n  );\n};\n\nexport default JellySqueeze;\n```\n\n## Demo\n```tsx\nimport React from 'react';\nimport JellySqueeze from './Component';\n\nexport default function App() {\n  return (\n    <div className=\"w-full h-screen bg-[#F9F9F9] flex items-center justify-center\">\n      <div className=\"flex flex-col items-center gap-4\">\n        <JellySqueeze size={300} />\n        <p className=\"text-gray-500 text-sm\">Drag me!</p>\n      </div>\n    </div>\n  );\n}\n```\n\n## Notes\n- Loads 215 external WebP images from `https://cerpow.github.io/cerpow-img/jelly/`. Requires internet access; preloading all frames may consume significant bandwidth.\n- Complexity is `heavy` due to GSAP Draggable plugin and large external asset set.\n",
+  "source_file": "animations.md",
+  "source_index": 1
+}

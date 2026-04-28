@@ -1,0 +1,23 @@
+{
+  "id": "animation_gradient_bold_card",
+  "title": "Gradient Blob Card",
+  "description": "A compact card with a glassmorphism glassy overlay and an animated gradient blob (pink-red-yellow) that orbits behind the glass using a CSS keyframe animation. Adapts to light and dark mode via Tailwind shadow utilities.",
+  "use_when": [
+    "decorative_card_element",
+    "pricing_card_accent",
+    "feature_highlight_card",
+    "color_brand_showcase"
+  ],
+  "category": "element",
+  "framework": "react",
+  "libraries": [],
+  "interactivity": "static",
+  "complexity": "light",
+  "style_tags": ["glass", "gradient", "blob", "colorful", "minimal"],
+  "placement": ["section", "grid"],
+  "keyword": ["card", "glass", "blob", "gradient", "animation", "css-keyframes", "colorful", "orbit"],
+  "component_filename": "gradient-bold-card.tsx",
+  "prompt_text": "# Gradient Blob Card\n\nA compact card with a glassmorphism glassy overlay and an animated gradient blob (pink-red-yellow) that orbits behind the glass using a CSS keyframe animation. Adapts to light and dark mode via Tailwind shadow utilities.\n\n## Use when\n- Adding a colorful decorative card to a section or grid.\n- Accenting a pricing card with an animated background blob.\n- Highlighting a feature with a bold, eye-catching color burst.\n- Showcasing brand colors through an animated gradient element.\n\n## Stack\n- Framework: react\n- Libraries: (none)\n\n## Install\n```bash\n# No external dependencies\n```\n\n## Component — gradient-bold-card.tsx\n```tsx\n\"use client\";\n\nimport React from \"react\";\n\nconst GradientBlobCard: React.FC = () => {\n  return (\n    <div className=\"flex items-center justify-center min-h-screen\">\n      <div className=\"relative w-[200px] h-[250px] rounded-[14px] flex flex-col items-center justify-center\n                      shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] dark:shadow-[20px_20px_60px_#111,-20px_-20px_60px_#222]\n                      overflow-hidden\">\n\n        {/* Glassy Background */}\n        <div className=\"absolute top-[5px] left-[5px] w-[190px] h-[240px] bg-white/95 dark:bg-black/70 backdrop-blur-[24px]\n                        rounded-[10px] outline outline-2 outline-white dark:outline-gray-700 z-10\"></div>\n\n        {/* Animated Gradient Blob (same bold colors for light & dark mode) */}\n        <div className=\"absolute top-1/2 left-1/2 w-[150px] h-[150px] rounded-full opacity-100\n                        filter blur-[12px] z-0 animate-blob \n                        bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500\"></div>\n\n        {/* Inline keyframes animation */}\n        <style>\n          {`\n            @keyframes blob {\n              0% {\n                transform: translate(-100%, -100%);\n              }\n              25% {\n                transform: translate(0%, -100%);\n              }\n              50% {\n                transform: translate(0%, 0%);\n              }\n              75% {\n                transform: translate(-100%, 0%);\n              }\n              100% {\n                transform: translate(-100%, -100%);\n              }\n            }\n\n            .animate-blob {\n              animation: blob 5s linear infinite;\n            }\n          `}\n        </style>\n      </div>\n    </div>\n  );\n};\n\nexport default GradientBlobCard;\n```\n\n## Demo\n```tsx\nimport GradientBlobCard from \"@/components/ui/gradient-bold-card\";\n\nexport default function DemoOne() {\n  return <GradientBlobCard />;\n}\n```",
+  "source_file": "animations3.md",
+  "source_index": 6
+}

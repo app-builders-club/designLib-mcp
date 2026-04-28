@@ -1,0 +1,23 @@
+{
+  "id": "animation_liquid_effect_animation",
+  "title": "Liquid Effect Animation",
+  "description": "A full-screen fixed canvas background that renders a metallic liquid surface animation by dynamically loading the threejs-components CDN library. Supports loading an image onto the liquid plane with configurable metalness, roughness, and displacement.",
+  "use_when": [
+    "dark_landing_page",
+    "brand_personality_premium",
+    "immersive_hero_background",
+    "product_showcase"
+  ],
+  "category": "background",
+  "framework": "react",
+  "libraries": [],
+  "interactivity": "static",
+  "complexity": "heavy",
+  "style_tags": ["liquid", "metallic", "dark", "fluid", "cinematic"],
+  "placement": ["background", "hero"],
+  "keyword": ["liquid", "metallic", "three.js", "cdn", "shader", "background", "fluid", "canvas", "displacement"],
+  "component_filename": "liquid-effect-animation.tsx",
+  "prompt_text": "# Liquid Effect Animation\n\nA full-screen fixed canvas background that renders a metallic liquid surface animation by dynamically loading the threejs-components CDN library. Supports loading an image onto the liquid plane with configurable metalness, roughness, and displacement.\n\n## Use when\n- Creating an immersive liquid metal background for a dark landing page.\n- Showcasing a product with a premium, fluid cinematic hero.\n- Establishing a luxury brand personality through an animated background.\n- Adding a full-screen ambient animation behind above-fold content.\n\n## Stack\n- Framework: react\n- Libraries: (none — loads threejs-components via CDN at runtime)\n\n## Install\n```bash\n# No npm install required — library loaded from CDN at runtime\n```\n\n## Component — liquid-effect-animation.tsx\n```tsx\n\"use client\"\n\nimport { useEffect, useRef } from \"react\"\n\nexport function LiquidEffectAnimation() {\n  const canvasRef = useRef<HTMLCanvasElement>(null)\n  const appRef = useRef<any>(null)\n\n  useEffect(() => {\n    if (!canvasRef.current) return\n\n    // Load the script dynamically\n    const script = document.createElement(\"script\")\n    script.type = \"module\"\n    script.textContent = `\n      import LiquidBackground from 'https://cdn.jsdelivr.net/npm/threejs-components@0.0.22/build/backgrounds/liquid1.min.js';\n      \n      const canvas = document.getElementById('liquid-canvas');\n      if (canvas) {\n        const app = LiquidBackground(canvas);\n        app.loadImage('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/enhanced_8bfe61b0-d431-433a-8acb-49d508bf88b4-image-vWzKFKS7vQy7s8wfQYzEpaoiYaVMkr.png');\n        app.liquidPlane.material.metalness = 0.75;\n        app.liquidPlane.material.roughness = 0.25;\n        app.liquidPlane.uniforms.displacementScale.value = 5;\n        app.setRain(false);\n        window.__liquidApp = app;\n      }\n    `\n    document.body.appendChild(script)\n\n    return () => {\n      if (window.__liquidApp && window.__liquidApp.dispose) {\n        window.__liquidApp.dispose()\n      }\n      document.body.removeChild(script)\n    }\n  }, [])\n\n  return (\n    <div\n      className=\"fixed inset-0 m-0 w-full h-full touch-none overflow-hidden\"\n      style={{ fontFamily: '\"Montserrat\", serif' }}\n    >\n      <canvas ref={canvasRef} id=\"liquid-canvas\" className=\"fixed inset-0 w-full h-full\" />\n    </div>\n  )\n}\n\ndeclare global {\n  interface Window {\n    __liquidApp?: any\n  }\n}\n```\n\n## Demo\n```tsx\nimport { LiquidEffectAnimation } from \"@/components/ui/liquid-effect-animation\";\n\nexport default function DemoOne() {\n  return <LiquidEffectAnimation />;\n}\n```\n\n## Notes\n- Uses a CDN ES module (`threejs-components@0.0.22`) injected as a script tag at runtime — no npm install. Requires network access to `cdn.jsdelivr.net` at render time.\n- The image URL is hardcoded in the component; replace with your own asset URL.\n- Not suitable for environments with strict CSP policies that block inline scripts or external ES modules.",
+  "source_file": "animations3.md",
+  "source_index": 1
+}

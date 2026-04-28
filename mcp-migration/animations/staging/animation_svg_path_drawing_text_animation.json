@@ -1,0 +1,22 @@
+{
+  "id": "animation_svg_path_drawing_text_animation",
+  "title": "SVG Path Drawing Text Animation",
+  "description": "SVG text stroke-drawing animation using `strokeDashoffset` and SMIL `<animate>` element. Renders bold gradient text (pink to red) whose stroke draws on in an infinite 8-second loop. No React state or JavaScript — pure SVG/SMIL animation.",
+  "use_when": [
+    "decorative_text_reveal",
+    "hero_heading",
+    "brand_personality_playful"
+  ],
+  "category": "text_effect",
+  "framework": "react",
+  "libraries": [],
+  "interactivity": "static",
+  "complexity": "light",
+  "style_tags": ["gradient", "minimal", "clean"],
+  "placement": ["hero", "section", "inline"],
+  "keyword": ["svg", "text", "stroke", "path", "drawing", "dashoffset", "smil", "animate", "gradient", "reveal"],
+  "component_filename": "svg-path-drawing-text-animation.tsx",
+  "prompt_text": "# SVG Path Drawing Text Animation\n\nSVG text stroke-drawing animation using `strokeDashoffset` and SMIL `<animate>` element. Renders bold gradient text (pink to red) whose stroke draws on in an infinite 8-second loop. No React state or JavaScript — pure SVG/SMIL animation.\n\n## Use when\n- Adding a decorative text reveal animation to a hero or section heading.\n- Drawing attention to a key headline with a cinematic stroke-draw effect.\n- Creating a playful animated brand word or tagline.\n\n## Stack\n- Framework: react\n- Libraries: none\n- Requires: tailwind\n\n## Install\n```bash\nnone\n```\n\n## Component — svg-path-drawing-text-animation.tsx\n```tsx\nimport React from 'react';\n\nconst PathAnimation = () => {\n  return (\n    <div className=\"flex justify-center items-center min-h-[200px]\">\n      <svg width=\"1000\" height=\"360\" viewBox=\"0 0 800 160\" className=\"max-w-full\">\n        <defs>\n          <linearGradient id=\"pathGradient\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"0%\">\n            <stop offset=\"0%\" stopColor=\"#f093fb\" />\n            <stop offset=\"100%\" stopColor=\"#f5576c\" />\n          </linearGradient>\n        </defs>\n        \n        <text\n          x=\"50%\"\n          y=\"50%\"\n          textAnchor=\"middle\"\n          dominantBaseline=\"middle\"\n          fill=\"none\"\n          stroke=\"url(#pathGradient)\"\n          strokeWidth=\"2\"\n          fontSize=\"88\"\n          fontWeight=\"bold\"\n          fontFamily=\"Arial, sans-serif\"\n          strokeDasharray=\"1000\"\n          strokeDashoffset=\"1000\"\n        >\n          PATH DRAWING\n          <animate\n            attributeName=\"stroke-dashoffset\"\n            values=\"1000;0\"\n            dur=\"8s\"\n            repeatCount=\"indefinite\"\n            calcMode=\"spline\"\n            keySplines=\"0.25 0.1 0.25 1\"\n          />\n        </text>\n      </svg>\n    </div>\n  );\n};\n\nexport default PathAnimation;\n```\n\n## Demo\n```tsx\nimport PathAnimation from \"@/components/ui/svg-path-drawing-text-animation\";\n\nconst DemoOne = () => {\n  return <PathAnimation />;\n};\n\nexport { DemoOne };\n```\n\n## Notes\n- Uses SMIL `<animate>` — not supported in IE. Works in all modern browsers (Chrome, Firefox, Safari, Edge).\n- The `strokeDasharray=\"1000\"` is hardcoded. For variable-length text, measure the text path length programmatically with `textEl.getComputedTextLength()` and set `strokeDasharray` dynamically.",
+  "source_file": "animations4.md",
+  "source_index": 5
+}

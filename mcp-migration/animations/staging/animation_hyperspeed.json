@@ -1,0 +1,24 @@
+{
+  "id": "animation_hyperspeed",
+  "title": "Hyperspeed",
+  "description": "Three.js warp-tunnel effect with line segments and car lights racing through a procedural road. Hold to accelerate into warp speed. Ships with 6 preset configurations.",
+  "use_when": [
+    "dark_landing_page",
+    "first_load_reveal",
+    "brand_personality_playful",
+    "interactive_demo",
+    "product_showcase"
+  ],
+  "category": "background",
+  "framework": "react",
+  "libraries": ["three", "framer-motion"],
+  "interactivity": "click",
+  "complexity": "heavy",
+  "style_tags": ["neon", "cyber", "futuristic", "dark", "3d"],
+  "placement": ["hero", "background", "loading_screen"],
+  "keyword": ["hyperspeed", "warp", "tunnel", "three", "neon", "road", "speed", "dark", "scifi", "interactive"],
+  "component_filename": "hyperspeed.tsx",
+  "prompt_text": "# Hyperspeed\n\nThree.js warp-tunnel effect with line segments and car lights racing through a procedural road. Hold to accelerate into warp speed. Ships with 6 preset configurations.\n\n## Use when\n- Setting a dramatic, sci-fi atmosphere on a dark landing page hero.\n- Triggering a cinematic first-load reveal with speed-up mechanics.\n- Showcasing a product with an energetic, forward-motion background.\n\n## Stack\n- Framework: react\n- Libraries: three, framer-motion\n\n## Install\n```bash\nnpm install three framer-motion\n```\n\n## Component — hyperspeed.tsx\n```tsx\n// Source: animations_007.md\n// Exports: Hyperspeed (default), hyperspeedPresets\n// Props: effectOptions (HyperspeedOptions), className\n// HyperspeedOptions: distortion, length, roadWidth, islandWidth, lanesPerRoad,\n//   fov, fovSpeedUp, speedUp, colors (roadColor, islandColor, background,\n//   shoulderLines, brokenLines, leftCars, rightCars, sticks), onSpeedUp, onSlowDown\n// 6 presets: turbulentPreset, mountainPreset, xyPreset, longRacePreset, deepPreset, staticPreset\n// See full source in raw/animations_007.md\n```\n\n## Notes\n- Component source is ~600 lines. See `raw/animations_007.md` for full verbatim code.\n- Requires Three.js (>600 KB). Lazy-load for performance.\n- Press-and-hold triggers warp speed via `onSpeedUp`/`onSlowDown` callbacks.\n",
+  "source_file": "animations.md",
+  "source_index": 7
+}

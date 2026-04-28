@@ -1,0 +1,24 @@
+{
+  "id": "animation_lightning_background",
+  "title": "Lightning Background",
+  "description": "Raw WebGL GLSL FBM lightning shader that renders branching electric bolts continuously across the viewport. Purely static — no user interaction required.",
+  "use_when": [
+    "dark_landing_page",
+    "first_load_reveal",
+    "brand_personality_serious",
+    "visual_break_between_sections",
+    "404_page"
+  ],
+  "category": "background",
+  "framework": "react",
+  "libraries": [],
+  "interactivity": "static",
+  "complexity": "heavy",
+  "style_tags": ["neon", "dark", "futuristic", "cyber", "geometric"],
+  "placement": ["hero", "background", "loading_screen"],
+  "keyword": ["lightning", "webgl", "glsl", "fbm", "shader", "electric", "dark", "neon", "static", "atmospheric"],
+  "component_filename": "lightning-background.tsx",
+  "prompt_text": "# Lightning Background\n\nRaw WebGL GLSL FBM lightning shader that renders branching electric bolts continuously across the viewport. Purely static — no user interaction required.\n\n## Use when\n- Setting a dramatic electric atmosphere on a dark landing page or hero section.\n- Creating a high-voltage 404 page or error screen background.\n- Adding ambient energy to a section without any cursor dependency.\n\n## Stack\n- Framework: react\n- Libraries: none (raw WebGL)\n\n## Install\n```bash\nnone\n```\n\n## Component — lightning-background.tsx\n```tsx\n// Source: animations_010.md\n// Export: Lightning (default)\n// Props: hue (number), xOffset (number), speed (number), intensity (number), size (number), className\n// Uses raw WebGL context with custom GLSL FBM lightning fragment shader\n// No external libraries — only native browser WebGL\n// See full source in raw/animations_010.md\n```\n\n## Notes\n- No external dependencies but uses raw WebGL — complexity is `heavy` due to custom GLSL shader.\n- Relies on `OES_standard_derivatives` extension for anti-aliasing.\n",
+  "source_file": "animations.md",
+  "source_index": 10
+}

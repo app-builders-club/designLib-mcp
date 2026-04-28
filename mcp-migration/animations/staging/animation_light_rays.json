@@ -1,0 +1,24 @@
+{
+  "id": "animation_light_rays",
+  "title": "Light Rays",
+  "description": "OGL WebGL atmospheric light-ray effect emanating from a configurable origin point, with a soft volumetric glow that can be made mouse-reactive.",
+  "use_when": [
+    "dark_landing_page",
+    "first_load_reveal",
+    "product_showcase",
+    "value_proposition_emphasis",
+    "brand_personality_calm"
+  ],
+  "category": "background",
+  "framework": "react",
+  "libraries": ["ogl"],
+  "interactivity": "cursor_track",
+  "complexity": "heavy",
+  "style_tags": ["neon", "organic", "dark", "gradient", "futuristic"],
+  "placement": ["hero", "background"],
+  "keyword": ["light_rays", "volumetric", "ogl", "webgl", "glow", "atmospheric", "dark", "cursor", "radial", "premium"],
+  "component_filename": "light-rays.tsx",
+  "prompt_text": "# Light Rays\n\nOGL WebGL atmospheric light-ray effect emanating from a configurable origin point, with a soft volumetric glow that can be made mouse-reactive.\n\n## Use when\n- Creating a god-ray or spotlight atmosphere on a dark landing page hero.\n- Adding volumetric depth to a product showcase section.\n- Building a calming, premium ambient background with directional light.\n\n## Stack\n- Framework: react\n- Libraries: ogl\n\n## Install\n```bash\nnpm install ogl\n```\n\n## Component — light-rays.tsx\n```tsx\n// Source: animations_013.md\n// Export: LightRays (default)\n// Props: className, style, color (string), rayCount (number), rayLength (number),\n//   rayWidth (number), origin ({x: number, y: number}), followMouse (boolean)\n// Uses OGL Renderer, Program, Mesh, Triangle, Vec2, Vec3\n// GLSL fragment shader for radial light rays with blur and opacity falloff\n// See full source in raw/animations_013.md\n```\n\n## Notes\n- Requires OGL (~100 KB). Lazy-load for performance.\n",
+  "source_file": "animations.md",
+  "source_index": 13
+}

@@ -1,0 +1,24 @@
+{
+  "id": "animation_prismatic_burst",
+  "title": "Prismatic Burst",
+  "description": "OGL WebGL ray-marched prismatic burst with a gradient texture and configurable animation modes (spin, expand, pulse). Mouse hover activates an interactive mode.",
+  "use_when": [
+    "dark_landing_page",
+    "first_load_reveal",
+    "product_showcase",
+    "brand_personality_playful",
+    "value_proposition_emphasis"
+  ],
+  "category": "background",
+  "framework": "react",
+  "libraries": ["ogl"],
+  "interactivity": "cursor_track",
+  "complexity": "heavy",
+  "style_tags": ["neon", "colorful", "3d", "futuristic", "gradient"],
+  "placement": ["hero", "background"],
+  "keyword": ["prismatic", "burst", "ogl", "webgl", "raymarching", "gradient", "colorful", "dark", "interactive", "glow"],
+  "component_filename": "prismatic-burst.tsx",
+  "prompt_text": "# Prismatic Burst\n\nOGL WebGL ray-marched prismatic burst with a gradient texture and configurable animation modes (spin, expand, pulse). Mouse hover activates an interactive mode.\n\n## Use when\n- Creating a bold, colorful hero background that demands attention on first load.\n- Adding prismatic light effects to emphasize a value proposition section.\n- Providing a premium, glowing focal point behind product content.\n\n## Stack\n- Framework: react\n- Libraries: ogl\n\n## Install\n```bash\nnpm install ogl\n```\n\n## Component — prismatic-burst.tsx\n```tsx\n// Source: animations_009.md\n// Export: PrismaticBurst (default)\n// Props: className, style, colors, animationMode ('spin'|'expand'|'pulse')\n// Uses OGL Renderer, Program, Mesh, Triangle, Vec2, Vec3\n// Ray-march GLSL shader with gradient texture and mouse uniform\n// See full source in raw/animations_009.md\n```\n\n## Notes\n- Requires OGL (~100 KB). Lazy-load for performance.\n",
+  "source_file": "animations.md",
+  "source_index": 9
+}

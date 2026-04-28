@@ -1,0 +1,24 @@
+{
+  "id": "animation_prism_background",
+  "title": "Prism Background",
+  "description": "OGL WebGL procedural prism/pyramid with three configurable animation modes (rotate, hover, 3drotate) and full color control, serving as a shimmering geometric hero background.",
+  "use_when": [
+    "dark_landing_page",
+    "first_load_reveal",
+    "product_showcase",
+    "brand_personality_serious",
+    "value_proposition_emphasis"
+  ],
+  "category": "background",
+  "framework": "react",
+  "libraries": ["ogl"],
+  "interactivity": "cursor_track",
+  "complexity": "heavy",
+  "style_tags": ["3d", "geometric", "dark", "futuristic", "gradient"],
+  "placement": ["hero", "background"],
+  "keyword": ["prism", "pyramid", "ogl", "webgl", "3d", "geometric", "dark", "cursor", "rotate", "shimmering"],
+  "component_filename": "prism-background.tsx",
+  "prompt_text": "# Prism Background\n\nOGL WebGL procedural prism/pyramid with three configurable animation modes (rotate, hover, 3drotate) and full color control, serving as a shimmering geometric hero background.\n\n## Use when\n- Creating a dramatic geometric hero background for a dark landing page.\n- Adding a premium 3D prism as the centerpiece of a product showcase.\n- Building a first-load reveal with an interactive, rotating prism effect.\n\n## Stack\n- Framework: react\n- Libraries: ogl\n\n## Install\n```bash\nnpm install ogl\n```\n\n## Component — prism-background.tsx\n```tsx\n// Source: animations_015.md\n// Export: PrismBackground (default)\n// Props: className, style, animationMode ('rotate'|'hover'|'3drotate'),\n//   colors (string[]), speed (number), size (number)\n// Uses OGL Renderer, Program, Mesh, Geometry, Vec2, Vec3, Mat4\n// Procedural prism geometry with reflective GLSL shader\n// See full source in raw/animations_015.md\n```\n\n## Notes\n- Requires OGL (~100 KB). Lazy-load for performance.\n",
+  "source_file": "animations.md",
+  "source_index": 15
+}

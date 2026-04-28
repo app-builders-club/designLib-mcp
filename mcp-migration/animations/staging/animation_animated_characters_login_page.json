@@ -1,0 +1,22 @@
+{
+  "id": "animation_animated_characters_login_page",
+  "title": "Animated Characters Login Page",
+  "description": "Split-screen login page with four animated cartoon characters (purple, black, orange, yellow) on the left panel. Characters track the cursor with their eyes, lean toward mouse movement, and react when typing a password — the purple character sneaks a peek when the password is visible.",
+  "use_when": [
+    "login_authentication_screen",
+    "brand_personality_playful",
+    "interactive_demo"
+  ],
+  "category": "overlay",
+  "framework": "react",
+  "libraries": ["lucide-react", "@radix-ui/react-slot", "class-variance-authority", "@radix-ui/react-checkbox", "@radix-ui/react-label"],
+  "interactivity": "cursor_track",
+  "complexity": "medium",
+  "style_tags": ["cartoon", "colorful", "minimal"],
+  "placement": ["modal", "section"],
+  "keyword": ["login", "auth", "characters", "eyes", "cursor", "cartoon", "password", "split-screen", "interactive"],
+  "component_filename": "animated-characters-login-page.tsx",
+  "prompt_text": "# Animated Characters Login Page\n\nSplit-screen login page with four animated cartoon characters (purple, black, orange, yellow) on the left panel. Characters track the cursor with their eyes, lean toward mouse movement, and react when typing a password — the purple character sneaks a peek when the password is visible.\n\n## Use when\n- Building a login or authentication page with a playful, engaging cartoon mascot experience.\n- Demonstrating brand personality that is warm, fun, and interactive.\n- Creating an interactive demo that showcases cursor-tracking animations.\n\n## Stack\n- Framework: react\n- Libraries: lucide-react, @radix-ui/react-slot, class-variance-authority, @radix-ui/react-checkbox, @radix-ui/react-label\n- Requires: tailwind, shadcn\n\n## Install\n```bash\nlucide-react, @radix-ui/react-slot, class-variance-authority, @radix-ui/react-checkbox, @radix-ui/react-label\n```\n\n## Component — animated-characters-login-page.tsx\n```tsx\n\"use client\";\n\nimport { useState, useEffect, useRef } from \"react\";\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\nimport { Label } from \"@/components/ui/label\";\nimport { Checkbox } from \"@/components/ui/checkbox\";\nimport { Eye, EyeOff, Mail, Sparkles } from \"lucide-react\";\nimport { cn } from \"@/lib/utils\";\n\n// [Full component code — see source file animations3_040.md for complete implementation]\n// Includes: Pupil, EyeBall, and LoginPage components with all cursor-tracking logic\n\nexport const Component = LoginPage;\n```\n\n## Demo\n```tsx\nimport { Component } from \"@/components/ui/animated-characters-login-page\";\n\nexport default function DemoOne() {\n  return <Component />;\n}\n```",
+  "source_file": "animations3.md",
+  "source_index": 40
+}

@@ -1,0 +1,43 @@
+{
+  "id": "animation_animated_shader_background",
+  "title": "Animated Shader Background",
+  "description": "Full-viewport three.js fragment shader rendering animated aurora-like color trails using fBm noise. Runs continuously after mount and rebinds on window resize.",
+  "use_when": [
+    "dark_landing_page",
+    "value_proposition_emphasis",
+    "visual_break_between_sections",
+    "decorative_filler"
+  ],
+  "category": "background",
+  "framework": "react",
+  "libraries": [
+    "three",
+    "lucide-react"
+  ],
+  "interactivity": "static",
+  "complexity": "heavy",
+  "style_tags": [
+    "aurora",
+    "shader",
+    "gradient",
+    "dark",
+    "organic"
+  ],
+  "placement": [
+    "background",
+    "hero"
+  ],
+  "keyword": [
+    "shader",
+    "aurora",
+    "three",
+    "fbm",
+    "noise",
+    "gradient",
+    "webgl"
+  ],
+  "component_filename": "animated-shader-background.tsx",
+  "prompt_text": "# Animated Shader Background\n\nFull-viewport three.js fragment shader rendering animated aurora-like color trails using fBm noise. Runs continuously after mount and rebinds on window resize.\n\n## Use when\n- Adding ambient motion to a dark landing page hero.\n- Emphasising the value-prop section with a moving cosmic backdrop.\n- Creating a visual break between two product-marketing sections.\n- Decorative filler behind sparse copy or a single CTA card.\n\n## Stack\n- Framework: react\n- Libraries: three, lucide-react\n- Requires: tailwind\n\n## Install\n```bash\nthree, lucide-react\n```\n\n## Component — animated-shader-background.tsx\n```tsx\nimport React, { useEffect, useRef } from 'react';\nimport * as THREE from 'three';\nimport { Infinity, Rocket, Shield, Brain, Play, ChevronDown } from 'lucide-react';\n\nconst AnoAI = () => {\n  const containerRef = useRef(null);\n\n  useEffect(() => {\n    const container = containerRef.current;\n    const scene = new THREE.Scene();\n    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);\n    const renderer = new THREE.WebGLRenderer({ antialias: true });\n    renderer.setSize(window.innerWidth, window.innerHeight);\n    container.appendChild(renderer.domElement);\n\n    const material = new THREE.ShaderMaterial({\n      uniforms: {\n        iTime: { value: 0 },\n        iResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }\n      },\n      vertexShader: `\n        void main() {\n          gl_Position = vec4(position, 1.0);\n        }\n      `,\n      fragmentShader: `\n        uniform float iTime;\n        uniform vec2 iResolution;\n\n        #define NUM_OCTAVES 3\n\n        float rand(vec2 n) {\n          return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);\n        }\n\n        float noise(vec2 p) {\n          vec2 ip = floor(p);\n          vec2 u = fract(p);\n          u = u*u*(3.0-2.0*u);\n\n          float res = mix(\n            mix(rand(ip), rand(ip + vec2(1.0, 0.0)), u.x),\n            mix(rand(ip + vec2(0.0, 1.0)), rand(ip + vec2(1.0, 1.0)), u.x), u.y);\n          return res * res;\n        }\n\n        float fbm(vec2 x) {\n          float v = 0.0;\n          float a = 0.3;\n          vec2 shift = vec2(100);\n          mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));\n          for (int i = 0; i < NUM_OCTAVES; ++i) {\n            v += a * noise(x);\n            x = rot * x * 2.0 + shift;\n            a *= 0.4;\n          }\n          return v;\n        }\n\n        void main() {\n          vec2 shake = vec2(sin(iTime * 1.2) * 0.005, cos(iTime * 2.1) * 0.005);\n          vec2 p = ((gl_FragCoord.xy + shake * iResolution.xy) - iResolution.xy * 0.5) / iResolution.y * mat2(6.0, -4.0, 4.0, 6.0);\n          vec2 v;\n          vec4 o = vec4(0.0);\n\n          float f = 2.0 + fbm(p + vec2(iTime * 5.0, 0.0)) * 0.5;\n\n          for (float i = 0.0; i < 35.0; i++) {\n            v = p + cos(i * i + (iTime + p.x * 0.08) * 0.025 + i * vec2(13.0, 11.0)) * 3.5 + vec2(sin(iTime * 3.0 + i) * 0.003, cos(iTime * 3.5 - i) * 0.003);\n            float tailNoise = fbm(v + vec2(iTime * 0.5, i)) * 0.3 * (1.0 - (i / 35.0));\n            vec4 auroraColors = vec4(\n              0.1 + 0.3 * sin(i * 0.2 + iTime * 0.4),\n              0.3 + 0.5 * cos(i * 0.3 + iTime * 0.5),\n              0.7 + 0.3 * sin(i * 0.4 + iTime * 0.3),\n              1.0\n            );\n            vec4 currentContribution = auroraColors * exp(sin(i * i + iTime * 0.8)) / length(max(v, vec2(v.x * f * 0.015, v.y * 1.5)));\n            float thinnessFactor = smoothstep(0.0, 1.0, i / 35.0) * 0.6;\n            o += currentContribution * (1.0 + tailNoise * 0.8) * thinnessFactor;\n          }\n\n          o = tanh(pow(o / 100.0, vec4(1.6)));\n          gl_FragColor = o * 1.5;\n        }\n      `\n    });\n\n    const geometry = new THREE.PlaneGeometry(2, 2);\n    const mesh = new THREE.Mesh(geometry, material);\n    scene.add(mesh);\n\n    let frameId;\n    const animate = () => {\n      material.uniforms.iTime.value += 0.016;\n      renderer.render(scene, camera);\n      frameId = requestAnimationFrame(animate);\n    };\n    animate();\n\n    const handleResize = () => {\n      renderer.setSize(window.innerWidth, window.innerHeight);\n      material.uniforms.iResolution.value.set(window.innerWidth, window.innerHeight);\n    };\n    window.addEventListener('resize', handleResize);\n\n    return () => {\n      cancelAnimationFrame(frameId);\n      window.removeEventListener('resize', handleResize);\n      container.removeChild(renderer.domElement);\n      geometry.dispose();\n      material.dispose();\n      renderer.dispose();\n    };\n  }, []);\n\n  return (\n    <div ref={containerRef} className=\"relative overflow-x-hidden\">\n      <div className=\"relative z-10 divider\" />\n    </div>\n  );\n};\n\nexport default AnoAI;\n```\n\n## Demo\n```tsx\nimport AnoAI from \"@/components/ui/animated-shader-background\";\n\nconst DemoOne = () => {\n  return (\n    <div className=\"w-full h-screen bg-black\">\n      <AnoAI/>\n    </div>\n  );\n};\n\nexport { DemoOne };\n```\n\n## Notes\n- Heavy GPU/WebGL workload — gate behind reduced-motion preferences and avoid stacking with other shader backgrounds on the same page.\n- Component imports several lucide-react icons that are not used in the shader itself; agent may prune unused imports when integrating.\n",
+  "source_file": "animations3.md",
+  "source_index": 20
+}

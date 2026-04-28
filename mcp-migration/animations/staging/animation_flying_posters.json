@@ -1,0 +1,24 @@
+{
+  "id": "animation_flying_posters",
+  "title": "Flying Posters",
+  "description": "OGL 3D vertical scroll gallery where image planes fly toward the viewer with a rubber-band distortion effect, creating a cinematic poster-reel experience.",
+  "use_when": [
+    "product_showcase",
+    "visual_break_between_sections",
+    "brand_personality_playful",
+    "interactive_demo",
+    "dark_landing_page"
+  ],
+  "category": "element",
+  "framework": "react",
+  "libraries": ["ogl"],
+  "interactivity": "scroll",
+  "complexity": "heavy",
+  "style_tags": ["3d", "dark", "organic", "colorful"],
+  "placement": ["section", "hero"],
+  "keyword": ["posters", "gallery", "scroll", "ogl", "webgl", "3d", "planes", "cinematic", "dark", "distortion"],
+  "component_filename": "flying-posters.tsx",
+  "prompt_text": "# Flying Posters\n\nOGL 3D vertical scroll gallery where image planes fly toward the viewer with a rubber-band distortion effect, creating a cinematic poster-reel experience.\n\n## Use when\n- Showcasing a portfolio or product images in a cinematic 3D scroll gallery.\n- Adding a scroll-driven depth effect to a visual section.\n- Creating an interactive gallery that responds to scroll speed.\n\n## Stack\n- Framework: react\n- Libraries: ogl\n\n## Install\n```bash\nnpm install ogl\n```\n\n## Component — flying-posters.tsx\n```tsx\n// Source: animations_018.md\n// Export: FlyingPosters (default)\n// Props: images (string[]), className\n// Uses OGL Renderer, Camera, Transform, Plane, Program, Mesh, Vec2\n// Scroll velocity drives rubber-band plane distortion via shader uniform\n// See full source in raw/animations_018.md\n```\n\n## Notes\n- Requires OGL (~100 KB). Lazy-load for performance.\n- Image URLs are passed as a prop; ensure CORS is allowed for cross-origin images.\n",
+  "source_file": "animations.md",
+  "source_index": 18
+}

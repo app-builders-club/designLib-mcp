@@ -1,0 +1,24 @@
+{
+  "id": "animation_laser_flow",
+  "title": "Laser Flow",
+  "description": "Three.js raw WebGL volumetric laser beam with wisp particles and FBM fog simulation, interactive mouse tilt, and adaptive DPR throttling for performance.",
+  "use_when": [
+    "dark_landing_page",
+    "product_showcase",
+    "brand_personality_playful",
+    "interactive_demo",
+    "visual_break_between_sections"
+  ],
+  "category": "background",
+  "framework": "react",
+  "libraries": ["three"],
+  "interactivity": "cursor_track",
+  "complexity": "heavy",
+  "style_tags": ["dark", "neon", "futuristic", "organic"],
+  "placement": ["hero", "background", "section"],
+  "keyword": ["laser", "beam", "fog", "wisp", "three", "webgl", "glsl", "shader", "volumetric", "dark"],
+  "component_filename": "laser-flow.tsx",
+  "prompt_text": "# Laser Flow\n\nThree.js raw WebGL volumetric laser beam with wisp particles and FBM fog simulation, interactive mouse tilt, and adaptive DPR throttling for performance.\n\n## Use when\n- Filling a dark hero or landing page background with a dramatic laser beam effect.\n- Adding a sci-fi or cyberpunk aesthetic to a product showcase.\n- Creating a visually rich interactive demo area.\n\n## Stack\n- Framework: react\n- Libraries: three\n\n## Install\n```bash\nnpm install three @types/three\n```\n\n## Component — laser-flow.tsx\n```tsx\n// Source: animations_024.md\n// Export: LaserFlow (named and default)\n// Props: className, style, wispDensity, dpr, mouseSmoothTime, mouseTiltStrength,\n//        horizontalBeamOffset, verticalBeamOffset, flowSpeed, verticalSizing,\n//        horizontalSizing, fogIntensity, fogScale, wispSpeed, wispIntensity,\n//        flowStrength, decay, falloffStart, fogFallSpeed, color\n//\n// Uses THREE.WebGLRenderer with RawShaderMaterial (custom VERT + FRAG).\n// FRAG implements: elliptical beam falloff, arc-length tapping loop,\n// vertical wisp lanes with per-lane animation, multi-octave FBM fog,\n// mouse-driven tilt, dithering, edge masking, and fade-in.\n// Adaptive DPR: samples FPS every 750 ms and scales pixel ratio up/down\n// between dprFloor (0.6) and baseDpr to maintain 50-58 fps.\n// See full source in raw/animations_024.md\n```\n\n## Notes\n- Component fills its parent div (`w-full h-full`).\n- Requires a container with explicit dimensions.\n- Adaptive DPR: automatically reduces resolution if FPS drops below 50.\n- `horizontalBeamOffset` shifts the beam left/right as a fraction of width (0.0 = center).\n- `color` accepts any CSS hex color string.\n\n## Demo\n```tsx\nimport React from 'react';\nimport { LaserFlow } from './Component';\n\nexport default function App() {\n  return (\n    <div className=\"min-h-screen bg-[#1A1A1B] text-white flex flex-col items-center justify-center p-8 font-sans\">\n      <div className=\"relative w-full max-w-4xl h-[600px] rounded-3xl overflow-hidden bg-[#060010] border border-white/5\">\n        <LaserFlow\n          horizontalBeamOffset={0.1}\n          verticalBeamOffset={0.0}\n          color=\"#FF79C6\"\n          wispDensity={1.2}\n          fogIntensity={0.6}\n          className=\"absolute inset-0 z-0\"\n        />\n        <div className=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10 pointer-events-none\">\n          <h2 className=\"text-4xl font-light tracking-widest text-white/90 uppercase mb-2\">Energy</h2>\n          <p className=\"text-xs text-white/50 tracking-[0.2em] font-medium\">SYSTEM ONLINE</p>\n        </div>\n      </div>\n    </div>\n  );\n}\n```\n",
+  "source_file": "animations.md",
+  "source_index": 24
+}

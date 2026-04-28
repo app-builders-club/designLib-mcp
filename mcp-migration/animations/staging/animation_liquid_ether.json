@@ -1,0 +1,24 @@
+{
+  "id": "animation_liquid_ether",
+  "title": "Liquid Ether",
+  "description": "Three.js full Navier-Stokes fluid simulation with BFECC advection and an automated cursor-demo driver. Produces a premium swirling liquid ink effect as a full-bleed background.",
+  "use_when": [
+    "dark_landing_page",
+    "first_load_reveal",
+    "product_showcase",
+    "brand_personality_calm",
+    "value_proposition_emphasis"
+  ],
+  "category": "background",
+  "framework": "react",
+  "libraries": ["three"],
+  "interactivity": "cursor_track",
+  "complexity": "heavy",
+  "style_tags": ["organic", "fluid", "dark", "gradient", "futuristic"],
+  "placement": ["hero", "background"],
+  "keyword": ["liquid", "fluid", "navier_stokes", "three", "webgl", "ink", "simulation", "dark", "organic", "premium"],
+  "component_filename": "liquid-ether.tsx",
+  "prompt_text": "# Liquid Ether\n\nThree.js full Navier-Stokes fluid simulation with BFECC advection and an automated cursor-demo driver. Produces a premium swirling liquid ink effect as a full-bleed background.\n\n## Use when\n- Creating a premium, fluid-ink atmosphere on a dark landing page or hero section.\n- Adding a calming, hypnotic background that rewards cursor exploration.\n- Showcasing a brand identity with a sophisticated, high-end animated background.\n\n## Stack\n- Framework: react\n- Libraries: three\n\n## Install\n```bash\nnpm install three\n```\n\n## Component — liquid-ether.tsx\n```tsx\n// Source: animations_016.md\n// Export: LiquidEther (default)\n// Props: className, style, color (string), intensity (number), viscosity (number), autoDemo (boolean)\n// Uses Three.js WebGLRenderTarget ping-pong for fluid simulation\n// Implements full Navier-Stokes: advection (BFECC), divergence, pressure, gradient subtraction\n// Automated demo driver runs pre-scripted cursor path when autoDemo=true\n// Component is ~1087 lines. See full source in raw/animations_016.md\n```\n\n## Notes\n- Component source is ~1087 lines. See `raw/animations_016.md` for full verbatim code.\n- Requires Three.js (>600 KB). Lazy-load for performance.\n- Most expensive simulation in this catalog. Test performance on target devices.\n",
+  "source_file": "animations.md",
+  "source_index": 16
+}

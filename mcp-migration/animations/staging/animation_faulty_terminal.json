@@ -1,0 +1,24 @@
+{
+  "id": "animation_faulty_terminal",
+  "title": "Faulty Terminal",
+  "description": "OGL WebGL CRT terminal background with scanlines, barrel distortion, chromatic aberration, film grain, and mouse-reactive glitch effects, creating a retro broken-screen aesthetic.",
+  "use_when": [
+    "dark_landing_page",
+    "brand_personality_serious",
+    "404_page",
+    "decorative_filler",
+    "visual_break_between_sections"
+  ],
+  "category": "background",
+  "framework": "react",
+  "libraries": ["ogl"],
+  "interactivity": "cursor_track",
+  "complexity": "heavy",
+  "style_tags": ["glitch", "retro", "dark", "cyber", "neon", "monochrome"],
+  "placement": ["hero", "background", "loading_screen"],
+  "keyword": ["crt", "terminal", "glitch", "scanlines", "ogl", "webgl", "retro", "dark", "distortion", "chromatic"],
+  "component_filename": "faulty-terminal.tsx",
+  "prompt_text": "# Faulty Terminal\n\nOGL WebGL CRT terminal background with scanlines, barrel distortion, chromatic aberration, film grain, and mouse-reactive glitch effects, creating a retro broken-screen aesthetic.\n\n## Use when\n- Setting a broken-screen, hacker aesthetic on a dark landing page.\n- Using as 404 page background with atmospheric glitch distortion.\n- Creating a retro cyber visual break between page sections.\n\n## Stack\n- Framework: react\n- Libraries: ogl\n\n## Install\n```bash\nnpm install ogl\n```\n\n## Component — faulty-terminal.tsx\n```tsx\n// Source: animations_008.md\n// Export: FaultyTerminal (default)\n// Props: className, style\n// Uses OGL Renderer, Program, Mesh, Triangle, Vec2\n// Full GLSL fragment shader with: CRT barrel distortion, scanlines,\n//   chromatic aberration, Perlin noise grain, mouse-reactive glitch offsets\n// See full source in raw/animations_008.md\n```\n\n## Notes\n- Requires OGL (~100 KB). Lazy-load for performance.\n- Mouse position is tracked globally and passed to the shader as a uniform.\n",
+  "source_file": "animations.md",
+  "source_index": 8
+}

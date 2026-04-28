@@ -1,0 +1,24 @@
+{
+  "id": "animation_gradient_blinds",
+  "title": "Gradient Blinds",
+  "description": "OGL WebGL stripe-gradient background with a moving spotlight that follows the cursor, revealing color beneath the animated blinds pattern.",
+  "use_when": [
+    "dark_landing_page",
+    "product_showcase",
+    "brand_personality_serious",
+    "visual_break_between_sections",
+    "value_proposition_emphasis"
+  ],
+  "category": "background",
+  "framework": "react",
+  "libraries": ["ogl"],
+  "interactivity": "cursor_track",
+  "complexity": "heavy",
+  "style_tags": ["gradient", "dark", "geometric", "futuristic", "minimal"],
+  "placement": ["hero", "background", "section"],
+  "keyword": ["gradient", "blinds", "stripes", "ogl", "webgl", "spotlight", "cursor", "dark", "geometric", "reveal"],
+  "component_filename": "gradient-blinds.tsx",
+  "prompt_text": "# Gradient Blinds\n\nOGL WebGL stripe-gradient background with a moving spotlight that follows the cursor, revealing color beneath the animated blinds pattern.\n\n## Use when\n- Creating a premium dark hero where cursor movement reveals hidden gradient color.\n- Adding depth to a product showcase with a dynamic spotlight reveal.\n- Setting a structured, geometric backdrop for a value proposition section.\n\n## Stack\n- Framework: react\n- Libraries: ogl\n\n## Install\n```bash\nnpm install ogl\n```\n\n## Component — gradient-blinds.tsx\n```tsx\n// Source: animations_012.md\n// Export: GradientBlinds (default)\n// Props: className, style, colors (string[]), stripCount (number), spotlightRadius (number)\n// Uses OGL Renderer, Program, Mesh, Triangle, Vec2\n// Fragment shader computes stripe pattern + radial cursor spotlight\n// See full source in raw/animations_012.md\n```\n\n## Notes\n- Requires OGL (~100 KB). Lazy-load for performance.\n",
+  "source_file": "animations.md",
+  "source_index": 12
+}

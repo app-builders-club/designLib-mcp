@@ -1,0 +1,24 @@
+{
+  "id": "animation_plasma",
+  "title": "Plasma",
+  "description": "OGL WebGL2 fluid plasma shader with turbulent swirling colors and mouse-position reactive distortion, suitable as a full-bleed animated background.",
+  "use_when": [
+    "dark_landing_page",
+    "brand_personality_playful",
+    "first_load_reveal",
+    "product_showcase",
+    "decorative_filler"
+  ],
+  "category": "background",
+  "framework": "react",
+  "libraries": ["ogl"],
+  "interactivity": "cursor_track",
+  "complexity": "heavy",
+  "style_tags": ["colorful", "organic", "futuristic", "neon", "gradient"],
+  "placement": ["hero", "background"],
+  "keyword": ["plasma", "fluid", "ogl", "webgl2", "shader", "colorful", "organic", "cursor", "swirl", "dark"],
+  "component_filename": "plasma.tsx",
+  "prompt_text": "# Plasma\n\nOGL WebGL2 fluid plasma shader with turbulent swirling colors and mouse-position reactive distortion, suitable as a full-bleed animated background.\n\n## Use when\n- Adding a vibrant, eye-catching animated background to a dark landing page.\n- Creating a playful, energetic atmosphere for a brand or product showcase.\n- Using as an ambient background decoration that evolves without user interaction.\n\n## Stack\n- Framework: react\n- Libraries: ogl\n\n## Install\n```bash\nnpm install ogl\n```\n\n## Component — plasma.tsx\n```tsx\n// Source: animations_011.md\n// Export: Plasma (default)\n// Props: className, style\n// Uses OGL Renderer (WebGL2), Program, Mesh, Triangle\n// Custom fluid simulation fragment shader with mouse-reactive distortion uniform\n// See full source in raw/animations_011.md\n```\n\n## Notes\n- Requires OGL and WebGL2 support. Lazy-load for performance.\n",
+  "source_file": "animations.md",
+  "source_index": 11
+}

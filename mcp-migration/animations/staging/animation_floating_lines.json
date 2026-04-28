@@ -1,0 +1,24 @@
+{
+  "id": "animation_floating_lines",
+  "title": "Floating Lines",
+  "description": "Three.js ShaderMaterial sinusoidal line waves that float and parallax-shift with mouse movement, creating an elegant depth-layered background.",
+  "use_when": [
+    "dark_landing_page",
+    "brand_personality_calm",
+    "visual_break_between_sections",
+    "product_showcase",
+    "decorative_filler"
+  ],
+  "category": "background",
+  "framework": "react",
+  "libraries": ["three"],
+  "interactivity": "cursor_track",
+  "complexity": "heavy",
+  "style_tags": ["geometric", "minimal", "dark", "futuristic", "organic"],
+  "placement": ["hero", "background", "section"],
+  "keyword": ["floating", "lines", "waves", "three", "webgl", "parallax", "cursor", "dark", "shader", "minimal"],
+  "component_filename": "floating-lines.tsx",
+  "prompt_text": "# Floating Lines\n\nThree.js ShaderMaterial sinusoidal line waves that float and parallax-shift with mouse movement, creating an elegant depth-layered background.\n\n## Use when\n- Adding a calm, technical atmosphere to a dark landing page.\n- Creating a parallax depth effect behind product or hero content.\n- Using as a minimal decorative background that evolves gently.\n\n## Stack\n- Framework: react\n- Libraries: three\n\n## Install\n```bash\nnpm install three\n```\n\n## Component — floating-lines.tsx\n```tsx\n// Source: animations_014.md\n// Export: FloatingLines (default, also FloatingLinesShowcase)\n// Props: className, lineCount (number), lineColor (string), speed (number),\n//   amplitude (number), frequency (number), parallaxStrength (number)\n// Uses Three.js BufferGeometry line segments + ShaderMaterial\n// Mouse parallax applied via uniform updates in animation loop\n// See full source in raw/animations_014.md\n```\n\n## Notes\n- Requires Three.js (>600 KB). Lazy-load for performance.\n",
+  "source_file": "animations.md",
+  "source_index": 14
+}

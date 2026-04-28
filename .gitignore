@@ -5,6 +5,7 @@ extraction/
 researches/
 images/
 extracted/
+prompts/
 
 # Python
 __pycache__/

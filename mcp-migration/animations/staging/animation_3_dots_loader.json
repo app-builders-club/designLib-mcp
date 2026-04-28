@@ -1,0 +1,22 @@
+{
+  "id": "animation_3_dots_loader",
+  "title": "3 Dots Loader",
+  "description": "Three-dot gooey loader using an SVG feColorMatrix filter. Each dot follows a separate CSS keyframe path, then they converge and rotate. Pure CSS animation with no JavaScript.",
+  "use_when": [
+    "loading_data",
+    "system_thinking",
+    "first_load_reveal"
+  ],
+  "category": "loader",
+  "framework": "react",
+  "libraries": [],
+  "interactivity": "static",
+  "complexity": "light",
+  "style_tags": ["organic", "minimal", "monochrome"],
+  "placement": ["loading_screen", "inline", "section"],
+  "keyword": ["loader", "dots", "gooey", "svg", "filter", "css", "keyframe", "spinner", "blob"],
+  "component_filename": "3-dots-loader.tsx",
+  "prompt_text": "# 3 Dots Loader\n\nThree-dot gooey loader using an SVG feColorMatrix filter. Each dot follows a separate CSS keyframe path, then they converge and rotate. Pure CSS animation with no JavaScript.\n\n## Use when\n- Showing the user that data is being fetched and they should wait.\n- Indicating a system thinking or processing state with an organic, gooey animation.\n- Displaying a first-load indicator before content is ready.\n\n## Stack\n- Framework: react\n- Libraries: none\n- Requires: tailwind\n\n## Install\n```bash\nnone\n```\n\n## Component — 3-dots-loader.tsx\n```tsx\nimport { cn } from \"@/lib/utils\";\nimport { useState } from \"react\";\n\nexport const Component = () => {\n  const [count, setCount] = useState(0);\n\n  return (\n    <>\n<div class=\"container\">\n  <div class=\"dot dot-1\"></div>\n  <div class=\"dot dot-2\"></div>\n  <div class=\"dot dot-3\"></div>\n</div>\n\n<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n  <defs>\n    <filter id=\"goo\">\n      <feGaussianBlur\n        result=\"blur\"\n        stdDeviation=\"10\"\n        in=\"SourceGraphic\"\n      ></feGaussianBlur>\n      <feColorMatrix\n        values=\"1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7\"\n        mode=\"matrix\"\n        in=\"blur\"\n      ></feColorMatrix>\n    </filter>\n  </defs>\n</svg>\n</>\n  );\n};\n```\n\n## Demo\n```tsx\nimport { Component } from \"@/components/ui/3-dots-loader\";\n\nexport default function DemoOne() {\n  return <Component />;\n}\n```\n\n## Notes\n- Code bug: uses `class=` instead of `className=` in JSX (lines with `<div class=\"container\">` etc.). This will cause React warnings. Copy verbatim per protocol; fix manually before production use.\n- Requires CSS class definitions (`.container`, `.dot`, `.dot-1`, `.dot-2`, `.dot-3`) and the listed keyframes to be added to your global stylesheet.",
+  "source_file": "animations3.md",
+  "source_index": 37
+}
