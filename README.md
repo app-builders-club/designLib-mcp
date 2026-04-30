@@ -1,52 +1,40 @@
 # designlib-mcp
 
-> **A curated design-knowledge catalog for AI coding agents.**
-> Stop letting Claude / Cursor / Copilot guess hex codes and font pairings. Give them a real, opinionated source of truth — over MCP.
+**Design knowledge for AI coding agents — curated, not hallucinated.**
 
-**Live server:** `https://designlib-production.up.railway.app/mcp`
-**Catalog:** 67 styles · 100 palettes · 34 font pairs · 134 domains · 25 chart types · 34 landing patterns · 105 icons · 405 inspiration pages · 120 animations · web + iOS
+A hand-curated catalog of design tokens, references, and patterns served over MCP. Drop-in source of truth for any AI coding agent.
+
+→ [Quickstart](#quickstart) · [What sets it apart](#what-sets-it-apart) · [Tools](#tools)
+
+**Live server:** `https://designlib-production.up.railway.app/mcp`  
+**Catalog:** 67 styles · 100 palettes · 34 font pairs · 134 domains · 25 chart types · 34 landing patterns · 105 icons · 405 inspiration pages · 120 animations · web + iOS  
 **Status:** v1, production, read-only.
 
 ---
 
-## Why this exists
+## The problem we keep hitting
 
-When you ask an LLM to "design a landing page for a fintech dashboard," it will happily invent `#2B7FFF`, pair Inter with Playfair, and move on. The tokens are plausible. They are also made up. Five prompts later the design has drifted, nothing matches, and you are hand-fixing colors that were never rooted in anything.
+When you ask an AI agent to "design a landing page for a fintech dashboard," it will happily invent `#2B7FFF`, pair Inter with Playfair, and move on. The tokens are plausible. They are also made up. Five prompts later the design has drifted, nothing matches, and you are hand-fixing colors that were never rooted in anything.
 
-**designlib-mcp** replaces that guessing with a retrieval step. It exposes a hand-curated catalog of design styles, palettes, typography, domain recommendations, real-world references and animation snippets through the Model Context Protocol, so any MCP-aware client (Claude Code, Claude Desktop, Cursor, IDE plugins) can fetch authoritative tokens on demand:
-
-- **Palettes** with explicit role mapping (`primary`, `surface`, `text_primary`, contrast pairs) — not just five hexes.
-- **Font pairs** with weights, fallbacks, sources and `style_fit` tags.
-- **Styles** that bundle palette + typography + spacing + density into a cohesive token set.
-- **Domains** (e.g. *fintech_dashboard*, *fitness_app*) with pre-computed top-N recommendations per platform.
-- **Chart types** with when-to-use / when-NOT-to-use guidance, accessibility grades and library recommendations.
-- **Landing patterns** with section order, CTA placement and conversion optimization notes.
-- **Icons** keyed to library, category and style, with ready-to-paste import code and usage snippets.
-- **Inspiration pages** — curated real-world page references tagged by style family, industry, mood and signature.
-- **Animations** with library, category, complexity and ready-to-paste snippets.
-
-The server is **read-only by design**. It does not write to your repo, does not call OpenAI, does not ship telemetry. It answers MCP queries and that's it.
-
-## When to use it
-
-Use it when:
-
-- You are **building UI with an AI agent** and want consistent, non-hallucinated tokens across a session.
-- You are **prototyping multiple styles** for the same product and want to compare them without re-authoring palettes each time.
-- You are **scaffolding a design system** and need a sensible starting point keyed to a product domain.
-- You are **generating marketing pages, dashboards, mobile screens** and want the agent to pick a coherent palette + typography combo instead of freestyling.
-
-Skip it when:
-
-- You already have a mature design system — use your own tokens.
-- You need editable / writable storage — this server is read-only.
-- You need brand-specific assets (logos, illustrations, custom icons). This catalog is about **tokens and style direction**, not brand identity.
+`designlib-mcp` replaces the guessing with a retrieval step.
 
 ---
 
-## Install
+## What sets it apart
 
-Zero infra, zero secrets on your machine. Just point your MCP client at the hosted server.
+**Hand-curated, not scraped or auto-generated.** Palettes, font pairs, styles, and references are authored — not pulled from low-quality sources or synthesized by a model. Every entry has a reason it is there.
+
+**Role-mapped, not raw.** Palettes ship with `primary`, `surface`, `text_primary`, and contrast pairs already mapped — not just five hexes. Font pairs include weights, fallbacks, and `style_fit` tags. Icons come with ready-to-paste import code. Each catalog family is *agent-ready* — not raw data the agent has to interpret.
+
+**MCP-native, client-agnostic.** Standard Model Context Protocol. Works in Claude Code, Claude Desktop, and any MCP-aware client. Not coupled to one tool.
+
+**Read-only, no telemetry, hosted.** It does not write to your repo, does not call OpenAI, does not ship telemetry. Zero infra, zero secrets on your machine. It answers MCP queries and that is it.
+
+---
+
+## Quickstart
+
+Point your MCP client at the hosted server.
 
 ### Claude Code
 
@@ -55,9 +43,11 @@ claude mcp add --transport http designlib https://designlib-production.up.railwa
 claude mcp list
 ```
 
-### Cursor / Windsurf / other MCP-aware clients
+Then ask your agent:
 
-Add an HTTP MCP server entry pointing at `https://designlib-production.up.railway.app/mcp`.
+```
+Use designlib to find a palette and font pair for a fintech dashboard.
+```
 
 ### Claude Desktop
 
@@ -77,7 +67,28 @@ Claude Desktop does not speak streamable-http natively — bridge it with [`mcp-
 }
 ```
 
-Restart Claude Desktop and the `designlib` tools should appear.
+Restart Claude Desktop. The `designlib` tools will appear.
+
+### Other MCP-aware clients
+
+Add an HTTP MCP server entry pointing at `https://designlib-production.up.railway.app/mcp`.
+
+---
+
+## When to use it
+
+Use it when:
+
+- You are **building UI with an AI agent** and want consistent, non-hallucinated tokens across a session.
+- You are **prototyping multiple styles** for the same product and want to compare them without re-authoring palettes each time.
+- You are **scaffolding a design system** and need a sensible starting point keyed to a product domain.
+- You are **generating marketing pages, dashboards, mobile screens** and want the agent to pick a coherent palette + typography combo instead of freestyling.
+
+Skip it when:
+
+- You already have a mature design system — use your own tokens.
+- You need editable / writable storage — this server is read-only.
+- You need brand-specific assets (logos, illustrations, custom icons). This catalog is about **tokens and style direction**, not brand identity.
 
 ---
 
@@ -96,3 +107,21 @@ All 27 tools are read-only and platform-aware where applicable. Every `list_*` s
 | `list_icons` · `get_icon` · `list_icon_facets` | Individual icons with import code and usage snippets | `category`, `library`, `style`, `keyword` |
 | `list_inspiration_pages` · `get_inspiration_page` · `list_inspiration_page_facets` | Curated real-world page references | `page_type`, `style_family`, `industry`, `mood`, `keyword` |
 | `list_animations` · `get_animation` · `list_animation_facets` | Animation snippets with library, category, complexity | `category`, `framework`, `complexity`, `library`, `keyword` |
+
+---
+
+## Part of Pet Brains
+
+`designlib-mcp` is one of three open-source tools we ship for builders who code with AI:
+
+- **[mvp-builder](https://github.com/petbrains/mvp-builder)** — Document-Driven Development for Claude Code. Specs before code, TDD enforced, self-review catches stubs.
+- **[design-builder](https://github.com/petbrains/design-builder)** — production-grade UIs from Claude Code without the AI-slop look. Uses `designlib-mcp` under the hood.
+- **designlib-mcp** — this repo. The design-knowledge MCP. Standalone and client-agnostic.
+
+Methodology and build films at [petbrains.dev](https://petbrains.dev) · YouTube [@petbrains](https://youtube.com/@petbrains)
+
+---
+
+## License
+
+MIT. See [LICENSE](LICENSE).
