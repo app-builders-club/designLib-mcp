@@ -6,7 +6,7 @@ A hand-curated catalog of design tokens, references, and patterns served over MC
 
 → [Quickstart](#quickstart) · [What sets it apart](#what-sets-it-apart) · [Tools](#tools)
 
-**Live server:** `https://mcp.petbrains.dev/mcp`  
+**Live server:** `https://designlib.petbrains.dev/mcp`  
 **Catalog:** 67 styles · 100 palettes · 34 font pairs · 134 domains · 25 chart types · 34 landing patterns · 105 icons · 405 inspiration pages · 120 animations · web + iOS  
 **Status:** v1, production, read-only.
 
@@ -39,7 +39,7 @@ Point your MCP client at the hosted server.
 ### Claude Code
 
 ```bash
-claude mcp add --transport http designlib https://mcp.petbrains.dev/mcp
+claude mcp add --transport http designlib https://designlib.petbrains.dev/mcp
 claude mcp list
 ```
 
@@ -61,7 +61,7 @@ Claude Desktop does not speak streamable-http natively — bridge it with [`mcp-
   "mcpServers": {
     "designlib": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.petbrains.dev/mcp"]
+      "args": ["-y", "mcp-remote", "https://designlib.petbrains.dev/mcp"]
     }
   }
 }
@@ -71,7 +71,7 @@ Restart Claude Desktop. The `designlib` tools will appear.
 
 ### Other MCP-aware clients
 
-Add an HTTP MCP server entry pointing at `https://mcp.petbrains.dev/mcp`.
+Add an HTTP MCP server entry pointing at `https://designlib.petbrains.dev/mcp`.
 
 ---
 
@@ -133,7 +133,7 @@ docker run -p 8000:8000 -e DATABASE_URL="postgresql://user:pass@host:5432/design
 
 Bring up the schema with `migrations/selfhosted_schema.sql`, then load catalog data. The full operator guide — schema, seeding, and a Coolify + Hetzner deployment walkthrough — lives in **[docs/self-hosting.md](docs/self-hosting.md)**.
 
-> The hosted `mcp.petbrains.dev` deployment runs this exact image against Postgres 16 behind [Coolify](https://coolify.io).
+> The hosted `designlib.petbrains.dev` deployment runs this exact image against Postgres 16 behind [Coolify](https://coolify.io).
 
 ---
 
