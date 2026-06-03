@@ -1,7 +1,10 @@
 from __future__ import annotations
 from collections import Counter
 from typing import Any
-from supabase import create_client, Client
+
+from psycopg.rows import dict_row
+from psycopg.types.json import Jsonb
+from psycopg_pool import ConnectionPool
 
 from designlib_mcp.config import Settings
 from designlib_mcp.models.common import Platform
@@ -18,20 +21,51 @@ from designlib_mcp.repository.normalizer import (
 )
 
 
-class SupabaseRepository:
-    def __init__(self, client: Client) -> None:
-        self._client = client
+class PostgresRepository:
+    """Read-only catalog access against a plain Postgres via psycopg.
+
+    Drop-in replacement for the former Supabase/PostgREST repository: method
+    signatures and return shapes are identical, so tools/, cross_links and the
+    normalizer are unchanged. PostgREST query-builder calls are translated to
+    SQL — array filters use `@>`, JSON paths use `->>`, `count="exact"` becomes
+    a `count(*) OVER()` window column.
+    """
+
+    def __init__(self, pool: ConnectionPool) -> None:
+        self._pool = pool
 
     @classmethod
-    def from_settings(cls, settings: Settings) -> "SupabaseRepository":
-        client = create_client(settings.supabase_url, settings.supabase_anon_key)
-        return cls(client)
+    def from_settings(cls, settings: Settings) -> "PostgresRepository":
+        if not settings.database_url:
+            raise RuntimeError("DATABASE_URL is required")
+        pool = ConnectionPool(
+            settings.database_url,
+            min_size=1,
+            max_size=10,
+            kwargs={"row_factory": dict_row},
+            open=True,
+        )
+        return cls(pool)
+
+    # -------------------------------------------------------------------------
+    # Low-level helpers
+    # -------------------------------------------------------------------------
+
+    def _all(self, sql: str, params: list[Any] | tuple = ()) -> list[dict]:
+        with self._pool.connection() as conn, conn.cursor() as cur:
+            cur.execute(sql, params)
+            return cur.fetchall()
+
+    def _one(self, sql: str, params: list[Any] | tuple = ()) -> dict | None:
+        rows = self._all(sql, params)
+        return rows[0] if rows else None
+
+    @staticmethod
+    def _total(rows: list[dict]) -> int:
+        return rows[0]["total_count"] if rows else 0
 
     def health_check(self) -> bool:
-        # Cheap read against a known table to confirm connectivity.
-        # style_families is small (≤24 rows) and present after migrations.
-        resp = self._client.table("style_families").select("id").limit(1).execute()
-        return isinstance(resp.data, list)
+        return bool(self._one("SELECT 1 AS ok"))
 
     # -------------------------------------------------------------------------
     # Styles
@@ -43,46 +77,60 @@ class SupabaseRepository:
         tone: str | None = None, density: str | None = None,
         tags: list[str] | None = None, limit: int = 50, offset: int = 0,
     ) -> dict[str, Any]:
-        q = self._client.table("design_styles").select("*", count="exact").eq("platform", platform.value)
+        conds = ["platform::text = %s"]
+        params: list[Any] = [platform.value]
         if family:
-            q = q.eq("family_id", family)
+            conds.append("family_id = %s")
+            params.append(family)
         if tone:
-            q = q.contains("emotional_keywords", [tone])
+            conds.append("emotional_keywords @> %s")
+            params.append([tone])
         if density:
             if platform == Platform.IOS:
-                q = q.eq("ios_metadata->>density_typical", density)
+                conds.append("ios_metadata->>'density_typical' = %s")
             else:
-                q = q.eq("tokens->'layout'->>'density'", density)
+                conds.append("tokens->'layout'->>'density' = %s")
+            params.append(density)
         if tags:
             for t in tags:
-                q = q.or_(f"visual_signatures.cs.{{{t}}},emotional_keywords.cs.{{{t}}}")
+                conds.append("(visual_signatures @> %s OR emotional_keywords @> %s)")
+                params.extend([[t], [t]])
         if appearance and platform == Platform.IOS:
-            q = q.contains("ios_metadata->appearance_support", [appearance])
-        q = q.range(offset, offset + limit - 1)
-        resp = q.execute()
-        rows = resp.data or []
+            conds.append("ios_metadata->'appearance_support' @> %s")
+            params.append(Jsonb([appearance]))
+        where = " AND ".join(conds)
+        rows = self._all(
+            f"SELECT *, count(*) OVER() AS total_count FROM design_styles "
+            f"WHERE {where} ORDER BY id LIMIT %s OFFSET %s",
+            [*params, limit, offset],
+        )
         items = [_to_style_summary(r) for r in rows]
         return {
             "items": items,
-            "total_count": resp.count or len(items),
+            "total_count": self._total(rows) or len(items),
             "limit": limit,
             "offset": offset,
             "platform": platform.value,
         }
 
     def get_style(self, style_id: str) -> dict[str, Any] | None:
-        resp = self._client.table("design_styles").select("*, style_families(name_en)") \
-            .eq("id", style_id).limit(1).execute()
-        rows = resp.data or []
-        if not rows:
+        row = self._one(
+            "SELECT ds.*, sf.name_en AS __family_name FROM design_styles ds "
+            "LEFT JOIN style_families sf ON sf.id = ds.family_id "
+            "WHERE ds.id = %s LIMIT 1",
+            [style_id],
+        )
+        if not row:
             return None
-        return _to_style_full(rows[0])
+        row["style_families"] = {"name_en": row.get("__family_name") or ""}
+        return _to_style_full(row)
 
     def list_style_facets(self, platform: Platform) -> dict[str, Any]:
-        resp = self._client.table("design_styles") \
-            .select("family_id, visual_signatures, emotional_keywords, tokens, ios_metadata") \
-            .eq("platform", platform.value).execute()
-        rows = resp.data or []
+        rows = self._all(
+            "SELECT family_id, visual_signatures, emotional_keywords, tokens, ios_metadata "
+            "FROM design_styles WHERE platform::text = %s",
+            [platform.value],
+        )
         families: Counter[str] = Counter(r["family_id"] for r in rows if r.get("family_id"))
         tones: Counter[str] = Counter()
         densities: Counter[str] = Counter()
@@ -123,39 +171,45 @@ class SupabaseRepository:
         mood: str | None = None, tags: list[str] | None = None,
         limit: int = 50, offset: int = 0,
     ) -> dict[str, Any]:
-        q = self._client.table("color_palettes").select("*", count="exact").eq("platform", platform.value)
+        conds = ["platform::text = %s"]
+        params: list[Any] = [platform.value]
         if family:
-            q = q.eq("family_id", family)
+            conds.append("family_id = %s")
+            params.append(family)
         if mood:
-            q = q.contains("tags", [mood])
+            conds.append("tags @> %s")
+            params.append([mood])
         if tags:
             for t in tags:
-                q = q.contains("tags", [t])
+                conds.append("tags @> %s")
+                params.append([t])
         if appearance:
-            q = q.contains("tags", [appearance])
-        q = q.range(offset, offset + limit - 1)
-        resp = q.execute()
-        rows = resp.data or []
+            conds.append("tags @> %s")
+            params.append([appearance])
+        where = " AND ".join(conds)
+        rows = self._all(
+            f"SELECT *, count(*) OVER() AS total_count FROM color_palettes "
+            f"WHERE {where} ORDER BY id LIMIT %s OFFSET %s",
+            [*params, limit, offset],
+        )
         items = [_to_palette_summary(r) for r in rows]
         return {
             "items": items,
-            "total_count": resp.count or len(items),
+            "total_count": self._total(rows) or len(items),
             "limit": limit,
             "offset": offset,
             "platform": platform.value,
         }
 
     def get_palette(self, palette_id: str) -> dict[str, Any] | None:
-        resp = self._client.table("color_palettes").select("*").eq("id", palette_id).limit(1).execute()
-        rows = resp.data or []
-        if not rows:
-            return None
-        return _to_palette_full(rows[0])
+        row = self._one("SELECT * FROM color_palettes WHERE id = %s LIMIT 1", [palette_id])
+        return _to_palette_full(row) if row else None
 
     def list_palette_facets(self, platform: Platform) -> dict[str, Any]:
-        resp = self._client.table("color_palettes") \
-            .select("family_id, tags, dark_mode_first").eq("platform", platform.value).execute()
-        rows = resp.data or []
+        rows = self._all(
+            "SELECT family_id, tags, dark_mode_first FROM color_palettes WHERE platform::text = %s",
+            [platform.value],
+        )
         families: Counter[str] = Counter()
         moods: Counter[str] = Counter()
         appearances: Counter[str] = Counter()
@@ -187,38 +241,50 @@ class SupabaseRepository:
         category_id: str | None = None, style_fit: list[str] | None = None,
         tags: list[str] | None = None, limit: int = 50, offset: int = 0,
     ) -> dict[str, Any]:
-        q = self._client.table("font_pairs").select("*", count="exact").eq("platform", platform.value)
+        conds = ["platform::text = %s"]
+        params: list[Any] = [platform.value]
         if category_id:
-            q = q.eq("category_id", category_id)
+            conds.append("category_id = %s")
+            params.append(category_id)
         if style_fit:
             for sid in style_fit:
-                q = q.contains("style_fit", [sid])
+                conds.append("style_fit @> %s")
+                params.append([sid])
         if tags:
             for t in tags:
-                q = q.contains("mood", [t])
-        q = q.range(offset, offset + limit - 1)
-        resp = q.execute()
-        rows = resp.data or []
+                conds.append("mood @> %s")
+                params.append([t])
+        where = " AND ".join(conds)
+        rows = self._all(
+            f"SELECT *, count(*) OVER() AS total_count FROM font_pairs "
+            f"WHERE {where} ORDER BY id LIMIT %s OFFSET %s",
+            [*params, limit, offset],
+        )
         return {
             "items": [_to_font_pair_summary(r) for r in rows],
-            "total_count": resp.count or len(rows),
+            "total_count": self._total(rows) or len(rows),
             "limit": limit,
             "offset": offset,
             "platform": platform.value,
         }
 
     def get_font_pair(self, font_pair_id: str) -> dict[str, Any] | None:
-        resp = self._client.table("font_pairs").select("*, font_pair_categories(name_en)") \
-            .eq("id", font_pair_id).limit(1).execute()
-        rows = resp.data or []
-        if not rows:
+        row = self._one(
+            "SELECT fp.*, fpc.name_en AS __category_name FROM font_pairs fp "
+            "LEFT JOIN font_pair_categories fpc ON fpc.id = fp.category_id "
+            "WHERE fp.id = %s LIMIT 1",
+            [font_pair_id],
+        )
+        if not row:
             return None
-        return _to_font_pair_full(rows[0])
+        row["font_pair_categories"] = {"name_en": row.get("__category_name") or ""}
+        return _to_font_pair_full(row)
 
     def list_font_pair_facets(self, platform: Platform) -> dict[str, Any]:
-        resp = self._client.table("font_pairs") \
-            .select("category_id, mood").eq("platform", platform.value).execute()
-        rows = resp.data or []
+        rows = self._all(
+            "SELECT category_id, mood FROM font_pairs WHERE platform::text = %s",
+            [platform.value],
+        )
         cats: Counter[str] = Counter(r["category_id"] for r in rows if r.get("category_id"))
         tags: Counter[str] = Counter()
         for r in rows:
@@ -238,19 +304,26 @@ class SupabaseRepository:
         self, *, category_id: str | None = None, audience: str | None = None,
         tone: str | None = None, limit: int = 50, offset: int = 0,
     ) -> dict[str, Any]:
-        q = self._client.table("domains").select("*", count="exact")
+        conds = ["TRUE"]
+        params: list[Any] = []
         if category_id:
-            q = q.eq("category_id", category_id)
+            conds.append("category_id = %s")
+            params.append(category_id)
         if audience:
-            q = q.eq("audience", audience)
+            conds.append("audience = %s")
+            params.append(audience)
         if tone:
-            q = q.contains("tone", [tone])
-        q = q.range(offset, offset + limit - 1)
-        resp = q.execute()
-        rows = resp.data or []
+            conds.append("tone @> %s")
+            params.append([tone])
+        where = " AND ".join(conds)
+        rows = self._all(
+            f"SELECT *, count(*) OVER() AS total_count FROM domains "
+            f"WHERE {where} ORDER BY id LIMIT %s OFFSET %s",
+            [*params, limit, offset],
+        )
         return {
             "items": [_to_domain_summary(r) for r in rows],
-            "total_count": resp.count or len(rows),
+            "total_count": self._total(rows) or len(rows),
             "limit": limit,
             "offset": offset,
         }
@@ -258,20 +331,24 @@ class SupabaseRepository:
     def get_domain(
         self, domain_id: str, platform: Platform, top_n: int = 5,
     ) -> dict[str, Any] | None:
-        resp = self._client.table("domains").select("*, domain_categories(name_en)") \
-            .eq("id", domain_id).limit(1).execute()
-        rows = resp.data or []
-        if not rows:
+        row = self._one(
+            "SELECT d.*, dc.name_en AS __category_name FROM domains d "
+            "LEFT JOIN domain_categories dc ON dc.id = d.category_id "
+            "WHERE d.id = %s LIMIT 1",
+            [domain_id],
+        )
+        if not row:
             return None
-        domain = _to_domain_full(rows[0])
+        row["domain_categories"] = {"name_en": row.get("__category_name") or ""}
+        domain = _to_domain_full(row)
         from designlib_mcp.services.cross_links import recommendations_for_domain
         domain["recommendations"] = recommendations_for_domain(self, domain_id, platform, top_n=top_n)
         return domain
 
     def list_domain_facets(self) -> dict[str, Any]:
-        resp = self._client.table("domains") \
-            .select("category_id, audience, tone, data_density, ui_patterns").execute()
-        rows = resp.data or []
+        rows = self._all(
+            "SELECT category_id, audience, tone, data_density, ui_patterns FROM domains"
+        )
         cats: Counter[str] = Counter(r["category_id"] for r in rows if r.get("category_id"))
         audiences: Counter[str] = Counter(r["audience"] for r in rows if r.get("audience"))
         tones: Counter[str] = Counter()
@@ -295,26 +372,34 @@ class SupabaseRepository:
     # -------------------------------------------------------------------------
 
     def palettes_used_by_style(self, style_id: str, limit: int) -> list[dict[str, Any]]:
-        resp = self._client.table("color_palettes").select("*") \
-            .contains("style_fit", [style_id]).limit(limit).execute()
-        return [_to_palette_summary(r) for r in (resp.data or [])]
+        rows = self._all(
+            "SELECT * FROM color_palettes WHERE style_fit @> %s LIMIT %s",
+            [[style_id], limit],
+        )
+        return [_to_palette_summary(r) for r in rows]
 
     def font_pairs_used_by_style(self, style_id: str, limit: int) -> list[dict[str, Any]]:
-        resp = self._client.table("font_pairs").select("*") \
-            .contains("style_fit", [style_id]).limit(limit).execute()
-        return [_to_font_pair_summary(r) for r in (resp.data or [])]
+        rows = self._all(
+            "SELECT * FROM font_pairs WHERE style_fit @> %s LIMIT %s",
+            [[style_id], limit],
+        )
+        return [_to_font_pair_summary(r) for r in rows]
 
     def style_domain_scores(self, style_id: str, limit: int) -> list[dict[str, Any]]:
-        resp = self._client.table("recommendation_scores").select("key_b, score") \
-            .eq("matrix_type", "style_domain").eq("key_a", style_id) \
-            .order("score", desc=True).limit(limit).execute()
-        rows = resp.data or []
+        rows = self._all(
+            "SELECT key_b, score FROM recommendation_scores "
+            "WHERE matrix_type = 'style_domain' AND key_a = %s "
+            "ORDER BY score DESC LIMIT %s",
+            [style_id, limit],
+        )
         if not rows:
             return []
         domain_ids = [r["key_b"] for r in rows]
-        domains = self._client.table("domains").select("id, name_en, category_id") \
-            .in_("id", domain_ids).execute()
-        by_id = {d["id"]: d for d in (domains.data or [])}
+        domains = self._all(
+            "SELECT id, name_en, category_id FROM domains WHERE id = ANY(%s)",
+            [domain_ids],
+        )
+        by_id = {d["id"]: d for d in domains}
         out = []
         for r in rows:
             d = by_id.get(r["key_b"])
@@ -330,16 +415,20 @@ class SupabaseRepository:
     def domain_top_styles(
         self, domain_id: str, platform: Platform, limit: int,
     ) -> list[dict[str, Any]]:
-        resp = self._client.table("recommendation_scores").select("key_a, score") \
-            .eq("matrix_type", "style_domain").eq("key_b", domain_id) \
-            .order("score", desc=True).limit(limit * 2).execute()
-        rows = resp.data or []
+        rows = self._all(
+            "SELECT key_a, score FROM recommendation_scores "
+            "WHERE matrix_type = 'style_domain' AND key_b = %s "
+            "ORDER BY score DESC LIMIT %s",
+            [domain_id, limit * 2],
+        )
         if not rows:
             return []
         style_ids = [r["key_a"] for r in rows]
-        styles = self._client.table("design_styles").select("*") \
-            .in_("id", style_ids).eq("platform", platform.value).execute()
-        by_id = {s["id"]: s for s in (styles.data or [])}
+        styles = self._all(
+            "SELECT * FROM design_styles WHERE id = ANY(%s) AND platform::text = %s",
+            [style_ids, platform.value],
+        )
+        by_id = {s["id"]: s for s in styles}
         out = []
         for r in rows:
             s = by_id.get(r["key_a"])
@@ -358,37 +447,41 @@ class SupabaseRepository:
         library: str | None = None, keyword: str | None = None,
         limit: int = 50, offset: int = 0,
     ) -> dict[str, Any]:
-        q = self._client.table("chart_types").select("*", count="exact")
+        conds = ["TRUE"]
+        params: list[Any] = []
         if data_type:
-            q = q.eq("data_type", data_type)
+            conds.append("data_type = %s")
+            params.append(data_type)
         if a11y_grade:
-            q = q.eq("a11y_grade", a11y_grade)
+            conds.append("a11y_grade = %s")
+            params.append(a11y_grade)
         if library:
-            q = q.contains("library_recommendation", [library])
+            conds.append("library_recommendation @> %s")
+            params.append([library])
         if keyword:
-            q = q.contains("keywords", [keyword.strip().lower()])
-        q = q.order("sort_order").range(offset, offset + limit - 1)
-        resp = q.execute()
-        rows = resp.data or []
+            conds.append("keywords @> %s")
+            params.append([keyword.strip().lower()])
+        where = " AND ".join(conds)
+        rows = self._all(
+            f"SELECT *, count(*) OVER() AS total_count FROM chart_types "
+            f"WHERE {where} ORDER BY sort_order, id LIMIT %s OFFSET %s",
+            [*params, limit, offset],
+        )
         return {
             "items": [_to_chart_type_summary(r) for r in rows],
-            "total_count": resp.count or len(rows),
+            "total_count": self._total(rows) or len(rows),
             "limit": limit,
             "offset": offset,
         }
 
     def get_chart_type(self, chart_id: str) -> dict[str, Any] | None:
-        resp = self._client.table("chart_types").select("*").eq("id", chart_id).limit(1).execute()
-        rows = resp.data or []
-        if not rows:
-            return None
-        return _to_chart_type_full(rows[0])
+        row = self._one("SELECT * FROM chart_types WHERE id = %s LIMIT 1", [chart_id])
+        return _to_chart_type_full(row) if row else None
 
     def list_chart_type_facets(self) -> dict[str, Any]:
-        resp = self._client.table("chart_types").select(
-            "data_type, a11y_grade, library_recommendation, interactive_level"
-        ).execute()
-        rows = resp.data or []
+        rows = self._all(
+            "SELECT data_type, a11y_grade, library_recommendation, interactive_level FROM chart_types"
+        )
         data_types: Counter[str] = Counter()
         grades: Counter[str] = Counter()
         libs: Counter[str] = Counter()
@@ -417,32 +510,36 @@ class SupabaseRepository:
         self, *, keyword: str | None = None, cta_placement: str | None = None,
         limit: int = 50, offset: int = 0,
     ) -> dict[str, Any]:
-        q = self._client.table("landing_patterns").select("*", count="exact")
+        conds = ["TRUE"]
+        params: list[Any] = []
         if cta_placement:
-            q = q.eq("primary_cta_placement", cta_placement)
+            conds.append("primary_cta_placement = %s")
+            params.append(cta_placement)
         if keyword:
-            q = q.contains("keywords", [keyword.strip().lower()])
-        q = q.order("sort_order").range(offset, offset + limit - 1)
-        resp = q.execute()
-        rows = resp.data or []
+            conds.append("keywords @> %s")
+            params.append([keyword.strip().lower()])
+        where = " AND ".join(conds)
+        rows = self._all(
+            f"SELECT *, count(*) OVER() AS total_count FROM landing_patterns "
+            f"WHERE {where} ORDER BY sort_order, id LIMIT %s OFFSET %s",
+            [*params, limit, offset],
+        )
         return {
             "items": [_to_landing_pattern_summary(r) for r in rows],
-            "total_count": resp.count or len(rows),
+            "total_count": self._total(rows) or len(rows),
             "limit": limit,
             "offset": offset,
         }
 
     def get_landing_pattern(self, pattern_id: str) -> dict[str, Any] | None:
-        resp = self._client.table("landing_patterns").select("*").eq("id", pattern_id).limit(1).execute()
-        rows = resp.data or []
-        if not rows:
-            return None
-        return _to_landing_pattern_full(rows[0])
+        row = self._one("SELECT * FROM landing_patterns WHERE id = %s LIMIT 1", [pattern_id])
+        return _to_landing_pattern_full(row) if row else None
 
     def list_landing_pattern_facets(self) -> dict[str, Any]:
-        resp = self._client.table("landing_patterns").select("primary_cta_placement").execute()
-        rows = resp.data or []
-        ctas: Counter[str] = Counter(r["primary_cta_placement"] for r in rows if r.get("primary_cta_placement"))
+        rows = self._all("SELECT primary_cta_placement FROM landing_patterns")
+        ctas: Counter[str] = Counter(
+            r["primary_cta_placement"] for r in rows if r.get("primary_cta_placement")
+        )
         return {
             "cta_placements": [{"value": v, "count": c} for v, c in ctas.most_common()],
         }
@@ -456,35 +553,39 @@ class SupabaseRepository:
         style: str | None = None, keyword: str | None = None,
         limit: int = 50, offset: int = 0,
     ) -> dict[str, Any]:
-        q = self._client.table("icons").select("*", count="exact")
+        conds = ["TRUE"]
+        params: list[Any] = []
         if category:
-            q = q.eq("category", category)
+            conds.append("category = %s")
+            params.append(category)
         if library:
-            q = q.eq("library_name", library)
+            conds.append("library_name = %s")
+            params.append(library)
         if style:
-            q = q.eq("style", style)
+            conds.append("style = %s")
+            params.append(style)
         if keyword:
-            q = q.contains("keywords", [keyword.strip().lower()])
-        q = q.order("sort_order").range(offset, offset + limit - 1)
-        resp = q.execute()
-        rows = resp.data or []
+            conds.append("keywords @> %s")
+            params.append([keyword.strip().lower()])
+        where = " AND ".join(conds)
+        rows = self._all(
+            f"SELECT *, count(*) OVER() AS total_count FROM icons "
+            f"WHERE {where} ORDER BY sort_order, id LIMIT %s OFFSET %s",
+            [*params, limit, offset],
+        )
         return {
             "items": [_to_icon_summary(r) for r in rows],
-            "total_count": resp.count or len(rows),
+            "total_count": self._total(rows) or len(rows),
             "limit": limit,
             "offset": offset,
         }
 
     def get_icon(self, icon_id: str) -> dict[str, Any] | None:
-        resp = self._client.table("icons").select("*").eq("id", icon_id).limit(1).execute()
-        rows = resp.data or []
-        if not rows:
-            return None
-        return _to_icon_full(rows[0])
+        row = self._one("SELECT * FROM icons WHERE id = %s LIMIT 1", [icon_id])
+        return _to_icon_full(row) if row else None
 
     def list_icon_facets(self) -> dict[str, Any]:
-        resp = self._client.table("icons").select("category, library_name, style").execute()
-        rows = resp.data or []
+        rows = self._all("SELECT category, library_name, style FROM icons")
         cats: Counter[str] = Counter(r["category"] for r in rows if r.get("category"))
         libs: Counter[str] = Counter(r["library_name"] for r in rows if r.get("library_name"))
         styles: Counter[str] = Counter(r["style"] for r in rows if r.get("style"))
@@ -510,50 +611,60 @@ class SupabaseRepository:
             "id, page_type, appearance, style_family, industry, mood, keywords, "
             "screenshot_path, description, use_when"
         )
-        q = self._client.table("inspiration_pages").select(cols, count="exact")
+        conds = ["TRUE"]
+        params: list[Any] = []
         if page_type:
-            q = q.eq("page_type", page_type)
+            conds.append("page_type = %s")
+            params.append(page_type)
         if appearance:
-            q = q.eq("appearance", appearance)
+            conds.append("appearance = %s")
+            params.append(appearance)
         if style_family:
-            q = q.eq("style_family", style_family)
+            conds.append("style_family = %s")
+            params.append(style_family)
         if industry:
-            q = q.eq("industry", industry)
+            conds.append("industry = %s")
+            params.append(industry)
         if density:
-            q = q.eq("density", density)
+            conds.append("density = %s")
+            params.append(density)
         if mood:
-            q = q.contains("mood", [mood])
+            conds.append("mood @> %s")
+            params.append([mood])
         if signature:
-            q = q.contains("visual_signatures", [signature])
+            conds.append("visual_signatures @> %s")
+            params.append([signature])
         if good_for_product_type:
-            q = q.contains("good_for_product_types", [good_for_product_type])
+            conds.append("good_for_product_types @> %s")
+            params.append([good_for_product_type])
         if good_for_stage:
-            q = q.contains("good_for_stages", [good_for_stage])
+            conds.append("good_for_stages @> %s")
+            params.append([good_for_stage])
         if keyword:
-            q = q.contains("keywords", [keyword.strip().lower()])
-        q = q.order("id").range(offset, offset + limit - 1)
-        resp = q.execute()
-        rows = resp.data or []
+            conds.append("keywords @> %s")
+            params.append([keyword.strip().lower()])
+        where = " AND ".join(conds)
+        rows = self._all(
+            f"SELECT {cols}, count(*) OVER() AS total_count FROM inspiration_pages "
+            f"WHERE {where} ORDER BY id LIMIT %s OFFSET %s",
+            [*params, limit, offset],
+        )
         return {
             "items": [_to_inspiration_page_summary(r) for r in rows],
-            "total_count": resp.count or len(rows),
+            "total_count": self._total(rows) or len(rows),
             "limit": limit,
             "offset": offset,
         }
 
     def get_inspiration_page(self, page_id: str) -> dict[str, Any] | None:
-        resp = self._client.table("inspiration_pages").select("*").eq("id", page_id).limit(1).execute()
-        rows = resp.data or []
-        if not rows:
-            return None
-        return _to_inspiration_page_full(rows[0])
+        row = self._one("SELECT * FROM inspiration_pages WHERE id = %s LIMIT 1", [page_id])
+        return _to_inspiration_page_full(row) if row else None
 
     def list_inspiration_page_facets(self) -> dict[str, Any]:
-        resp = self._client.table("inspiration_pages").select(
-            "page_type, appearance, density, style_family, industry, mood, "
-            "visual_signatures, good_for_product_types, good_for_stages"
-        ).execute()
-        rows = resp.data or []
+        rows = self._all(
+            "SELECT page_type, appearance, density, style_family, industry, mood, "
+            "visual_signatures, good_for_product_types, good_for_stages FROM inspiration_pages"
+        )
         page_types: Counter[str] = Counter()
         appearances: Counter[str] = Counter()
         densities: Counter[str] = Counter()
@@ -612,49 +723,57 @@ class SupabaseRepository:
         limit: int = 50,
         offset: int = 0,
     ) -> dict[str, Any]:
-        q = self._client.table("animations").select("*", count="exact")
+        conds = ["TRUE"]
+        params: list[Any] = []
         if category:
-            q = q.eq("category", category)
+            conds.append("category = %s")
+            params.append(category)
         if framework:
-            q = q.eq("framework", framework)
+            conds.append("framework = %s")
+            params.append(framework)
         if interactivity:
-            q = q.eq("interactivity", interactivity)
+            conds.append("interactivity = %s")
+            params.append(interactivity)
         if complexity:
-            q = q.eq("complexity", complexity)
+            conds.append("complexity = %s")
+            params.append(complexity)
         if style_tag:
-            q = q.contains("style_tags", [style_tag.strip().lower()])
+            conds.append("style_tags @> %s")
+            params.append([style_tag.strip().lower()])
         if placement:
-            q = q.contains("placement", [placement.strip().lower()])
+            conds.append("placement @> %s")
+            params.append([placement.strip().lower()])
         if use_when:
-            q = q.contains("use_when", [use_when.strip().lower()])
+            conds.append("use_when @> %s")
+            params.append([use_when.strip().lower()])
         if library:
-            q = q.contains("libraries", [library.strip().lower()])
+            conds.append("libraries @> %s")
+            params.append([library.strip().lower()])
         if keyword:
-            q = q.contains("keyword", [keyword.strip().lower()])
-        q = q.order("sort_order").range(offset, offset + limit - 1)
-        resp = q.execute()
-        rows = resp.data or []
+            conds.append("keyword @> %s")
+            params.append([keyword.strip().lower()])
+        where = " AND ".join(conds)
+        rows = self._all(
+            f"SELECT *, count(*) OVER() AS total_count FROM animations "
+            f"WHERE {where} ORDER BY sort_order, id LIMIT %s OFFSET %s",
+            [*params, limit, offset],
+        )
         return {
             "items": [_to_animation_summary(r) for r in rows],
-            "total_count": resp.count or len(rows),
+            "total_count": self._total(rows) or len(rows),
             "limit": limit,
             "offset": offset,
         }
 
     def get_animation(self, animation_id: str) -> dict[str, Any] | None:
-        resp = self._client.table("animations").select("*") \
-            .eq("id", animation_id).limit(1).execute()
-        rows = resp.data or []
-        if not rows:
-            return None
-        return _to_animation_full(rows[0])
+        row = self._one("SELECT * FROM animations WHERE id = %s LIMIT 1", [animation_id])
+        return _to_animation_full(row) if row else None
 
     def list_animation_facets(self) -> dict[str, Any]:
-        resp = self._client.table("animations").select(
-            "category, framework, interactivity, complexity, "
-            "libraries, style_tags, placement, use_when"
-        ).execute()
-        rows = resp.data or []
+        rows = self._all(
+            "SELECT category, framework, interactivity, complexity, "
+            "libraries, style_tags, placement, use_when FROM animations"
+        )
         cats: Counter[str] = Counter()
         fws: Counter[str] = Counter()
         libs: Counter[str] = Counter()

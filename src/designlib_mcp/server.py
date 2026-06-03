@@ -2,7 +2,7 @@ from __future__ import annotations
 from fastmcp import FastMCP
 
 from designlib_mcp.config import Settings
-from designlib_mcp.repository.supabase_repo import SupabaseRepository
+from designlib_mcp.repository.postgres_repo import PostgresRepository
 from designlib_mcp.tools import (
     styles, palettes, font_pairs, domains,
     chart_types, landing_patterns, icons, inspiration_pages,
@@ -12,7 +12,7 @@ from designlib_mcp.tools import (
 
 def build_server() -> FastMCP:
     settings = Settings.from_env()
-    repo = SupabaseRepository.from_settings(settings)
+    repo = PostgresRepository.from_settings(settings)
     mcp = FastMCP("designlib-mcp")
     styles.register(mcp, repo)
     palettes.register(mcp, repo)

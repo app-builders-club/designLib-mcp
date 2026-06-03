@@ -7,17 +7,14 @@ def test_character_limit_constant():
 
 
 def test_settings_loads_from_env(monkeypatch):
-    monkeypatch.setenv("SUPABASE_URL", "https://example.supabase.co")
-    monkeypatch.setenv("SUPABASE_ANON_KEY", "anon-key")
+    monkeypatch.setenv("DATABASE_URL", "postgresql://postgres:pw@localhost:5432/postgres")
     s = Settings.from_env()
-    assert s.supabase_url == "https://example.supabase.co"
-    assert s.supabase_anon_key == "anon-key"
+    assert s.database_url == "postgresql://postgres:pw@localhost:5432/postgres"
 
 
 def test_settings_missing_required_raises(monkeypatch):
-    monkeypatch.delenv("SUPABASE_URL", raising=False)
-    monkeypatch.delenv("SUPABASE_ANON_KEY", raising=False)
-    # Monkeypatch load_dotenv to prevent it from reloading .env file
+    monkeypatch.delenv("DATABASE_URL", raising=False)
+    # Prevent load_dotenv from repopulating DATABASE_URL from a local .env
     monkeypatch.setattr("designlib_mcp.config.load_dotenv", lambda: None)
-    with pytest.raises(RuntimeError, match="SUPABASE_URL"):
+    with pytest.raises(RuntimeError, match="DATABASE_URL"):
         Settings.from_env()

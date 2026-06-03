@@ -42,3 +42,8 @@ docs/specs/
 docs/_archive/
 docs/**/_FAILED_TO_FIX.md
 20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md
+
+# migration artifacts (not code)
+designlib_data.sql
+image.png
+.claude-team/

@@ -3,14 +3,14 @@
 Requires migration 008 applied and staging ingested via scripts/ingest_animations.py.
 """
 import pytest
-from designlib_mcp.repository.supabase_repo import SupabaseRepository
+from designlib_mcp.repository.postgres_repo import PostgresRepository
 
 
 pytestmark = pytest.mark.integration
 
 
 def test_list_animations_returns_results(settings):
-    repo = SupabaseRepository.from_settings(settings)
+    repo = PostgresRepository.from_settings(settings)
     out = repo.list_animations(limit=200)
     assert out["total_count"] >= 1
     assert "items" in out
@@ -21,27 +21,27 @@ def test_list_animations_returns_results(settings):
 
 
 def test_list_animations_filter_by_category(settings):
-    repo = SupabaseRepository.from_settings(settings)
+    repo = PostgresRepository.from_settings(settings)
     out = repo.list_animations(category="background", limit=200)
     for item in out["items"]:
         assert item["category"] == "background"
 
 
 def test_list_animations_filter_by_framework(settings):
-    repo = SupabaseRepository.from_settings(settings)
+    repo = PostgresRepository.from_settings(settings)
     out = repo.list_animations(framework="react", limit=200)
     for item in out["items"]:
         assert item["framework"] == "react"
 
 
 def test_list_animations_filter_by_keyword(settings):
-    repo = SupabaseRepository.from_settings(settings)
+    repo = PostgresRepository.from_settings(settings)
     out = repo.list_animations(keyword="gradient", limit=200)
     assert out["total_count"] >= 0
 
 
 def test_list_animations_filter_by_use_when(settings):
-    repo = SupabaseRepository.from_settings(settings)
+    repo = PostgresRepository.from_settings(settings)
     facets = repo.list_animation_facets()
     if not facets["use_when"]:
         pytest.skip("no use_when values yet")
@@ -51,7 +51,7 @@ def test_list_animations_filter_by_use_when(settings):
 
 
 def test_get_animation_returns_full(settings):
-    repo = SupabaseRepository.from_settings(settings)
+    repo = PostgresRepository.from_settings(settings)
     listing = repo.list_animations(limit=1)
     aid = listing["items"][0]["id"]
     full = repo.get_animation(aid)
@@ -62,12 +62,12 @@ def test_get_animation_returns_full(settings):
 
 
 def test_get_animation_missing(settings):
-    repo = SupabaseRepository.from_settings(settings)
+    repo = PostgresRepository.from_settings(settings)
     assert repo.get_animation("animation_definitely_not_real") is None
 
 
 def test_animation_facets(settings):
-    repo = SupabaseRepository.from_settings(settings)
+    repo = PostgresRepository.from_settings(settings)
     facets = repo.list_animation_facets()
     for axis in ("categories", "frameworks", "libraries", "interactivity",
                  "complexity", "style_tags", "placement", "use_when"):
