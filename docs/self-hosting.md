@@ -77,7 +77,7 @@ The MCP endpoint is then `http://<host>:8000/mcp`.
 
 ## Deploying on Coolify + Hetzner
 
-The hosted `mcp.petbrains.dev` instance runs this way.
+The hosted `designlib.petbrains.dev` instance runs this way.
 
 1. **Server:** a Hetzner Cloud VM (≥ 4 GB RAM) with [Coolify](https://coolify.io) installed (`curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash`).
 2. **Database:** add a **PostgreSQL** resource in Coolify. Note its **internal** connection URL (`postgresql://postgres:<pwd>@<service>:5432/postgres`) — the app and DB share Coolify's Docker network, so the app reaches the DB by its internal hostname.
