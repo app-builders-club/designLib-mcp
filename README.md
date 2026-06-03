@@ -6,7 +6,7 @@ A hand-curated catalog of design tokens, references, and patterns served over MC
 
 → [Quickstart](#quickstart) · [What sets it apart](#what-sets-it-apart) · [Tools](#tools)
 
-**Live server:** `https://designlib-production.up.railway.app/mcp`  
+**Live server:** `https://mcp.petbrains.dev/mcp`  
 **Catalog:** 67 styles · 100 palettes · 34 font pairs · 134 domains · 25 chart types · 34 landing patterns · 105 icons · 405 inspiration pages · 120 animations · web + iOS  
 **Status:** v1, production, read-only.
 
@@ -39,7 +39,7 @@ Point your MCP client at the hosted server.
 ### Claude Code
 
 ```bash
-claude mcp add --transport http designlib https://designlib-production.up.railway.app/mcp
+claude mcp add --transport http designlib https://mcp.petbrains.dev/mcp
 claude mcp list
 ```
 
@@ -61,7 +61,7 @@ Claude Desktop does not speak streamable-http natively — bridge it with [`mcp-
   "mcpServers": {
     "designlib": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://designlib-production.up.railway.app/mcp"]
+      "args": ["-y", "mcp-remote", "https://mcp.petbrains.dev/mcp"]
     }
   }
 }
@@ -71,7 +71,7 @@ Restart Claude Desktop. The `designlib` tools will appear.
 
 ### Other MCP-aware clients
 
-Add an HTTP MCP server entry pointing at `https://designlib-production.up.railway.app/mcp`.
+Add an HTTP MCP server entry pointing at `https://mcp.petbrains.dev/mcp`.
 
 ---
 
@@ -107,6 +107,33 @@ All 27 tools are read-only and platform-aware where applicable. Every `list_*` s
 | `list_icons` · `get_icon` · `list_icon_facets` | Individual icons with import code and usage snippets | `category`, `library`, `style`, `keyword` |
 | `list_inspiration_pages` · `get_inspiration_page` · `list_inspiration_page_facets` | Curated real-world page references | `page_type`, `style_family`, `industry`, `mood`, `keyword` |
 | `list_animations` · `get_animation` · `list_animation_facets` | Animation snippets with library, category, complexity | `category`, `framework`, `complexity`, `library`, `keyword` |
+
+---
+
+## Self-hosting
+
+`designlib-mcp` is a stateless FastMCP server backed by a single **Postgres** database — no Supabase, no cloud lock-in. The only required secret is `DATABASE_URL`.
+
+```bash
+pip install -e .
+
+export DATABASE_URL="postgresql://user:pass@host:5432/designlib"
+export DESIGNLIB_TRANSPORT=http        # or pass --http
+export PORT=8000
+
+designlib-mcp                          # serves /mcp on $PORT
+```
+
+Or with Docker (the repo ships a `Dockerfile`):
+
+```bash
+docker build -t designlib-mcp .
+docker run -p 8000:8000 -e DATABASE_URL="postgresql://user:pass@host:5432/designlib" designlib-mcp
+```
+
+Bring up the schema with `migrations/selfhosted_schema.sql`, then load catalog data. The full operator guide — schema, seeding, and a Coolify + Hetzner deployment walkthrough — lives in **[docs/self-hosting.md](docs/self-hosting.md)**.
+
+> The hosted `mcp.petbrains.dev` deployment runs this exact image against Postgres 16 behind [Coolify](https://coolify.io).
 
 ---
 
