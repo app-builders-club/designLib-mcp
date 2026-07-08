@@ -137,15 +137,15 @@ Bring up the schema with `migrations/selfhosted_schema.sql`, then load catalog d
 
 ---
 
-## Part of Pet Brains
+## Part of App Builders Club
 
 `designlib-mcp` is one of three open-source tools we ship for builders who code with AI:
 
-- **[mvp-builder](https://github.com/petbrains/mvp-builder)** — Document-Driven Development for Claude Code. Specs before code, TDD enforced, self-review catches stubs.
-- **[design-builder](https://github.com/petbrains/design-builder)** — production-grade UIs from Claude Code without the AI-slop look. Uses `designlib-mcp` under the hood.
+- **[mvp-builder](https://github.com/app-builders-club/mvp-builder)** — Document-Driven Development for Claude Code. Specs before code, TDD enforced, self-review catches stubs.
+- **[design-builder](https://github.com/app-builders-club/design-builder)** — production-grade UIs from Claude Code without the AI-slop look. Uses `designlib-mcp` under the hood.
 - **designlib-mcp** — this repo. The design-knowledge MCP. Standalone and client-agnostic.
 
-Methodology and build films at [petbrains.dev](https://petbrains.dev) · YouTube [@petbrains](https://youtube.com/@petbrains)
+Methodology and build films at [app-builders.club](https://app-builders.club) · YouTube [@appbuildersclub](https://youtube.com/@appbuildersclub)
 
 ---
 
