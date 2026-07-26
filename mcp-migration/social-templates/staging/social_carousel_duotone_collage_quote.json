@@ -1,0 +1,180 @@
+{
+  "id": "social_carousel_duotone_collage_quote",
+  "title": "Duotone Collage Quote Carousel",
+  "description": "Quote carousel over a tilted tile collage tinted to a single duotone hue. Condensed uppercase type sits centred above the pattern, with a ringed index numeral marking each quote and a bordered panel closing the set. The collage is drawn in CSS, so it works with or without user imagery.",
+  "why_it_works": "The tilted grid gives the frame motion while the duotone tint flattens it into one colour field, which keeps centred type readable over busy content. Condensed uppercase fits more words per line at display size, so a full sentence still lands as a poster. The numbered ring tells the viewer where they are in the set and invites the next swipe.",
+  "content_brief": "Use short, punchy lines that survive uppercase: aphorisms, hot takes, lines from your own writing. Keep hook_quote under 100 characters and quote_text under 110, and prefer plain words over clever ones because condensed caps lose subtlety. quote_index is a two-digit counter starting at 01. Attribute every borrowed line with quote_author; drop the field only for your own words. Close with a single ask and no hashtag block.",
+  "format": "carousel",
+  "aspect_ratio": "1:1",
+  "appearance": "dark",
+  "category": "quote",
+  "slide_count": 3,
+  "min_slides": 3,
+  "max_slides": 10,
+  "platform_fit": [
+    "instagram",
+    "tiktok",
+    "facebook"
+  ],
+  "style_tags": [
+    "duotone",
+    "collage",
+    "bold_type"
+  ],
+  "use_when": [
+    "content_repurposing",
+    "brand_storytelling",
+    "community_engagement"
+  ],
+  "keywords": [
+    "quote",
+    "duotone",
+    "collage",
+    "tilted grid",
+    "condensed",
+    "poster",
+    "carousel",
+    "dark"
+  ],
+  "industry_fit": [
+    "creator",
+    "fashion",
+    "agency",
+    "fitness"
+  ],
+  "slides": [
+    {
+      "index": 1,
+      "role": "hook",
+      "layout_note": "Cover: tilted tile collage under a duotone tint and vertical scrim, series kicker on the top edge, centred condensed quote in the optical middle, swipe cue on the bottom edge.",
+      "repeatable": false,
+      "slots": [
+        {
+          "name": "cover_collage",
+          "type": "image_slot",
+          "required": false,
+          "hint": "Optional tile imagery; the CSS gradient tiles are the default backdrop and the tint unifies whatever is dropped in."
+        },
+        {
+          "name": "series_kicker",
+          "type": "kicker",
+          "max_chars": 26,
+          "required": false,
+          "hint": "Series or theme label, uppercase.",
+          "example": "Late night notes"
+        },
+        {
+          "name": "hook_quote",
+          "type": "quote",
+          "max_chars": 100,
+          "required": true,
+          "hint": "The strongest line of the set; the template adds the quotation marks.",
+          "example": "Nobody remembers the plan, they remember whether you shipped it"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "role": "content",
+      "layout_note": "Quote slide: same collage backdrop, ringed index numeral above a centred condensed quote, attribution line in uppercase underneath.",
+      "repeatable": true,
+      "slots": [
+        {
+          "name": "quote_collage",
+          "type": "image_slot",
+          "required": false,
+          "hint": "Optional tile imagery for this slide; keep the same treatment across the set."
+        },
+        {
+          "name": "quote_index",
+          "type": "stat",
+          "max_chars": 2,
+          "required": true,
+          "hint": "Two-digit counter, ascending.",
+          "example": "02"
+        },
+        {
+          "name": "quote_text",
+          "type": "quote",
+          "max_chars": 110,
+          "required": true,
+          "hint": "One line that reads well in caps, no quotation marks.",
+          "example": "Deadlines do not create urgency, they only reveal who felt it already"
+        },
+        {
+          "name": "quote_author",
+          "type": "subhead",
+          "max_chars": 30,
+          "required": false,
+          "hint": "Who said it, uppercase; omit for your own lines.",
+          "example": "Marek Sandoval"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "role": "cta",
+      "layout_note": "Closing slide: collage dimmed behind a bordered panel holding the ask, an accent pill button and the handle.",
+      "repeatable": false,
+      "slots": [
+        {
+          "name": "cta_collage",
+          "type": "image_slot",
+          "required": false,
+          "hint": "Optional tile imagery behind the closing panel."
+        },
+        {
+          "name": "cta_message",
+          "type": "headline",
+          "max_chars": 50,
+          "required": true,
+          "hint": "Ask in the voice of the set.",
+          "example": "Which one hit hardest?"
+        },
+        {
+          "name": "cta_action",
+          "type": "cta",
+          "max_chars": 20,
+          "required": true,
+          "hint": "Two or three words, imperative.",
+          "example": "Save the set"
+        },
+        {
+          "name": "profile_handle",
+          "type": "handle",
+          "max_chars": 24,
+          "required": false,
+          "hint": "Account handle with @.",
+          "example": "@paperlanternco"
+        }
+      ]
+    }
+  ],
+  "fonts": [
+    {
+      "role": "display",
+      "family": "Oswald",
+      "google_font": true,
+      "weights": [
+        500,
+        700
+      ],
+      "fallback": "sans-serif"
+    },
+    {
+      "role": "body",
+      "family": "Inter",
+      "google_font": true,
+      "weights": [
+        400,
+        500
+      ],
+      "fallback": "sans-serif"
+    }
+  ],
+  "html_template": "<link href=\"https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500&display=swap\" rel=\"stylesheet\">\n<style>\n:root { --bg: #1a0b2e; --surface: #43206f; --accent: #e0409a; --accent-contrast: #ffffff; --text-primary: #ffffff; --text-secondary: #d6c2ec; --font-display: 'Oswald', sans-serif; --font-body: 'Inter', sans-serif; }\n* { margin: 0; box-sizing: border-box; }\n.slide { width: 1080px; height: 1080px; background: var(--bg); color: var(--text-primary); font-family: var(--font-body); position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 84px; }\n.collage { position: absolute; inset: -26%; transform: rotate(-13deg); display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(6, 1fr); gap: 18px; }\n.collage i { display: block; border-radius: 12px; background: linear-gradient(155deg, var(--surface), var(--bg)); }\n.collage i:nth-child(3n) { background: linear-gradient(155deg, var(--accent), var(--surface)); }\n.collage i:nth-child(4n) { background: linear-gradient(205deg, var(--bg), var(--accent)); }\n.collage i:nth-child(7n) { background: linear-gradient(120deg, var(--surface), var(--accent)); }\n.tint { position: absolute; inset: 0; background: var(--accent); opacity: .32; mix-blend-mode: multiply; }\n.veil { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,.20) 45%, rgba(0,0,0,.78) 100%); }\n.block { position: relative; z-index: 3; width: 100%; }\n.kicker { position: absolute; top: 84px; left: 0; right: 0; z-index: 3; font-size: 25px; font-weight: 500; letter-spacing: .34em; text-transform: uppercase; color: var(--text-secondary); }\n.q { font-family: var(--font-display); font-weight: 700; font-size: 84px; line-height: 1.1; text-transform: uppercase; }\n.q.small { font-size: 72px; }\n.badge { width: 96px; height: 96px; margin: 0 auto 40px; border: 5px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 44px; }\n.author { margin-top: 40px; font-size: 30px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--text-secondary); }\n.cue { position: absolute; bottom: 84px; left: 0; right: 0; z-index: 3; font-size: 26px; letter-spacing: .28em; text-transform: uppercase; color: var(--text-secondary); }\n.panel { background: var(--bg); border: 5px solid var(--accent); border-radius: 28px; padding: 72px 60px; }\n.cta-msg { font-family: var(--font-display); font-weight: 700; font-size: 68px; line-height: 1.14; text-transform: uppercase; }\n.btn { display: inline-block; margin-top: 44px; background: var(--accent); color: var(--accent-contrast); font-family: var(--font-body); font-weight: 500; font-size: 32px; letter-spacing: .04em; padding: 24px 52px; border-radius: 999px; }\n.handle { margin-top: 32px; font-size: 28px; color: var(--text-secondary); letter-spacing: .06em; }\n</style>\n<section class=\"slide\" data-slide=\"1\" data-role=\"hook\">\n  <div class=\"collage\" data-slot=\"cover_collage\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>\n  <div class=\"tint\"></div>\n  <div class=\"veil\"></div>\n  <div class=\"kicker\" data-optional=\"true\">{{series_kicker}}</div>\n  <div class=\"block\"><p class=\"q\">&#8220;{{hook_quote}}&#8221;</p></div>\n  <div class=\"cue\">Swipe for more</div>\n</section>\n<section class=\"slide\" data-slide=\"2\" data-role=\"content\" data-repeat=\"true\">\n  <div class=\"collage\" data-slot=\"quote_collage\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>\n  <div class=\"tint\"></div>\n  <div class=\"veil\"></div>\n  <div class=\"block\">\n    <div class=\"badge\">{{quote_index}}</div>\n    <p class=\"q small\">&#8220;{{quote_text}}&#8221;</p>\n    <div class=\"author\" data-optional=\"true\">{{quote_author}}</div>\n  </div>\n</section>\n<section class=\"slide\" data-slide=\"3\" data-role=\"cta\">\n  <div class=\"collage\" data-slot=\"cta_collage\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>\n  <div class=\"tint\"></div>\n  <div class=\"veil\"></div>\n  <div class=\"block\">\n    <div class=\"panel\">\n      <h2 class=\"cta-msg\">{{cta_message}}</h2>\n      <span class=\"btn\">{{cta_action}}</span>\n      <div class=\"handle\" data-optional=\"true\">{{profile_handle}}</div>\n    </div>\n  </div>\n</section>\n",
+  "source": "other",
+  "source_url": "https://www.figma.com/design/uL4295tZxw0jtgVVYfSnii/?node-id=10-577",
+  "source_note": "Tilted collage with duotone tint and centred quote pattern observed in a Figma community file; the collage is rebuilt in pure CSS, all markup, styling and copy original.",
+  "preview_path": "mcp-migration/social-templates/renders/social_carousel_duotone_collage_quote_1.png"
+}

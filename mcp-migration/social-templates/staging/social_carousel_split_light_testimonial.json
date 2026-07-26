@@ -1,0 +1,182 @@
+{
+  "id": "social_carousel_split_light_testimonial",
+  "title": "Split Light Testimonial Carousel",
+  "description": "Vertical split on a warm off-white canvas: a portrait slot fills the left column and bleeds off the edge, the right column carries an opening quote glyph, the testimonial and a ruled attribution block. The closing slide inverts to a flat accent panel.",
+  "why_it_works": "A face next to words reads as a real person rather than a review widget, which is what makes social proof land. The fixed split keeps every testimonial in the same optical position, so the swipe feels like flipping cards instead of re-reading a new layout. Attribution under a rule separates the claim from the claimant and raises perceived credibility.",
+  "content_brief": "Use real customer words with permission and never invent a quote. Trim to one claim per slide, under 150 characters, and keep the result concrete: what changed, in what time, for whom. client_name is first name plus surname or initial; client_role carries the job title and company in uppercase. Order the slides so the strongest outcome comes first. The closing ask should point at one next step, not a menu of options.",
+  "format": "carousel",
+  "aspect_ratio": "1:1",
+  "appearance": "light",
+  "category": "testimonial",
+  "slide_count": 3,
+  "min_slides": 3,
+  "max_slides": 8,
+  "platform_fit": [
+    "instagram",
+    "linkedin",
+    "facebook"
+  ],
+  "style_tags": [
+    "minimal",
+    "monochrome",
+    "bold_type"
+  ],
+  "use_when": [
+    "social_proof",
+    "brand_storytelling",
+    "lead_generation"
+  ],
+  "keywords": [
+    "testimonial",
+    "review",
+    "split layout",
+    "light",
+    "portrait",
+    "social proof",
+    "carousel"
+  ],
+  "industry_fit": [
+    "agency",
+    "saas",
+    "beauty",
+    "fitness",
+    "local_business"
+  ],
+  "slides": [
+    {
+      "index": 1,
+      "role": "hook",
+      "layout_note": "Cover: portrait slot fills the left column with a rounded top-right corner, right column stacks kicker, display title, supporting line and a row of avatar chips drawn by the template.",
+      "repeatable": false,
+      "slots": [
+        {
+          "name": "cover_image",
+          "type": "image_slot",
+          "required": false,
+          "hint": "Portrait or workspace shot; the column crops to a tall frame."
+        },
+        {
+          "name": "series_kicker",
+          "type": "kicker",
+          "max_chars": 24,
+          "required": false,
+          "hint": "Label such as a service name or year, uppercase.",
+          "example": "Client stories"
+        },
+        {
+          "name": "hook_headline",
+          "type": "headline",
+          "max_chars": 55,
+          "required": true,
+          "hint": "The claim the testimonials will prove.",
+          "example": "What changed after the rebuild"
+        },
+        {
+          "name": "hook_subline",
+          "type": "subhead",
+          "max_chars": 90,
+          "required": false,
+          "hint": "Scope or timeframe of the results.",
+          "example": "Three teams, six weeks, one shared design system."
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "role": "proof",
+      "layout_note": "Testimonial slide: portrait slot on the left column, opening quote glyph above the quote in the right column, name and role under a rule.",
+      "repeatable": true,
+      "slots": [
+        {
+          "name": "client_photo",
+          "type": "image_slot",
+          "required": false,
+          "hint": "Photo of the person quoted; keep the face in the upper half of the column."
+        },
+        {
+          "name": "client_quote",
+          "type": "quote",
+          "max_chars": 150,
+          "required": true,
+          "hint": "One concrete outcome in the customer's words, no quotation marks.",
+          "example": "Onboarding used to take our team a full week. It now takes an afternoon and nobody asks me where the files live."
+        },
+        {
+          "name": "client_name",
+          "type": "subhead",
+          "max_chars": 28,
+          "required": true,
+          "hint": "Name of the person quoted.",
+          "example": "Priya Raman"
+        },
+        {
+          "name": "client_role",
+          "type": "kicker",
+          "max_chars": 34,
+          "required": false,
+          "hint": "Job title and company, uppercase.",
+          "example": "Ops lead, Verity Labs"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "role": "cta",
+      "layout_note": "Closing slide: flat accent panel, display ask left-aligned, pill button and handle stacked underneath.",
+      "repeatable": false,
+      "slots": [
+        {
+          "name": "cta_message",
+          "type": "headline",
+          "max_chars": 60,
+          "required": true,
+          "hint": "Ask that follows from the proof.",
+          "example": "Want the same result on your team?"
+        },
+        {
+          "name": "cta_action",
+          "type": "cta",
+          "max_chars": 20,
+          "required": true,
+          "hint": "Two or three words, imperative.",
+          "example": "Book a call"
+        },
+        {
+          "name": "profile_handle",
+          "type": "handle",
+          "max_chars": 24,
+          "required": false,
+          "hint": "Account handle with @.",
+          "example": "@verity.studio"
+        }
+      ]
+    }
+  ],
+  "fonts": [
+    {
+      "role": "display",
+      "family": "Plus Jakarta Sans",
+      "google_font": true,
+      "weights": [
+        500,
+        800
+      ],
+      "fallback": "sans-serif"
+    },
+    {
+      "role": "body",
+      "family": "Inter",
+      "google_font": true,
+      "weights": [
+        400,
+        500
+      ],
+      "fallback": "sans-serif"
+    }
+  ],
+  "html_template": "<link href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;800&family=Inter:wght@400;500&display=swap\" rel=\"stylesheet\">\n<style>\n:root { --bg: #f4f2ec; --surface: #ffffff; --accent: #2f5d50; --accent-contrast: #f4f2ec; --text-primary: #191b1a; --text-secondary: #6c716f; --font-display: 'Plus Jakarta Sans', sans-serif; --font-body: 'Inter', sans-serif; }\n* { margin: 0; box-sizing: border-box; }\n.slide { width: 1080px; height: 1080px; background: var(--bg); color: var(--text-primary); font-family: var(--font-body); display: flex; overflow: hidden; position: relative; }\n.pane { width: 404px; flex: none; position: relative; background: linear-gradient(160deg, var(--accent) 0%, var(--text-primary) 100%); border-radius: 0 240px 0 0; }\n.pane::after { content: ''; position: absolute; inset: 0; border-radius: 0 240px 0 0; background: repeating-linear-gradient(90deg, rgba(255,255,255,.10) 0 20px, rgba(0,0,0,0) 20px 44px); }\n.col { flex: 1; padding: 76px 76px 76px 64px; display: flex; flex-direction: column; justify-content: center; }\n.kicker { font-size: 24px; font-weight: 500; letter-spacing: .26em; text-transform: uppercase; color: var(--accent); }\n.title { margin-top: 30px; font-family: var(--font-display); font-weight: 800; font-size: 62px; line-height: 1.1; letter-spacing: -.02em; }\n.sub { margin-top: 26px; font-size: 28px; line-height: 1.5; color: var(--text-secondary); }\n.mark { font-family: var(--font-display); font-weight: 800; font-size: 96px; line-height: .6; color: var(--accent); }\n.quote { margin-top: 32px; font-family: var(--font-display); font-weight: 800; font-size: 44px; line-height: 1.26; letter-spacing: -.015em; }\n.who { margin-top: 44px; padding-top: 30px; border-top: 3px solid var(--accent); }\n.name { font-size: 30px; font-weight: 500; }\n.role { margin-top: 8px; font-size: 24px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-secondary); }\n.chips { margin-top: 48px; display: flex; gap: 14px; }\n.chips span { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(150deg, var(--accent), var(--text-primary)); border: 4px solid var(--surface); }\n.closing { background: var(--accent); color: var(--accent-contrast); flex-direction: column; align-items: flex-start; justify-content: center; padding: 108px; }\n.cta-msg { font-family: var(--font-display); font-weight: 800; font-size: 74px; line-height: 1.12; letter-spacing: -.02em; }\n.btn { margin-top: 48px; background: var(--accent-contrast); color: var(--accent); font-size: 32px; font-weight: 500; padding: 26px 52px; border-radius: 999px; }\n.handle { margin-top: 34px; font-size: 28px; letter-spacing: .05em; }\n</style>\n<section class=\"slide\" data-slide=\"1\" data-role=\"hook\">\n  <div class=\"pane\" data-slot=\"cover_image\" data-optional=\"true\"></div>\n  <div class=\"col\">\n    <span class=\"kicker\" data-optional=\"true\">{{series_kicker}}</span>\n    <h1 class=\"title\">{{hook_headline}}</h1>\n    <p class=\"sub\" data-optional=\"true\">{{hook_subline}}</p>\n    <div class=\"chips\"><span></span><span></span><span></span></div>\n  </div>\n</section>\n<section class=\"slide\" data-slide=\"2\" data-role=\"proof\" data-repeat=\"true\">\n  <div class=\"pane\" data-slot=\"client_photo\"></div>\n  <div class=\"col\">\n    <div class=\"mark\">&#8220;</div>\n    <p class=\"quote\">{{client_quote}}</p>\n    <div class=\"who\">\n      <div class=\"name\">{{client_name}}</div>\n      <div class=\"role\" data-optional=\"true\">{{client_role}}</div>\n    </div>\n  </div>\n</section>\n<section class=\"slide closing\" data-slide=\"3\" data-role=\"cta\">\n  <h2 class=\"cta-msg\">{{cta_message}}</h2>\n  <span class=\"btn\">{{cta_action}}</span>\n  <span class=\"handle\" data-optional=\"true\">{{profile_handle}}</span>\n</section>\n",
+  "source": "other",
+  "source_url": "https://www.figma.com/design/uL4295tZxw0jtgVVYfSnii/?node-id=10-516",
+  "source_note": "Light split quote-and-portrait layout pattern observed in a Figma community file; no source imagery used, all markup, styling and copy original.",
+  "preview_path": "mcp-migration/social-templates/renders/social_carousel_split_light_testimonial_1.png"
+}

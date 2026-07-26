@@ -45,5 +45,11 @@ docs/**/_FAILED_TO_FIX.md
 
 # migration artifacts (not code)
 designlib_data.sql
+social_templates_data.sql
 image.png
 .claude-team/
+
+# social-templates collection: source screenshots and self-check renders
+# stay local; only staging JSON + protocol docs are tracked.
+mcp-migration/social-templates/refs/
+mcp-migration/social-templates/renders/

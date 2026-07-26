@@ -51,6 +51,13 @@ The catalog data is not stored in git. Two ways to populate it:
 
 - **From source inputs:** re-run the `scripts/ingest_*.py` ingest scripts against your database.
 
+- **Social templates** are loaded from an emitted SQL file (no direct DB writes):
+
+  ```bash
+  python scripts/emit_social_templates_sql.py    # validates staging/, -> social_templates_data.sql
+  psql "$DATABASE_URL" -f social_templates_data.sql
+  ```
+
 Verify the load:
 
 ```bash

@@ -1,0 +1,168 @@
+{
+  "id": "social_carousel_terminal_tips",
+  "title": "Terminal Tips Carousel",
+  "description": "Command-line styled tips carousel: amber monospace text on a deep navy canvas with a scanline overlay. The cover reads like a boot prompt, each content slide is a numbered listing line with an output block underneath, and the closing slide ends on a prompt with a block cursor.",
+  "why_it_works": "The terminal frame is instantly legible as code culture, so the right audience self-selects in the first frame. Line numbers act as progress markers that make the swipe feel finite, and the output block enforces one short explanation per slide instead of a wall of text.",
+  "content_brief": "Write for a technical reader: concrete, no marketing language. boot_command is a fake command line that names the topic, under 30 characters. Keep hook_headline under 60 characters, uppercase reads best. Number the content slides in tens (10, 20, 30) so the listing metaphor holds. tip_title is an imperative under 44 characters; tip_body explains the why in at most two sentences and under 200 characters. Close with a save or follow ask and never use exclamation marks.",
+  "format": "carousel",
+  "aspect_ratio": "1:1",
+  "appearance": "dark",
+  "category": "listicle",
+  "slide_count": 3,
+  "min_slides": 3,
+  "max_slides": 10,
+  "platform_fit": [
+    "instagram",
+    "linkedin"
+  ],
+  "style_tags": [
+    "monospace_type",
+    "retro_terminal",
+    "minimal"
+  ],
+  "use_when": [
+    "tips_series",
+    "audience_education",
+    "content_repurposing"
+  ],
+  "keywords": [
+    "terminal",
+    "code",
+    "monospace",
+    "tips",
+    "developer",
+    "listicle",
+    "retro",
+    "carousel"
+  ],
+  "industry_fit": [
+    "saas",
+    "education",
+    "creator",
+    "agency"
+  ],
+  "slides": [
+    {
+      "index": 1,
+      "role": "hook",
+      "layout_note": "Cover: accent prompt line at the top, uppercase display-scale headline with a block cursor, supporting line under it, status row pinned to the foot.",
+      "repeatable": false,
+      "slots": [
+        {
+          "name": "boot_command",
+          "type": "kicker",
+          "max_chars": 30,
+          "required": true,
+          "hint": "Fake command that names the topic, lowercase with a leading marker.",
+          "example": "$ run ship-faster.sh"
+        },
+        {
+          "name": "hook_headline",
+          "type": "headline",
+          "max_chars": 60,
+          "required": true,
+          "hint": "The promise of the list, stated flat.",
+          "example": "Six deploy habits that stop 3am pages"
+        },
+        {
+          "name": "hook_subline",
+          "type": "subhead",
+          "max_chars": 90,
+          "required": false,
+          "hint": "Who the list is for or what changes after reading it.",
+          "example": "For small teams shipping to production every day."
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "role": "content",
+      "layout_note": "Listing slide: accent line number beside an uppercase tip title, an output label, then the explanation in a rule-marked block.",
+      "repeatable": true,
+      "slots": [
+        {
+          "name": "line_number",
+          "type": "stat",
+          "max_chars": 3,
+          "required": true,
+          "hint": "Listing number in tens, ascending across slides.",
+          "example": "20"
+        },
+        {
+          "name": "tip_title",
+          "type": "headline",
+          "max_chars": 44,
+          "required": true,
+          "hint": "One imperative instruction.",
+          "example": "Ship behind a flag"
+        },
+        {
+          "name": "tip_body",
+          "type": "body",
+          "max_chars": 200,
+          "required": true,
+          "hint": "Why it matters, at most two sentences.",
+          "example": "Merging early keeps branches short and reviews honest. The flag lets you turn the feature on for one account before the whole fleet."
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "role": "cta",
+      "layout_note": "Closing slide: prompt line, uppercase ask in display type, accent block button, handle and end cursor on the foot row.",
+      "repeatable": false,
+      "slots": [
+        {
+          "name": "cta_message",
+          "type": "headline",
+          "max_chars": 48,
+          "required": true,
+          "hint": "Save or follow ask tied to the list.",
+          "example": "Keep this next to your runbook"
+        },
+        {
+          "name": "cta_action",
+          "type": "cta",
+          "max_chars": 20,
+          "required": true,
+          "hint": "Two or three words, imperative.",
+          "example": "Save the list"
+        },
+        {
+          "name": "profile_handle",
+          "type": "handle",
+          "max_chars": 24,
+          "required": false,
+          "hint": "Account handle with @.",
+          "example": "@deploydiary"
+        }
+      ]
+    }
+  ],
+  "fonts": [
+    {
+      "role": "display",
+      "family": "JetBrains Mono",
+      "google_font": true,
+      "weights": [
+        700
+      ],
+      "fallback": "monospace"
+    },
+    {
+      "role": "body",
+      "family": "IBM Plex Mono",
+      "google_font": true,
+      "weights": [
+        400,
+        600
+      ],
+      "fallback": "monospace"
+    }
+  ],
+  "html_template": "<link href=\"https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&family=IBM+Plex+Mono:wght@400;600&display=swap\" rel=\"stylesheet\">\n<style>\n:root { --bg: #08131f; --surface: #12283b; --accent: #ffb02e; --accent-contrast: #08131f; --text-primary: #f3dcae; --text-secondary: #6f8ba3; --font-display: 'JetBrains Mono', monospace; --font-body: 'IBM Plex Mono', monospace; }\n* { margin: 0; box-sizing: border-box; }\n.slide { width: 1080px; height: 1080px; background: var(--bg); color: var(--text-primary); font-family: var(--font-body); padding: 88px; display: flex; flex-direction: column; overflow: hidden; position: relative; }\n.slide::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(rgba(255,255,255,.05) 0 2px, rgba(0,0,0,0) 2px 7px); pointer-events: none; }\n.prompt { font-size: 30px; font-weight: 600; letter-spacing: .1em; color: var(--accent); }\n.headline { margin-top: 34px; font-family: var(--font-display); font-weight: 700; font-size: 70px; line-height: 1.18; text-transform: uppercase; }\n.subline { margin-top: 34px; font-size: 32px; line-height: 1.5; color: var(--text-secondary); }\n.row { margin-top: 40px; display: flex; gap: 26px; align-items: baseline; }\n.ln { font-weight: 600; font-size: 36px; color: var(--accent); }\n.title { font-family: var(--font-display); font-weight: 700; font-size: 54px; line-height: 1.22; text-transform: uppercase; }\n.label { margin-top: 52px; font-size: 26px; letter-spacing: .26em; text-transform: uppercase; color: var(--text-secondary); }\n.out { margin-top: 22px; border-left: 6px solid var(--surface); padding-left: 34px; font-size: 36px; line-height: 1.6; }\n.cursor { display: inline-block; width: 26px; height: 40px; background: var(--accent); vertical-align: -7px; margin-left: 12px; }\n.pill { margin-top: 52px; align-self: flex-start; background: var(--accent); color: var(--accent-contrast); font-weight: 600; font-size: 34px; letter-spacing: .06em; padding: 22px 44px; }\n.foot { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; font-size: 28px; letter-spacing: .08em; color: var(--text-secondary); position: relative; z-index: 2; }\n</style>\n<section class=\"slide\" data-slide=\"1\" data-role=\"hook\">\n  <div class=\"prompt\">{{boot_command}}</div>\n  <h1 class=\"headline\">{{hook_headline}}<span class=\"cursor\"></span></h1>\n  <p class=\"subline\" data-optional=\"true\">{{hook_subline}}</p>\n  <div class=\"foot\"><span>LIST 01..N</span><span>SWIPE &gt;&gt;</span></div>\n</section>\n<section class=\"slide\" data-slide=\"2\" data-role=\"content\" data-repeat=\"true\">\n  <div class=\"prompt\">RUN</div>\n  <div class=\"row\">\n    <span class=\"ln\">{{line_number}}</span>\n    <h2 class=\"title\">{{tip_title}}</h2>\n  </div>\n  <div class=\"label\">output</div>\n  <p class=\"out\">{{tip_body}}</p>\n  <div class=\"foot\"><span>READY</span><span>&gt;</span></div>\n</section>\n<section class=\"slide\" data-slide=\"3\" data-role=\"cta\">\n  <div class=\"prompt\">READY</div>\n  <h2 class=\"headline\">{{cta_message}}</h2>\n  <span class=\"pill\">{{cta_action}}</span>\n  <div class=\"foot\"><span data-optional=\"true\">{{profile_handle}}</span><span>END<span class=\"cursor\"></span></span></div>\n</section>\n",
+  "source": "other",
+  "source_url": "https://www.figma.com/design/uL4295tZxw0jtgVVYfSnii/?node-id=10-468",
+  "source_note": "Monospace terminal-listing layout pattern observed in a Figma community file; all markup, styling and copy original.",
+  "preview_path": "mcp-migration/social-templates/renders/social_carousel_terminal_tips_1.png"
+}

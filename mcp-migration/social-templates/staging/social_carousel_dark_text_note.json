@@ -1,0 +1,113 @@
+{
+  "id": "social_carousel_dark_text_note",
+  "title": "Dark Text Note Card",
+  "description": "Single-card text post: a charcoal canvas with one left-aligned statement set in display-scale grotesque type, an accent rule above it and a handle line at the foot. No imagery, no decoration beyond the accent bar, so the sentence carries the whole frame.",
+  "why_it_works": "A text-only card reads as a personal note rather than an ad, which slows the scroll in an image-heavy feed. Left alignment with a short measure keeps the sentence scannable in one pass, and the empty lower half gives the eye a resting zone that makes the statement feel deliberate.",
+  "content_brief": "Write one complete thought, not a headline: a stance, an observation or a confession the audience will recognise. Keep note_statement under 120 characters and break it into short clauses so the type wraps into three to six lines. note_closer is a one-line sign-off or punchline in the accent colour, under 34 characters. Use the kicker for a topic or series label in uppercase. Do not add hashtags, emoji or hype adjectives; plain first-person voice performs best here.",
+  "format": "carousel",
+  "aspect_ratio": "1:1",
+  "appearance": "dark",
+  "category": "announcement",
+  "slide_count": 1,
+  "min_slides": 1,
+  "max_slides": 1,
+  "platform_fit": [
+    "instagram",
+    "linkedin",
+    "facebook"
+  ],
+  "style_tags": [
+    "minimal",
+    "bold_type",
+    "monochrome"
+  ],
+  "use_when": [
+    "brand_storytelling",
+    "community_engagement",
+    "content_repurposing"
+  ],
+  "keywords": [
+    "text post",
+    "dark",
+    "statement",
+    "typography",
+    "note",
+    "square",
+    "minimal"
+  ],
+  "industry_fit": [
+    "creator",
+    "saas",
+    "agency",
+    "education"
+  ],
+  "slides": [
+    {
+      "index": 1,
+      "role": "hook",
+      "layout_note": "Single card: accent rule and uppercase kicker at the top-left, display-scale statement below it, accent-coloured closing line, handle pinned to the foot next to a hairline divider.",
+      "repeatable": false,
+      "slots": [
+        {
+          "name": "note_kicker",
+          "type": "kicker",
+          "max_chars": 24,
+          "required": false,
+          "hint": "Series or topic label, uppercase, two or three words.",
+          "example": "Field notes"
+        },
+        {
+          "name": "note_statement",
+          "type": "headline",
+          "max_chars": 120,
+          "required": true,
+          "hint": "One complete thought in plain language; short clauses so it wraps into three to six lines.",
+          "example": "Most brand rewrites fail because nobody agreed on who the customer was in the first place."
+        },
+        {
+          "name": "note_closer",
+          "type": "subhead",
+          "max_chars": 34,
+          "required": false,
+          "hint": "One-line sign-off or punchline in the accent colour.",
+          "example": "Start with the customer."
+        },
+        {
+          "name": "account_handle",
+          "type": "handle",
+          "max_chars": 24,
+          "required": false,
+          "hint": "Account handle with @.",
+          "example": "@studionorthwind"
+        }
+      ]
+    }
+  ],
+  "fonts": [
+    {
+      "role": "display",
+      "family": "Space Grotesk",
+      "google_font": true,
+      "weights": [
+        500,
+        700
+      ],
+      "fallback": "sans-serif"
+    },
+    {
+      "role": "body",
+      "family": "Inter",
+      "google_font": true,
+      "weights": [
+        400,
+        500
+      ],
+      "fallback": "sans-serif"
+    }
+  ],
+  "html_template": "<link href=\"https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&display=swap\" rel=\"stylesheet\">\n<style>\n:root { --bg: #16181d; --surface: #23262e; --accent: #ff6a3d; --accent-contrast: #16181d; --text-primary: #f6f4f0; --text-secondary: #8e919b; --font-display: 'Space Grotesk', sans-serif; --font-body: 'Inter', sans-serif; }\n* { margin: 0; box-sizing: border-box; }\n.slide { width: 1080px; height: 1080px; background: var(--bg); color: var(--text-primary); font-family: var(--font-body); padding: 96px; display: flex; flex-direction: column; overflow: hidden; position: relative; }\n.slide::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 88% 8%, rgba(255,255,255,.06), rgba(255,255,255,0) 42%); pointer-events: none; }\n.rule { width: 132px; height: 10px; background: var(--accent); border-radius: 5px; }\n.kicker { margin-top: 30px; font-size: 26px; font-weight: 500; letter-spacing: .28em; text-transform: uppercase; color: var(--text-secondary); }\n.statement { margin-top: 44px; font-family: var(--font-display); font-weight: 700; font-size: 74px; line-height: 1.14; letter-spacing: -.02em; }\n.closer { margin-top: 42px; font-family: var(--font-display); font-weight: 500; font-size: 50px; line-height: 1.2; color: var(--accent); }\n.foot { margin-top: auto; display: flex; align-items: center; gap: 28px; position: relative; z-index: 2; }\n.foot .bar { flex: 1; height: 3px; background: var(--surface); }\n.handle { font-size: 28px; letter-spacing: .05em; color: var(--text-secondary); }\n</style>\n<section class=\"slide\" data-slide=\"1\" data-role=\"hook\">\n  <div class=\"rule\"></div>\n  <div class=\"kicker\" data-optional=\"true\">{{note_kicker}}</div>\n  <h1 class=\"statement\">{{note_statement}}</h1>\n  <p class=\"closer\" data-optional=\"true\">{{note_closer}}</p>\n  <div class=\"foot\">\n    <span class=\"bar\"></span>\n    <span class=\"handle\" data-optional=\"true\">{{account_handle}}</span>\n  </div>\n</section>\n",
+  "source": "other",
+  "source_url": "https://www.figma.com/design/uL4295tZxw0jtgVVYfSnii/?node-id=10-444",
+  "source_note": "Text-only dark card pattern observed in a Figma community file; all markup, styling and copy original.",
+  "preview_path": "mcp-migration/social-templates/renders/social_carousel_dark_text_note_1.png"
+}

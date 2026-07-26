@@ -1,0 +1,189 @@
+{
+  "id": "social_carousel_pastel_listicle",
+  "title": "Pastel Listicle Carousel",
+  "description": "Numbered-card carousel on a pastel background: hook cover with a topic badge, repeatable content cards with a display-scale numeral, a recap checklist, and a save-oriented CTA. Rounded surfaces and soft shadows keep it feed-friendly.",
+  "why_it_works": "Numbered cards set swipe expectations and make progress legible mid-carousel. The recap slide rewards finishing and the save CTA converts the list into a bookmark, which feeds algorithmic reach.",
+  "content_brief": "One idea per content card: point_title is an imperative under 40 chars, point_body explains the why in at most two short sentences. Number the cards in order starting at 01. The recap_list repeats the point titles verbatim. Keep the tone practical, no hype words.",
+  "format": "carousel",
+  "aspect_ratio": "4:5",
+  "appearance": "light",
+  "category": "listicle",
+  "slide_count": 4,
+  "min_slides": 4,
+  "max_slides": 10,
+  "platform_fit": [
+    "instagram",
+    "linkedin"
+  ],
+  "style_tags": [
+    "pastel",
+    "rounded",
+    "soft_shadow"
+  ],
+  "use_when": [
+    "tips_series",
+    "audience_education",
+    "content_repurposing"
+  ],
+  "keywords": [
+    "listicle",
+    "tips",
+    "carousel",
+    "pastel",
+    "numbered",
+    "education"
+  ],
+  "industry_fit": [
+    "creator",
+    "saas",
+    "education",
+    "agency"
+  ],
+  "slides": [
+    {
+      "index": 1,
+      "role": "hook",
+      "layout_note": "Cover card: topic badge top-left, display headline centered-left with a one-line subtitle; swipe cue bottom-right rendered by the template.",
+      "repeatable": false,
+      "slots": [
+        {
+          "name": "topic_badge",
+          "type": "badge",
+          "max_chars": 20,
+          "required": true,
+          "hint": "Topic label, short.",
+          "example": "Content strategy"
+        },
+        {
+          "name": "hook_headline",
+          "type": "headline",
+          "max_chars": 60,
+          "required": true,
+          "hint": "Numbered promise or curiosity gap.",
+          "example": "5 hooks that stop the scroll"
+        },
+        {
+          "name": "hook_subtitle",
+          "type": "subhead",
+          "max_chars": 80,
+          "required": false,
+          "hint": "Who this is for or what they get.",
+          "example": "Steal these for your next carousel"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "role": "content",
+      "repeatable": true,
+      "layout_note": "Content card: display-scale numeral top-left on the surface card, imperative title, two-line body below.",
+      "slots": [
+        {
+          "name": "point_number",
+          "type": "stat",
+          "max_chars": 2,
+          "required": true,
+          "hint": "Zero-padded card number in order.",
+          "example": "01"
+        },
+        {
+          "name": "point_title",
+          "type": "headline",
+          "max_chars": 40,
+          "required": true,
+          "hint": "One idea, imperative.",
+          "example": "Lead with the outcome"
+        },
+        {
+          "name": "point_body",
+          "type": "body",
+          "max_chars": 160,
+          "required": true,
+          "hint": "Why it matters, at most two short sentences.",
+          "example": "Readers decide in the first line. Put the result up front and explain after."
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "role": "recap",
+      "repeatable": false,
+      "layout_note": "Recap card: short title above a checklist that repeats the point titles.",
+      "slots": [
+        {
+          "name": "recap_title",
+          "type": "headline",
+          "max_chars": 30,
+          "required": true,
+          "hint": "Short recap header.",
+          "example": "Quick recap"
+        },
+        {
+          "name": "recap_list",
+          "type": "bullet_list",
+          "required": true,
+          "hint": "Repeat each point_title as one list item, same order."
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "role": "cta",
+      "repeatable": false,
+      "layout_note": "Closing card: centered message, accent pill button, handle line underneath.",
+      "slots": [
+        {
+          "name": "cta_message",
+          "type": "headline",
+          "max_chars": 50,
+          "required": true,
+          "hint": "Save/share push tied to the list value.",
+          "example": "Save this for your next post"
+        },
+        {
+          "name": "cta_action",
+          "type": "cta",
+          "max_chars": 20,
+          "required": true,
+          "hint": "1-3 words, imperative.",
+          "example": "Follow for more"
+        },
+        {
+          "name": "profile_handle",
+          "type": "handle",
+          "max_chars": 24,
+          "required": false,
+          "hint": "Account handle with @.",
+          "example": "@yourbrand"
+        }
+      ]
+    }
+  ],
+  "fonts": [
+    {
+      "role": "display",
+      "family": "Poppins",
+      "google_font": true,
+      "weights": [
+        600,
+        700
+      ],
+      "fallback": "sans-serif"
+    },
+    {
+      "role": "body",
+      "family": "Inter",
+      "google_font": true,
+      "weights": [
+        400,
+        500
+      ],
+      "fallback": "sans-serif"
+    }
+  ],
+  "html_template": "<link href=\"https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500&display=swap\" rel=\"stylesheet\">\n<style>\n:root { --bg: #f3ecff; --surface: #fffdf9; --accent: #7c5cff; --accent-contrast: #fffdf9; --text-primary: #241f33; --text-secondary: #6d6685; --font-display: 'Poppins', sans-serif; --font-body: 'Inter', sans-serif; }\n* { margin: 0; box-sizing: border-box; }\n.slide { width: 1080px; height: 1350px; background: var(--bg); color: var(--text-primary); font-family: var(--font-body); position: relative; overflow: hidden; padding: 80px; }\n.card { background: var(--surface); border-radius: 56px; box-shadow: 0 24px 64px rgba(36,31,51,.10); height: 100%; padding: 88px; display: flex; flex-direction: column; }\n.badge { align-self: flex-start; background: var(--accent); color: var(--accent-contrast); font-weight: 500; font-size: 28px; padding: 14px 32px; border-radius: 999px; }\n.hook h1 { font-family: var(--font-display); font-weight: 700; font-size: 92px; line-height: 1.08; margin-top: 64px; }\n.hook p { margin-top: 36px; font-size: 38px; color: var(--text-secondary); }\n.swipe-cue { margin-top: auto; align-self: flex-end; font-size: 30px; color: var(--accent); font-weight: 500; }\n.num { font-family: var(--font-display); font-weight: 700; font-size: 150px; color: var(--accent); line-height: 1; }\n.point h2 { font-family: var(--font-display); font-weight: 600; font-size: 66px; line-height: 1.12; margin-top: 48px; }\n.point p { margin-top: 32px; font-size: 38px; line-height: 1.5; color: var(--text-secondary); }\n.recap h2 { font-family: var(--font-display); font-weight: 700; font-size: 76px; }\n.recap ul { margin-top: 56px; list-style: none; display: flex; flex-direction: column; gap: 36px; }\n.recap li { font-size: 40px; padding-left: 64px; position: relative; }\n.recap li::before { content: ''; position: absolute; left: 0; top: 10px; width: 34px; height: 34px; border-radius: 10px; background: var(--accent); }\n.cta { align-items: center; justify-content: center; text-align: center; gap: 56px; }\n.cta h2 { font-family: var(--font-display); font-weight: 700; font-size: 80px; line-height: 1.1; }\n.btn { background: var(--accent); color: var(--accent-contrast); font-weight: 500; font-size: 40px; padding: 34px 80px; border-radius: 999px; }\n.handle { font-size: 30px; color: var(--text-secondary); }\n</style>\n<section class=\"slide\" data-slide=\"1\" data-role=\"hook\">\n  <div class=\"card hook\">\n    <span class=\"badge\">{{topic_badge}}</span>\n    <h1>{{hook_headline}}</h1>\n    <p data-optional=\"true\">{{hook_subtitle}}</p>\n    <span class=\"swipe-cue\">Swipe &#8594;</span>\n  </div>\n</section>\n<section class=\"slide\" data-slide=\"2\" data-role=\"content\" data-repeat=\"true\">\n  <div class=\"card point\">\n    <div class=\"num\">{{point_number}}</div>\n    <h2>{{point_title}}</h2>\n    <p>{{point_body}}</p>\n  </div>\n</section>\n<section class=\"slide\" data-slide=\"3\" data-role=\"recap\">\n  <div class=\"card recap\">\n    <h2>{{recap_title}}</h2>\n    <ul data-slot=\"recap_list\">\n      <li>Lead with the outcome</li>\n      <li>Cut the first sentence</li>\n      <li>End on a question</li>\n    </ul>\n  </div>\n</section>\n<section class=\"slide\" data-slide=\"4\" data-role=\"cta\">\n  <div class=\"card cta\">\n    <h2>{{cta_message}}</h2>\n    <div class=\"btn\">{{cta_action}}</div>\n    <span class=\"handle\" data-optional=\"true\">{{profile_handle}}</span>\n  </div>\n</section>\n",
+  "source": "original",
+  "source_url": null,
+  "source_note": "Hand-authored seed template.",
+  "preview_path": "mcp-migration/social-templates/renders/social_carousel_pastel_listicle.png"
+}
