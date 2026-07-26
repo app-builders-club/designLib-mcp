@@ -10,6 +10,9 @@ def test_protocol_has_required_methods():
         "list_chart_types", "get_chart_type", "list_chart_type_facets",
         "list_landing_patterns", "get_landing_pattern", "list_landing_pattern_facets",
         "list_icons", "get_icon", "list_icon_facets",
+        "list_inspiration_pages", "get_inspiration_page", "list_inspiration_page_facets",
+        "list_animations", "get_animation", "list_animation_facets",
+        "list_social_templates", "get_social_template", "list_social_template_facets",
     }
     for m in methods:
         assert hasattr(CatalogRepository, m), f"missing {m}"

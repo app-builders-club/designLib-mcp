@@ -104,3 +104,32 @@ class CatalogRepository(Protocol):
     def get_inspiration_page(self, page_id: str) -> dict[str, Any] | None: ...
 
     def list_inspiration_page_facets(self) -> dict[str, Any]: ...
+
+    # Animations
+    def list_animations(
+        self, *, category: str | None = None, framework: str | None = None,
+        interactivity: str | None = None, complexity: str | None = None,
+        style_tag: str | None = None, placement: str | None = None,
+        use_when: str | None = None, library: str | None = None,
+        keyword: str | None = None, limit: int = 50, offset: int = 0,
+    ) -> dict[str, Any]: ...
+
+    def get_animation(self, animation_id: str) -> dict[str, Any] | None: ...
+
+    def list_animation_facets(self) -> dict[str, Any]: ...
+
+    # Social templates
+    def list_social_templates(
+        self, *, format: str | None = None, category: str | None = None,
+        aspect_ratio: str | None = None, appearance: str | None = None,
+        platform: str | None = None, style_tag: str | None = None,
+        use_when: str | None = None, industry: str | None = None,
+        keyword: str | None = None, slides: int | None = None,
+        limit: int = 25, offset: int = 0,
+    ) -> dict[str, Any]: ...
+
+    def get_social_template(
+        self, template_id: str, include_html: bool = True,
+    ) -> dict[str, Any] | None: ...
+
+    def list_social_template_facets(self) -> dict[str, Any]: ...

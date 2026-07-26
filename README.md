@@ -7,7 +7,7 @@ A hand-curated catalog of design tokens, references, and patterns served over MC
 → [Quickstart](#quickstart) · [What sets it apart](#what-sets-it-apart) · [Tools](#tools)
 
 **Live server:** `https://designlib.app-builders.club/mcp`  
-**Catalog:** 67 styles · 100 palettes · 34 font pairs · 134 domains · 25 chart types · 34 landing patterns · 105 icons · 405 inspiration pages · 120 animations · web + iOS  
+**Catalog:** 67 styles · 100 palettes · 34 font pairs · 134 domains · 25 chart types · 34 landing patterns · 105 icons · 405 inspiration pages · 120 animations · social templates (stories + carousels) · web + iOS  
 **Status:** v1, production, read-only.
 
 ---
@@ -94,7 +94,7 @@ Skip it when:
 
 ## Tools
 
-All 27 tools are read-only and platform-aware where applicable. Every `list_*` supports `limit` / `offset`; every `get_*` returns a `NOT_FOUND` payload when the id does not exist.
+All 30 tools are read-only and platform-aware where applicable. Every `list_*` supports `limit` / `offset`; every `get_*` returns a `NOT_FOUND` payload when the id does not exist.
 
 | Tool | Purpose | Key args |
 |---|---|---|
@@ -107,6 +107,7 @@ All 27 tools are read-only and platform-aware where applicable. Every `list_*` s
 | `list_icons` · `get_icon` · `list_icon_facets` | Individual icons with import code and usage snippets | `category`, `library`, `style`, `keyword` |
 | `list_inspiration_pages` · `get_inspiration_page` · `list_inspiration_page_facets` | Curated real-world page references | `page_type`, `style_family`, `industry`, `mood`, `keyword` |
 | `list_animations` · `get_animation` · `list_animation_facets` | Animation snippets with library, category, complexity | `category`, `framework`, `complexity`, `library`, `keyword` |
+| `list_social_templates` · `get_social_template` · `list_social_template_facets` | Story/carousel design templates: fillable HTML/CSS with content slots | `format`, `category`, `platform`, `style_tag`, `slides`, `keyword` |
 
 ---
 

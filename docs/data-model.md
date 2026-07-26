@@ -1,6 +1,6 @@
 # Data model
 
-`designlib-mcp` serves nine entity families. The access pattern is the same for every family: call `list_<entity>_facets` to discover valid filter values, call `list_<entity>(...)` with filters to get summaries, then call `get_<entity>(id)` for the full row. Every response is read-only, JSON, and capped at 25,000 characters; oversize responses set `meta.truncated = true` so the client knows to refine filters or lower `limit`.
+`designlib-mcp` serves ten entity families. The access pattern is the same for every family: call `list_<entity>_facets` to discover valid filter values, call `list_<entity>(...)` with filters to get summaries, then call `get_<entity>(id)` for the full row. Every response is read-only, JSON, and capped at 25,000 characters; oversize responses set `meta.truncated = true` so the client knows to refine filters or lower `limit`.
 
 → Quickstart and tool index live in the [README](../README.md). This document describes what each family is *for*.
 
@@ -41,6 +41,10 @@ An **inspiration page** is one analyzed real-world reference: page type, ordered
 ## animations
 
 An **animation** is a UI animation snippet (background, hero, loader, text effect, cursor effect, decoration, etc.) with framework, libraries, complexity, interactivity, style tags, suggested placements, and a paste-ready prompt. Filter by `category`, `framework`, `interactivity`, `complexity`, `style_tag`, `placement`, `use_when`, `library`, or `keyword`. Tools: `list_animations`, `get_animation`, `list_animation_facets`. Reach for animations when the agent wants to add motion to a page and would otherwise hand-roll it — `get_animation` returns a standardized prompt that drops into the user's project.
+
+## social_templates
+
+A **social template** is a fillable design template for a story or carousel post: a self-contained HTML/CSS document (fixed 1080-px canvas per slide, `{{slot}}` placeholders, `:root` design tokens for re-skinning) plus the spec an LLM needs to fill it — per-slide slots with `max_chars`, a `content_brief` with tone and hook guidance, and slide roles (hook / content / proof / recap / cta). Repeatable slides make carousels variable-length; the `slides` filter matches templates whose min–max range covers the requested count. Filter by `format` (story | carousel), `category`, `aspect_ratio`, `appearance`, `platform` (social network: instagram | tiktok | linkedin | facebook), `style_tag`, `use_when`, `industry`, `keyword`, or `slides`. Tools: `list_social_templates`, `get_social_template`, `list_social_template_facets`. Summaries never carry the HTML (`html_chars` reports its size); `get_social_template(id, include_html=false)` returns the spec alone for cheap browsing. Reach for social templates when the task is "make me a carousel/story about X" — pick a template by purpose and format, fill its slots within their `max_chars`, then render or adapt the HTML. → See [schemas/social-templates.md](schemas/social-templates.md) for the full row shape and filling contract.
 
 ---
 

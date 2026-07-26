@@ -31,6 +31,7 @@ EXPECTED_TOOLS = {
     "list_icons", "get_icon", "list_icon_facets",
     "list_inspiration_pages", "get_inspiration_page", "list_inspiration_page_facets",
     "list_animations", "get_animation", "list_animation_facets",
+    "list_social_templates", "get_social_template", "list_social_template_facets",
 }
 
 
@@ -155,6 +156,34 @@ async def test_domain_roundtrip_with_recommendations(client):
     assert "recommendations" in domain
     for key in ("styles", "palettes", "font_pairs"):
         assert key in domain["recommendations"], f"recommendations missing {key}"
+
+
+async def test_social_template_roundtrip(client):
+    facets = await _data(client, "list_social_template_facets")
+    assert facets["meta"]["entity_type"] == "social_template_facets"
+    for key in ("formats", "categories", "aspect_ratios", "appearances",
+                "platforms", "style_tags", "use_when", "industries"):
+        assert key in facets, f"missing facet key: {key}"
+
+    listing = await _data(client, "list_social_templates", {"limit": 3})
+    assert listing["meta"]["entity_type"] == "social_template_list"
+    if not listing["items"]:
+        pytest.skip("no social templates ingested yet")
+    template_id = listing["items"][0]["id"]
+    assert "html_chars" in listing["items"][0]
+    assert "html_template" not in listing["items"][0]
+
+    full = await _data(client, "get_social_template", {"template_id": template_id})
+    assert full["id"] == template_id
+    assert full["meta"]["entity_type"] == "social_template"
+    assert full["html_template"]
+
+    spec_only = await _data(
+        client, "get_social_template",
+        {"template_id": template_id, "include_html": False},
+    )
+    assert spec_only["html_omitted"] is True
+    assert "html_template" not in spec_only
 
 
 async def test_ios_platform_returns_nonempty(client):
