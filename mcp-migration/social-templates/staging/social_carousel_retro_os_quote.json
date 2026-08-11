@@ -1,0 +1,153 @@
+{
+  "id": "social_carousel_retro_os_quote",
+  "title": "Retro Desktop Quote Carousel",
+  "description": "Nineties desktop pastiche built entirely in CSS: bevelled window frames, a menu bar, dialog buttons and a taskbar on a dithered desktop. The cover floats a handwritten-style quote over the stacked windows, content slides put one note inside a single window, and the closing slide is an alert dialog.",
+  "why_it_works": "The desktop chrome is instantly readable as nostalgia, which earns a pause before the words are even read. Handwriting over system UI creates a deliberate clash that separates the message from the decoration. Putting each later point inside its own window makes the swipe feel like opening files rather than reading a deck.",
+  "content_brief": "Lean into the nostalgia angle: predictions that aged badly, old rules that no longer hold, lessons from an earlier era of the industry. Keep hook_quote under 110 characters and attribute it honestly in quote_attribution, name plus year. note_title is a file-like label under 30 characters; note_body is one short paragraph under 220 characters. Keep cta_action to a single word so it reads like a dialog button.",
+  "format": "carousel",
+  "aspect_ratio": "1:1",
+  "appearance": "mixed",
+  "category": "quote",
+  "slide_count": 3,
+  "min_slides": 3,
+  "max_slides": 8,
+  "platform_fit": [
+    "instagram",
+    "tiktok",
+    "linkedin"
+  ],
+  "style_tags": [
+    "pixel_ui",
+    "handwritten_accent",
+    "hard_shadow"
+  ],
+  "use_when": [
+    "brand_storytelling",
+    "community_engagement",
+    "content_repurposing"
+  ],
+  "keywords": [
+    "retro",
+    "nostalgia",
+    "desktop",
+    "window",
+    "quote",
+    "nineties",
+    "carousel",
+    "ui pastiche"
+  ],
+  "industry_fit": [
+    "creator",
+    "saas",
+    "agency",
+    "education"
+  ],
+  "slides": [
+    {
+      "index": 1,
+      "role": "hook",
+      "layout_note": "Cover: three overlapping bevelled windows on a dithered desktop with a taskbar, handwritten-style quote and attribution centred over the stack.",
+      "repeatable": false,
+      "slots": [
+        {
+          "name": "hook_quote",
+          "type": "quote",
+          "max_chars": 110,
+          "required": true,
+          "hint": "The line that carries the post; the template adds the quotation marks.",
+          "example": "Nobody will ever need more than one screen to get real work done"
+        },
+        {
+          "name": "quote_attribution",
+          "type": "subhead",
+          "max_chars": 40,
+          "required": false,
+          "hint": "Who said it and when; the template adds the dash.",
+          "example": "A hardware buyer, 1996"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "role": "content",
+      "layout_note": "Content slide: one centred window with a file-style title bar, menu row, a short note in the window face and a bevelled button on the lower right.",
+      "repeatable": true,
+      "slots": [
+        {
+          "name": "note_title",
+          "type": "headline",
+          "max_chars": 30,
+          "required": true,
+          "hint": "File-style label for the point.",
+          "example": "What aged badly.txt"
+        },
+        {
+          "name": "note_body",
+          "type": "body",
+          "max_chars": 220,
+          "required": true,
+          "hint": "One short paragraph explaining the point, at most three sentences.",
+          "example": "Every forecast that lost assumed the constraint would stay put. Storage got cheap, screens multiplied, and the advice built on scarcity stopped making sense within four years."
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "role": "cta",
+      "layout_note": "Closing slide: alert dialog with a bevelled warning mark, the ask beside it, a pair of dialog buttons and the handle sitting in the taskbar.",
+      "repeatable": false,
+      "slots": [
+        {
+          "name": "cta_message",
+          "type": "headline",
+          "max_chars": 90,
+          "required": true,
+          "hint": "Ask phrased like a system prompt.",
+          "example": "Save this before the next forecast lands in your feed."
+        },
+        {
+          "name": "cta_action",
+          "type": "cta",
+          "max_chars": 14,
+          "required": true,
+          "hint": "One word so it reads as a dialog button.",
+          "example": "Save"
+        },
+        {
+          "name": "profile_handle",
+          "type": "handle",
+          "max_chars": 22,
+          "required": false,
+          "hint": "Account handle with @, shown as a taskbar tab.",
+          "example": "@oldweb.notes"
+        }
+      ]
+    }
+  ],
+  "fonts": [
+    {
+      "role": "display",
+      "family": "Patrick Hand",
+      "google_font": true,
+      "weights": [
+        400
+      ],
+      "fallback": "cursive"
+    },
+    {
+      "role": "body",
+      "family": "IBM Plex Sans",
+      "google_font": true,
+      "weights": [
+        400,
+        600
+      ],
+      "fallback": "sans-serif"
+    }
+  ],
+  "html_template": "<link href=\"https://fonts.googleapis.com/css2?family=Patrick+Hand&family=IBM+Plex+Sans:wght@400;600&display=swap\" rel=\"stylesheet\">\n<style>\n:root { --bg: #4a6670; --surface: #cfcabb; --accent: #6b2f7a; --accent-contrast: #f4f2e9; --text-primary: #fdfcf7; --text-secondary: #23231f; --font-display: 'Patrick Hand', cursive; --font-body: 'IBM Plex Sans', sans-serif; }\n* { margin: 0; box-sizing: border-box; }\n.slide { width: 1080px; height: 1080px; background: var(--bg); color: var(--text-secondary); font-family: var(--font-body); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }\n.slide::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, rgba(255,255,255,.05) 0 4px, rgba(0,0,0,.05) 4px 8px); }\n.win { position: absolute; background: var(--surface); border: 4px solid var(--text-secondary); box-shadow: inset 4px 4px 0 rgba(255,255,255,.7), inset -4px -4px 0 rgba(0,0,0,.22), 14px 14px 0 rgba(0,0,0,.28); }\n.bar { background: var(--accent); color: var(--accent-contrast); display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 16px; font-size: 24px; font-weight: 600; letter-spacing: .02em; }\n.btns { display: flex; gap: 8px; }\n.box { width: 26px; height: 26px; background: var(--surface); border: 3px solid var(--text-secondary); box-shadow: inset 2px 2px 0 rgba(255,255,255,.8), inset -2px -2px 0 rgba(0,0,0,.3); }\n.menu { display: flex; gap: 28px; padding: 10px 18px; font-size: 22px; border-bottom: 3px solid rgba(0,0,0,.22); }\n.icons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding: 26px; }\n.ico { text-align: center; font-size: 18px; }\n.ico span { display: block; width: 58px; height: 58px; margin: 0 auto 8px; border: 3px solid var(--text-secondary); background: linear-gradient(140deg, var(--accent), var(--surface)); }\n.lines { padding: 26px; display: flex; flex-direction: column; gap: 16px; }\n.lines i { display: block; height: 16px; background: rgba(0,0,0,.16); }\n.lines i:nth-child(2) { width: 78%; }\n.lines i:nth-child(3) { width: 54%; }\n.face { padding: 30px 34px 34px; }\n.note { font-size: 32px; line-height: 1.55; }\n.actions { margin-top: 30px; display: flex; gap: 16px; justify-content: flex-end; }\n.key { background: var(--surface); border: 4px solid var(--text-secondary); box-shadow: inset 3px 3px 0 rgba(255,255,255,.8), inset -3px -3px 0 rgba(0,0,0,.28); padding: 14px 34px; font-size: 26px; font-weight: 600; }\n.key.on { background: var(--accent); color: var(--accent-contrast); }\n.alert { display: flex; gap: 26px; align-items: flex-start; }\n.alert .mark { flex: none; width: 82px; height: 82px; border: 4px solid var(--text-secondary); background: var(--accent); color: var(--accent-contrast); font-family: var(--font-display); font-size: 58px; line-height: 74px; text-align: center; }\n.dim { position: absolute; inset: 0; z-index: 4; background: rgba(0,0,0,.30); }\n.overlay { position: relative; z-index: 6; width: 100%; padding: 58px 90px 64px; text-align: center; background: rgba(0,0,0,.62); }\n.q { font-family: var(--font-display); font-size: 78px; line-height: 1.24; color: var(--text-primary); text-shadow: 7px 7px 0 rgba(0,0,0,.45); }\n.attrib { margin-top: 48px; font-family: var(--font-display); font-size: 58px; color: var(--text-primary); text-shadow: 6px 6px 0 rgba(0,0,0,.45); }\n.taskbar { position: absolute; left: 0; right: 0; bottom: 0; z-index: 5; height: 76px; background: var(--surface); border-top: 4px solid var(--text-secondary); display: flex; align-items: center; gap: 18px; padding: 0 22px; font-size: 24px; font-weight: 600; }\n.taskbar .tab { border: 3px solid var(--text-secondary); box-shadow: inset 2px 2px 0 rgba(255,255,255,.8), inset -2px -2px 0 rgba(0,0,0,.28); padding: 10px 26px; }\n.mid { position: relative; z-index: 4; width: 856px; }\n.mid .face { padding: 36px 40px 40px; }\n</style>\n<section class=\"slide\" data-slide=\"1\" data-role=\"hook\">\n  <div class=\"win\" style=\"top:56px; left:52px; width:604px;\">\n    <div class=\"bar\"><span>Desk tools</span><div class=\"btns\"><i class=\"box\"></i><i class=\"box\"></i></div></div>\n    <div class=\"menu\"><span>File</span><span>Edit</span><span>Help</span></div>\n    <div class=\"icons\">\n      <div class=\"ico\"><span></span>Display</div>\n      <div class=\"ico\"><span></span>Sound</div>\n      <div class=\"ico\"><span></span>Network</div>\n    </div>\n  </div>\n  <div class=\"win\" style=\"top:392px; left:352px; width:600px;\">\n    <div class=\"bar\"><span>Readme.txt</span><div class=\"btns\"><i class=\"box\"></i></div></div>\n    <div class=\"lines\"><i></i><i></i><i></i></div>\n  </div>\n  <div class=\"win\" style=\"top:664px; left:92px; width:520px;\">\n    <div class=\"bar\"><span>Notice</span><div class=\"btns\"><i class=\"box\"></i></div></div>\n    <div class=\"face\"><div class=\"actions\"><span class=\"key\">Cancel</span><span class=\"key on\">OK</span></div></div>\n  </div>\n  <div class=\"dim\"></div>\n  <div class=\"overlay\">\n    <p class=\"q\">&#8220;{{hook_quote}}&#8221;</p>\n    <p class=\"attrib\" data-optional=\"true\">&#8212; {{quote_attribution}}</p>\n  </div>\n  <div class=\"taskbar\"><span class=\"tab\">Menu</span><span class=\"tab\">Readme.txt</span></div>\n</section>\n<section class=\"slide\" data-slide=\"2\" data-role=\"content\" data-repeat=\"true\">\n  <div class=\"win mid\" style=\"position:relative;\">\n    <div class=\"bar\"><span>{{note_title}}</span><div class=\"btns\"><i class=\"box\"></i><i class=\"box\"></i></div></div>\n    <div class=\"menu\"><span>File</span><span>View</span><span>Help</span></div>\n    <div class=\"face\">\n      <p class=\"note\">{{note_body}}</p>\n      <div class=\"actions\"><span class=\"key on\">Next</span></div>\n    </div>\n  </div>\n</section>\n<section class=\"slide\" data-slide=\"3\" data-role=\"cta\">\n  <div class=\"win mid\" style=\"position:relative; width:760px;\">\n    <div class=\"bar\"><span>Message</span><div class=\"btns\"><i class=\"box\"></i></div></div>\n    <div class=\"face\">\n      <div class=\"alert\">\n        <div class=\"mark\">!</div>\n        <p class=\"note\">{{cta_message}}</p>\n      </div>\n      <div class=\"actions\"><span class=\"key\">Later</span><span class=\"key on\">{{cta_action}}</span></div>\n    </div>\n  </div>\n  <div class=\"taskbar\"><span class=\"tab\">Menu</span><span class=\"tab\" data-optional=\"true\">{{profile_handle}}</span></div>\n</section>\n",
+  "source": "other",
+  "source_url": "https://www.figma.com/design/uL4295tZxw0jtgVVYfSnii/?node-id=10-609",
+  "source_note": "Retro operating-system chrome with an overlaid quote pattern observed in a Figma community file; the interface is a generic pastiche rebuilt in pure CSS with invented window labels and a non-standard palette, all markup, styling and copy original.",
+  "preview_path": "mcp-migration/social-templates/renders/social_carousel_retro_os_quote_1.png"
+}

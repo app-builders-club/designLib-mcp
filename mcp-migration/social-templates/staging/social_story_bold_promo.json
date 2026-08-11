@@ -1,0 +1,140 @@
+{
+  "id": "social_story_bold_promo",
+  "title": "Bold Promo Story",
+  "description": "Two-slide promo story: a full-bleed offer slide with display-scale headline over a photo scrim, then a centered CTA slide with a pill button. Accent color carries the kicker, the button, and the handle line.",
+  "why_it_works": "The offer lands in the first half-second because the headline is the only display-scale element on screen. Splitting offer and CTA into two slides keeps each tap-through decision to a single action.",
+  "content_brief": "Write the offer as a concrete benefit with a number where possible (percent off, days left). Keep offer_headline under 50 chars and never repeat it on the CTA slide. cta_button_label is 1-3 words, imperative. Do not use exclamation marks on both slides.",
+  "format": "story",
+  "aspect_ratio": "9:16",
+  "appearance": "dark",
+  "category": "promo",
+  "slide_count": 2,
+  "min_slides": 2,
+  "max_slides": 2,
+  "platform_fit": [
+    "instagram",
+    "tiktok",
+    "facebook"
+  ],
+  "style_tags": [
+    "bold_type",
+    "full_bleed_photo",
+    "minimal"
+  ],
+  "use_when": [
+    "sale_promotion",
+    "product_launch"
+  ],
+  "keywords": [
+    "promo",
+    "sale",
+    "offer",
+    "story",
+    "dark",
+    "countdown"
+  ],
+  "industry_fit": [
+    "ecommerce",
+    "fashion",
+    "fitness",
+    "local_business"
+  ],
+  "slides": [
+    {
+      "index": 1,
+      "role": "hook",
+      "layout_note": "Full-bleed image slot under a bottom-up scrim; kicker pill top-left, display headline and one-line detail pinned to the lower third.",
+      "repeatable": false,
+      "slots": [
+        {
+          "name": "kicker_label",
+          "type": "kicker",
+          "max_chars": 20,
+          "required": true,
+          "hint": "Urgency or category label, uppercase.",
+          "example": "THIS WEEK ONLY"
+        },
+        {
+          "name": "offer_headline",
+          "type": "headline",
+          "max_chars": 50,
+          "required": true,
+          "hint": "The offer as a concrete benefit, number first when possible.",
+          "example": "30% off every plan"
+        },
+        {
+          "name": "offer_detail",
+          "type": "subhead",
+          "max_chars": 80,
+          "required": false,
+          "hint": "One qualifying line: dates, scope, or condition.",
+          "example": "Applies to annual billing until Sunday"
+        },
+        {
+          "name": "bg_image",
+          "type": "image_slot",
+          "required": false,
+          "hint": "Moody product or lifestyle photo; scrim keeps the lower third readable."
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "role": "cta",
+      "layout_note": "Centered stack: short closing line, accent pill button, handle line at the bottom edge.",
+      "repeatable": false,
+      "slots": [
+        {
+          "name": "cta_headline",
+          "type": "headline",
+          "max_chars": 40,
+          "required": true,
+          "hint": "Closing push, do not repeat the offer verbatim.",
+          "example": "Your cart is waiting"
+        },
+        {
+          "name": "cta_button_label",
+          "type": "cta",
+          "max_chars": 16,
+          "required": true,
+          "hint": "1-3 words, imperative.",
+          "example": "Shop now"
+        },
+        {
+          "name": "handle_tag",
+          "type": "handle",
+          "max_chars": 24,
+          "required": false,
+          "hint": "Account handle with @.",
+          "example": "@yourbrand"
+        }
+      ]
+    }
+  ],
+  "fonts": [
+    {
+      "role": "display",
+      "family": "Archivo Black",
+      "google_font": true,
+      "weights": [
+        400
+      ],
+      "fallback": "sans-serif"
+    },
+    {
+      "role": "body",
+      "family": "Inter",
+      "google_font": true,
+      "weights": [
+        400,
+        600
+      ],
+      "fallback": "sans-serif"
+    }
+  ],
+  "html_template": "<link href=\"https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600&display=swap\" rel=\"stylesheet\">\n<style>\n:root { --bg: #0d0d11; --surface: #17171d; --accent: #ff4d2e; --accent-contrast: #ffffff; --text-primary: #f5f4f2; --text-secondary: #a7a5a0; --font-display: 'Archivo Black', sans-serif; --font-body: 'Inter', sans-serif; }\n* { margin: 0; box-sizing: border-box; }\n.slide { width: 1080px; height: 1920px; background: var(--bg); color: var(--text-primary); font-family: var(--font-body); position: relative; overflow: hidden; }\n.bg-media { position: absolute; inset: 0; background: linear-gradient(160deg, var(--surface) 0%, var(--bg) 70%); }\n.scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.72) 0%, rgba(0,0,0,.15) 55%, rgba(0,0,0,0) 80%); }\n.kicker { position: absolute; top: 96px; left: 80px; background: var(--accent); color: var(--accent-contrast); font-weight: 600; font-size: 30px; letter-spacing: .14em; padding: 18px 36px; border-radius: 999px; }\n.offer { position: absolute; left: 80px; right: 80px; bottom: 200px; }\n.offer h1 { font-family: var(--font-display); font-size: 118px; line-height: 1.02; text-transform: uppercase; }\n.offer p { margin-top: 40px; font-size: 40px; color: var(--text-secondary); }\n.cta-stack { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 72px; padding: 0 120px; text-align: center; }\n.cta-stack h1 { font-family: var(--font-display); font-size: 96px; line-height: 1.05; }\n.btn { background: var(--accent); color: var(--accent-contrast); font-weight: 600; font-size: 44px; padding: 40px 96px; border-radius: 999px; }\n.handle { position: absolute; bottom: 96px; left: 0; right: 0; text-align: center; font-size: 32px; color: var(--text-secondary); letter-spacing: .08em; }\n</style>\n<section class=\"slide\" data-slide=\"1\" data-role=\"hook\">\n  <div class=\"bg-media\" data-slot=\"bg_image\" data-optional=\"true\"></div>\n  <div class=\"scrim\"></div>\n  <span class=\"kicker\">{{kicker_label}}</span>\n  <div class=\"offer\">\n    <h1>{{offer_headline}}</h1>\n    <p data-optional=\"true\">{{offer_detail}}</p>\n  </div>\n</section>\n<section class=\"slide\" data-slide=\"2\" data-role=\"cta\">\n  <div class=\"cta-stack\">\n    <h1>{{cta_headline}}</h1>\n    <div class=\"btn\">{{cta_button_label}}</div>\n  </div>\n  <div class=\"handle\" data-optional=\"true\">{{handle_tag}}</div>\n</section>\n",
+  "source": "original",
+  "source_url": null,
+  "source_note": "Hand-authored seed template.",
+  "preview_path": "mcp-migration/social-templates/renders/social_story_bold_promo_1.png"
+}

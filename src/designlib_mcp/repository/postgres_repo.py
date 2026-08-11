@@ -18,6 +18,7 @@ from designlib_mcp.repository.normalizer import (
     _to_icon_summary, _to_icon_full,
     _to_inspiration_page_summary, _to_inspiration_page_full,
     _to_animation_summary, _to_animation_full,
+    _to_social_template_summary, _to_social_template_full,
 )
 
 
@@ -812,4 +813,121 @@ class PostgresRepository:
             "style_tags": _agg(styles),
             "placement": _agg(places),
             "use_when": _agg(whens),
+        }
+
+    # -------------------------------------------------------------------------
+    # Social templates
+    # -------------------------------------------------------------------------
+
+    def list_social_templates(
+        self, *,
+        format: str | None = None,
+        category: str | None = None,
+        aspect_ratio: str | None = None,
+        appearance: str | None = None,
+        platform: str | None = None,
+        style_tag: str | None = None,
+        use_when: str | None = None,
+        industry: str | None = None,
+        keyword: str | None = None,
+        slides: int | None = None,
+        limit: int = 25,
+        offset: int = 0,
+    ) -> dict[str, Any]:
+        conds = ["TRUE"]
+        params: list[Any] = []
+        if format:
+            conds.append("format = %s")
+            params.append(format)
+        if category:
+            conds.append("category = %s")
+            params.append(category)
+        if aspect_ratio:
+            conds.append("aspect_ratio = %s")
+            params.append(aspect_ratio)
+        if appearance:
+            conds.append("appearance = %s")
+            params.append(appearance)
+        if platform:
+            conds.append("platform_fit @> %s")
+            params.append([platform.strip().lower()])
+        if style_tag:
+            conds.append("style_tags @> %s")
+            params.append([style_tag.strip().lower()])
+        if use_when:
+            conds.append("use_when @> %s")
+            params.append([use_when.strip().lower()])
+        if industry:
+            conds.append("industry_fit @> %s")
+            params.append([industry.strip().lower()])
+        if keyword:
+            conds.append("keywords @> %s")
+            params.append([keyword.strip().lower()])
+        if slides is not None:
+            conds.append("min_slides <= %s AND max_slides >= %s")
+            params.extend([slides, slides])
+        where = " AND ".join(conds)
+        rows = self._all(
+            f"SELECT *, count(*) OVER() AS total_count FROM social_templates "
+            f"WHERE {where} ORDER BY sort_order, id LIMIT %s OFFSET %s",
+            [*params, limit, offset],
+        )
+        return {
+            "items": [_to_social_template_summary(r) for r in rows],
+            "total_count": self._total(rows) or len(rows),
+            "limit": limit,
+            "offset": offset,
+        }
+
+    def get_social_template(
+        self, template_id: str, include_html: bool = True,
+    ) -> dict[str, Any] | None:
+        row = self._one(
+            "SELECT * FROM social_templates WHERE id = %s LIMIT 1", [template_id]
+        )
+        return _to_social_template_full(row, include_html=include_html) if row else None
+
+    def list_social_template_facets(self) -> dict[str, Any]:
+        rows = self._all(
+            "SELECT format, category, aspect_ratio, appearance, "
+            "platform_fit, style_tags, use_when, industry_fit FROM social_templates"
+        )
+        formats: Counter[str] = Counter()
+        cats: Counter[str] = Counter()
+        ratios: Counter[str] = Counter()
+        appearances: Counter[str] = Counter()
+        platforms: Counter[str] = Counter()
+        styles: Counter[str] = Counter()
+        whens: Counter[str] = Counter()
+        industries: Counter[str] = Counter()
+        for r in rows:
+            if r.get("format"):
+                formats[r["format"]] += 1
+            if r.get("category"):
+                cats[r["category"]] += 1
+            if r.get("aspect_ratio"):
+                ratios[r["aspect_ratio"]] += 1
+            if r.get("appearance"):
+                appearances[r["appearance"]] += 1
+            for v in r.get("platform_fit") or []:
+                platforms[v] += 1
+            for v in r.get("style_tags") or []:
+                styles[v] += 1
+            for v in r.get("use_when") or []:
+                whens[v] += 1
+            for v in r.get("industry_fit") or []:
+                industries[v] += 1
+
+        def _agg(c: Counter[str]) -> list[dict]:
+            return [{"value": v, "count": n} for v, n in c.most_common()]
+
+        return {
+            "formats": _agg(formats),
+            "categories": _agg(cats),
+            "aspect_ratios": _agg(ratios),
+            "appearances": _agg(appearances),
+            "platforms": _agg(platforms),
+            "style_tags": _agg(styles),
+            "use_when": _agg(whens),
+            "industries": _agg(industries),
         }

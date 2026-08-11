@@ -1,0 +1,56 @@
+{
+  "id": "social_story_test_sample",
+  "title": "Test Story Sample",
+  "description": "Two-slide story template with a bold hook and repeatable content card. Accent background, oversized display type.",
+  "why_it_works": "The hook slide isolates one claim at display size, so it survives the half-second swipe decision. Content cards keep one idea per slide.",
+  "content_brief": "Open with a curiosity-gap claim under 60 chars. One idea per content slide. Keep body lines under 140 chars.",
+  "format": "story",
+  "aspect_ratio": "9:16",
+  "appearance": "dark",
+  "category": "educational",
+  "slide_count": 2,
+  "min_slides": 1,
+  "max_slides": 4,
+  "platform_fit": ["instagram", "tiktok"],
+  "style_tags": ["bold_type", "minimal"],
+  "use_when": ["tips_series", "audience_education"],
+  "keywords": ["story", "tips", "education", "dark"],
+  "industry_fit": ["creator", "saas"],
+  "slides": [
+    {
+      "index": 1,
+      "role": "hook",
+      "layout_note": "Full-bleed image slot behind a display headline pinned to the lower third; kicker top-left.",
+      "repeatable": false,
+      "slots": [
+        {"name": "hook_headline", "type": "headline", "max_chars": 60, "required": true,
+         "hint": "Bold claim or curiosity gap.", "example": "5 mistakes killing your reach"},
+        {"name": "kicker_label", "type": "kicker", "max_chars": 24, "required": false,
+         "hint": "Category label, uppercase.", "example": "GROWTH TIPS"},
+        {"name": "bg_image", "type": "image_slot", "required": false,
+         "hint": "Moody photo or gradient; keep contrast behind headline."}
+      ]
+    },
+    {
+      "index": 2,
+      "role": "content",
+      "layout_note": "Numbered card: large index numeral top-left, short title, two-line body.",
+      "repeatable": true,
+      "slots": [
+        {"name": "point_title", "type": "headline", "max_chars": 40, "required": true,
+         "hint": "One idea, imperative.", "example": "Post before 9am"},
+        {"name": "point_body", "type": "body", "max_chars": 140, "required": true,
+         "hint": "Why it matters in one or two lines.", "example": "Early posts catch the commute scroll before feeds saturate."}
+      ]
+    }
+  ],
+  "fonts": [
+    {"role": "display", "family": "Archivo Black", "google_font": true, "weights": [400], "fallback": "sans-serif"},
+    {"role": "body", "family": "Inter", "google_font": true, "weights": [400, 600], "fallback": "sans-serif"}
+  ],
+  "html_template": "<link href=\"https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600&display=swap\" rel=\"stylesheet\">\n<style>\n:root { --bg: #101014; --surface: #1b1b22; --accent: #d8ff3e; --accent-contrast: #101014; --text-primary: #f4f4f6; --text-secondary: #9a9aa6; --font-display: 'Archivo Black', sans-serif; --font-body: 'Inter', sans-serif; }\n.slide { width: 1080px; height: 1920px; background: var(--bg); color: var(--text-primary); font-family: var(--font-body); position: relative; overflow: hidden; }\n.kicker { color: var(--accent); font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }\nh1 { font-family: var(--font-display); font-size: 96px; line-height: 1.05; }\n.card { background: var(--surface); border-radius: 48px; padding: 64px; }\n.num { color: var(--accent); font-family: var(--font-display); font-size: 160px; }\n</style>\n<section class=\"slide\" data-slide=\"1\" data-role=\"hook\">\n  <div class=\"bg\" data-slot=\"bg_image\" data-optional=\"true\"></div>\n  <span class=\"kicker\" data-optional=\"true\">{{kicker_label}}</span>\n  <h1>{{hook_headline}}</h1>\n</section>\n<section class=\"slide\" data-slide=\"2\" data-role=\"content\" data-repeat=\"true\">\n  <div class=\"card\">\n    <div class=\"num\">1</div>\n    <h2>{{point_title}}</h2>\n    <p>{{point_body}}</p>\n  </div>\n</section>\n",
+  "source": "original",
+  "source_url": null,
+  "source_note": "Hand-authored test fixture.",
+  "preview_path": null
+}

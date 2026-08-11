@@ -1,0 +1,111 @@
+{
+  "id": "social_carousel_editorial_quote",
+  "title": "Editorial Quote Card",
+  "description": "Single-slide square quote card in an editorial register: serif display quote with an accent open-quote mark, thin rule, then author line with an avatar slot. Generous whitespace on an off-white surface.",
+  "why_it_works": "A single serif sentence on empty space reads as considered rather than promotional, which earns shares. The attribution line adds credibility without competing with the quote.",
+  "content_brief": "quote_text is one sentence, no ellipses, no emoji, under 180 chars — trim the quote rather than shrinking type. quote_author is the person's name only; author_title carries the role or source. Never add hashtags on this card.",
+  "format": "carousel",
+  "aspect_ratio": "1:1",
+  "appearance": "light",
+  "category": "quote",
+  "slide_count": 1,
+  "min_slides": 1,
+  "max_slides": 1,
+  "platform_fit": [
+    "instagram",
+    "linkedin",
+    "facebook"
+  ],
+  "style_tags": [
+    "editorial_serif",
+    "minimal",
+    "monochrome"
+  ],
+  "use_when": [
+    "social_proof",
+    "brand_storytelling",
+    "content_repurposing"
+  ],
+  "keywords": [
+    "quote",
+    "testimonial",
+    "serif",
+    "editorial",
+    "minimal",
+    "card"
+  ],
+  "industry_fit": [
+    "agency",
+    "finance",
+    "education",
+    "healthcare",
+    "saas"
+  ],
+  "slides": [
+    {
+      "index": 1,
+      "role": "proof",
+      "layout_note": "Accent open-quote mark top-left, serif quote filling the middle band, thin rule, then avatar plus two-line attribution at the bottom.",
+      "repeatable": false,
+      "slots": [
+        {
+          "name": "quote_text",
+          "type": "quote",
+          "max_chars": 180,
+          "required": true,
+          "hint": "One sentence, no ellipses, no emoji.",
+          "example": "We stopped guessing what to post the day we wrote our first content brief."
+        },
+        {
+          "name": "quote_author",
+          "type": "subhead",
+          "max_chars": 40,
+          "required": true,
+          "hint": "Person's name only.",
+          "example": "Dana Reyes"
+        },
+        {
+          "name": "author_title",
+          "type": "kicker",
+          "max_chars": 50,
+          "required": false,
+          "hint": "Role, company, or source of the quote.",
+          "example": "Head of Content, Fieldnote"
+        },
+        {
+          "name": "author_avatar",
+          "type": "avatar_slot",
+          "required": false,
+          "hint": "Square headshot, shown as a circle."
+        }
+      ]
+    }
+  ],
+  "fonts": [
+    {
+      "role": "display",
+      "family": "Playfair Display",
+      "google_font": true,
+      "weights": [
+        500,
+        600
+      ],
+      "fallback": "serif"
+    },
+    {
+      "role": "body",
+      "family": "Inter",
+      "google_font": true,
+      "weights": [
+        400,
+        500
+      ],
+      "fallback": "sans-serif"
+    }
+  ],
+  "html_template": "<link href=\"https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap\" rel=\"stylesheet\">\n<style>\n:root { --bg: #faf7f2; --surface: #ffffff; --accent: #1f4d3a; --accent-contrast: #faf7f2; --text-primary: #221f1a; --text-secondary: #7a746a; --font-display: 'Playfair Display', serif; --font-body: 'Inter', sans-serif; }\n* { margin: 0; box-sizing: border-box; }\n.slide { width: 1080px; height: 1080px; background: var(--bg); color: var(--text-primary); font-family: var(--font-body); position: relative; overflow: hidden; padding: 110px; display: flex; flex-direction: column; }\n.mark { font-family: var(--font-display); font-size: 200px; line-height: .6; color: var(--accent); }\nblockquote { font-family: var(--font-display); font-weight: 500; font-size: 72px; line-height: 1.28; margin-top: 72px; }\n.rule { width: 120px; height: 4px; background: var(--accent); margin-top: auto; }\n.byline { display: flex; align-items: center; gap: 36px; margin-top: 48px; }\n.avatar { width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, var(--accent) 0%, var(--surface) 130%); flex: none; }\n.who .name { font-weight: 500; font-size: 36px; }\n.who .role { font-size: 30px; color: var(--text-secondary); margin-top: 8px; letter-spacing: .04em; }\n</style>\n<section class=\"slide\" data-slide=\"1\" data-role=\"proof\">\n  <span class=\"mark\">&#8220;</span>\n  <blockquote>{{quote_text}}</blockquote>\n  <div class=\"rule\"></div>\n  <div class=\"byline\">\n    <div class=\"avatar\" data-slot=\"author_avatar\" data-optional=\"true\"></div>\n    <div class=\"who\">\n      <div class=\"name\">{{quote_author}}</div>\n      <div class=\"role\" data-optional=\"true\">{{author_title}}</div>\n    </div>\n  </div>\n</section>\n",
+  "source": "original",
+  "source_url": null,
+  "source_note": "Hand-authored seed template.",
+  "preview_path": "mcp-migration/social-templates/renders/social_carousel_editorial_quote_1.png"
+}

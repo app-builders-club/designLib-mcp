@@ -6,7 +6,7 @@ from designlib_mcp.repository.postgres_repo import PostgresRepository
 from designlib_mcp.tools import (
     styles, palettes, font_pairs, domains,
     chart_types, landing_patterns, icons, inspiration_pages,
-    animations,
+    animations, social_templates,
 )
 
 
@@ -23,4 +23,5 @@ def build_server() -> FastMCP:
     icons.register(mcp, repo)
     inspiration_pages.register(mcp, repo)
     animations.register(mcp, repo)
+    social_templates.register(mcp, repo)
     return mcp

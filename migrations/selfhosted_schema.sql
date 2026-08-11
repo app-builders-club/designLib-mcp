@@ -556,3 +556,76 @@ CREATE INDEX IF NOT EXISTS idx_animations_use_when    ON animations USING GIN(us
 CREATE INDEX IF NOT EXISTS idx_animations_style_tags  ON animations USING GIN(style_tags);
 CREATE INDEX IF NOT EXISTS idx_animations_libraries   ON animations USING GIN(libraries);
 CREATE INDEX IF NOT EXISTS idx_animations_placement   ON animations USING GIN(placement);
+
+-- ============================================================
+-- 009 — social_templates (stories + carousels)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS social_templates (
+  id             TEXT PRIMARY KEY,
+  title          TEXT NOT NULL,
+  description    TEXT NOT NULL,
+  why_it_works   TEXT NOT NULL,
+  content_brief  TEXT NOT NULL,
+
+  format         TEXT NOT NULL,
+  aspect_ratio   TEXT NOT NULL,
+  appearance     TEXT NOT NULL,
+  category       TEXT NOT NULL,
+
+  slide_count    INTEGER NOT NULL,
+  min_slides     INTEGER NOT NULL,
+  max_slides     INTEGER NOT NULL,
+
+  platform_fit   TEXT[] NOT NULL DEFAULT '{}',
+  style_tags     TEXT[] NOT NULL DEFAULT '{}',
+  use_when       TEXT[] NOT NULL DEFAULT '{}',
+  keywords       TEXT[] NOT NULL DEFAULT '{}',
+  industry_fit   TEXT[] NOT NULL DEFAULT '{}',
+
+  slides         JSONB NOT NULL,
+  fonts          JSONB NOT NULL,
+
+  html_template  TEXT NOT NULL,
+
+  source         TEXT NOT NULL DEFAULT 'original',
+  source_url     TEXT,
+  source_note    TEXT,
+  preview_path   TEXT,
+
+  sort_order     INTEGER NOT NULL DEFAULT 0,
+  created_at     TIMESTAMPTZ NOT NULL DEFAULT now(),
+
+  CONSTRAINT social_templates_format_valid CHECK (format IN ('story','carousel')),
+  CONSTRAINT social_templates_aspect_ratio_valid CHECK (aspect_ratio IN ('9:16','4:5','1:1')),
+  CONSTRAINT social_templates_format_ratio_valid CHECK (
+    (format = 'story' AND aspect_ratio = '9:16') OR format = 'carousel'
+  ),
+  CONSTRAINT social_templates_appearance_valid CHECK (appearance IN ('light','dark','mixed')),
+  CONSTRAINT social_templates_category_valid CHECK (
+    category IN ('promo','product_showcase','educational','listicle','checklist',
+                 'quote','announcement','testimonial','personal_story','before_after',
+                 'event','engagement')
+  ),
+  CONSTRAINT social_templates_slide_bounds_valid CHECK (
+    min_slides >= 1 AND min_slides <= slide_count
+    AND slide_count <= max_slides AND max_slides <= 20
+  ),
+  CONSTRAINT social_templates_platform_fit_valid CHECK (
+    platform_fit <@ ARRAY['instagram','tiktok','linkedin','facebook']::text[]
+  ),
+  CONSTRAINT social_templates_source_valid CHECK (
+    source IN ('canva_gallery','adobe_express_gallery','dribbble','behance','original','other')
+  )
+);
+
+CREATE INDEX IF NOT EXISTS idx_soctpl_format       ON social_templates(format);
+CREATE INDEX IF NOT EXISTS idx_soctpl_category     ON social_templates(category);
+CREATE INDEX IF NOT EXISTS idx_soctpl_aspect_ratio ON social_templates(aspect_ratio);
+CREATE INDEX IF NOT EXISTS idx_soctpl_appearance   ON social_templates(appearance);
+CREATE INDEX IF NOT EXISTS idx_soctpl_min_slides   ON social_templates(min_slides);
+CREATE INDEX IF NOT EXISTS idx_soctpl_max_slides   ON social_templates(max_slides);
+CREATE INDEX IF NOT EXISTS idx_soctpl_platform_fit ON social_templates USING GIN(platform_fit);
+CREATE INDEX IF NOT EXISTS idx_soctpl_style_tags   ON social_templates USING GIN(style_tags);
+CREATE INDEX IF NOT EXISTS idx_soctpl_use_when     ON social_templates USING GIN(use_when);
+CREATE INDEX IF NOT EXISTS idx_soctpl_keywords     ON social_templates USING GIN(keywords);
+CREATE INDEX IF NOT EXISTS idx_soctpl_industry_fit ON social_templates USING GIN(industry_fit);

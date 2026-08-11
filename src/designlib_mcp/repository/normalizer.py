@@ -329,3 +329,54 @@ def _to_animation_full(row: dict) -> dict[str, Any]:
         "component_filename": row.get("component_filename") or "",
         "prompt_text": row.get("prompt_text") or "",
     }
+
+
+def _to_social_template_summary(row: dict) -> dict[str, Any]:
+    return {
+        "id": row["id"],
+        "title": row.get("title") or row["id"],
+        "description": row.get("description") or "",
+        "format": row.get("format") or "",
+        "category": row.get("category") or "",
+        "aspect_ratio": row.get("aspect_ratio") or "",
+        "appearance": row.get("appearance") or "",
+        "slide_count": row.get("slide_count") or 0,
+        "min_slides": row.get("min_slides") or 0,
+        "max_slides": row.get("max_slides") or 0,
+        "platform_fit": row.get("platform_fit") or [],
+        "style_tags": row.get("style_tags") or [],
+        "html_chars": len(row.get("html_template") or ""),
+    }
+
+
+def _to_social_template_full(row: dict, include_html: bool = True) -> dict[str, Any]:
+    html = row.get("html_template") or ""
+    out = {
+        "id": row["id"],
+        "title": row.get("title") or row["id"],
+        "description": row.get("description") or "",
+        "why_it_works": row.get("why_it_works") or "",
+        "content_brief": row.get("content_brief") or "",
+        "format": row.get("format") or "",
+        "category": row.get("category") or "",
+        "aspect_ratio": row.get("aspect_ratio") or "",
+        "appearance": row.get("appearance") or "",
+        "slide_count": row.get("slide_count") or 0,
+        "min_slides": row.get("min_slides") or 0,
+        "max_slides": row.get("max_slides") or 0,
+        "platform_fit": row.get("platform_fit") or [],
+        "style_tags": row.get("style_tags") or [],
+        "use_when": row.get("use_when") or [],
+        "keywords": row.get("keywords") or [],
+        "industry_fit": row.get("industry_fit") or [],
+        "slides": row.get("slides") or [],
+        "fonts": row.get("fonts") or [],
+        "html_omitted": not include_html,
+        "html_chars": len(html),
+        "source": row.get("source") or "original",
+        "source_url": row.get("source_url"),
+        "source_note": row.get("source_note"),
+    }
+    if include_html:
+        out["html_template"] = html
+    return out
